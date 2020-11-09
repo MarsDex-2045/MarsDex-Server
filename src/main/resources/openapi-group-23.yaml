@@ -39,4 +39,10 @@ paths:
                     name:
                       type: string
                     location:
-                      type: string
+                      type: object
+                        longitude:
+                          type: double
+                        latitude:
+                          type: double
+                        altitude:
+                          type: double
