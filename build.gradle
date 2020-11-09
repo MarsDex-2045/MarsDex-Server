@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'jacoco'
+    id "org.sonarqube" version "3.0"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "de.undercouch.download" version "4.0.4"
+}
+
+def vertxVersion = '4.0.0.Beta1'
+def junitVersion = "5.6.2"
+def h2version = "1.4.200"
+group 'be.howest.ti'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('fat')
+    manifest {
+        attributes 'Main-Verticle': "$mainVerticleName"
+    }
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    compile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.21'
+
+    testImplementation "io.vertx:vertx-junit5:$vertxVersion"
+    testImplementation "io.vertx:vertx-web-client:$vertxVersion"
+
+    compile "io.vertx:vertx-core:$vertxVersion"
+    compile "io.vertx:vertx-web:$vertxVersion"
+    compile "io.vertx:vertx-web-api-contract:$vertxVersion"
+    compile "io.vertx:vertx-web-client:$vertxVersion"
+    compile "io.vertx:vertx-config:$vertxVersion"
+    compile "io.vertx:vertx-codegen:$vertxVersion"
+    compile "com.h2database:h2:$h2version"
+}
+
+mainClassName = 'io.vertx.core.Launcher'
+
+run {
+    systemProperty(
+            "vertx.logger-delegate-factory-class-name",
+            "io.vertx.core.logging.JULLogDelegateFactory"
+    )
+    args = ['run', 'be.howest.ti.mars.webserver.WebServer', "--launcher-class=$mainClassName",
+            "-Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.JULLogDelegateFactory"]
+}
