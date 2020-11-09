@@ -20,3 +20,34 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/company/{id}:
+    get:
+      description: get information about the company with given ID
+      operationId: GetCompanyByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: all information about company Id =id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    colony:
+                      type: string
+                    name:
+                      type: string
+                    Email:
+                      type: string
+                    PhoneNumber:
+                      type: number
