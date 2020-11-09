@@ -35,6 +35,13 @@ paths:
     get:
       description: get information about the colony with given ID
       operationId: GetColonyByID
+      parameters:
+        - in : path
+          name: id
+          required: true
+          schema:
+            type: string
+              description : all information about colony Id =id
       responses:
         '200':
           description: OK
