@@ -28,29 +28,33 @@ paths:
       parameters:
         - in : path
           name: id
-          required: true
           schema:
             type: string
-              description : all information about colony Id =id
+          required: true
+          description : all information about colony Id =id
       responses:
         '200':
           description: OK
           content:
             application/json:
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  location:
-                    type: object
-                      longitude:
-                        type: double
-                      latitude:
-                        type: double
-                      altitude:
-                        type: double
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    location:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          longitude:
+                            type: number
+                          latitude:
+                            type:  number
+                          altitude:
+                            type: number
+
