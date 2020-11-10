@@ -1,13 +1,20 @@
 openapi: 3.0.0
 info:
-  title: 'Mars Concept Title'
-  description: 'Please complete this spec as seen in the module Information Module'
+  title: 'MarsDex'
+  description: 'MarsDex is a resource indexing tool that you can use to know where you need to go to find the things you need.'
   version: 0.0.1
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-23
     description: 'Public web api'
+
+tags:
+  - name: Colonies
+    description: All endpoints relating to colony data.
+  - name: Companies
+    description: All endpoints relating to company data.
+
 paths:
   /api/message:
     get:
@@ -20,3 +27,324 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/company/{id}:
+    get:
+      summary: Retrieve company info.
+      tags:
+        - Companies
+      description: get information about the company with given ID.
+      operationId: getCompanyByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: all information about company Id =id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    colony:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phoneNumber:
+                      type: string
+        '404':
+          description: Id not found
+        '500':
+          description: Server side Issue thats our fault
+  /api/colony:
+    get:
+      summary: List all colonies
+      tags:
+        - Colonies
+      description: Get a list of colonies
+      operationId: getColonies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Colony'
+
+        '405':
+          description: method not allowed
+  /api/colony/{id}:
+    get:
+      summary: Retrieve a colony's info.
+      tags:
+        - Colonies
+      description: get information about the colony with given ID
+      operationId: GetColonyByID
+      parameters:
+        - in : path
+          name: id
+          schema:
+            type: string
+          required: true
+          description : all information about colony Id =id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  location:
+                    type: object
+                    properties:
+                      longitude:
+                        type: number
+                      latitude:
+                        type:  number
+                      altitude:
+                        type: number
+                  resources:
+                    $ref: '#/components/schemas/Resource'
+  /api/company/{id}/transport:
+    get:
+      tags:
+        - Companies
+      summary: Return transports for a company
+      description: Returns transports from and to a company.
+      operationId: getCompanyTransport
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Returns a list of all transports'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    shippingId:
+                      type: string
+                      format: uuid
+                    status:
+                      $ref: '#/components/schemas/Status'
+                    resources:
+                      $ref: '#/components/schemas/Resource'
+                    sendTime:
+                      type: string
+                      format: date-time
+                    sender:
+                      $ref: '#/components/schemas/Colony'
+                    recieveTime:
+                      type: string
+                      format: date-time
+                    reciever:
+                      $ref: '#/components/schemas/Colony'
+        '404':
+          description: "Not able to find the given company"
+        '505':
+          description: "Internal Server error"
+
+  /api/company/{id}/resource:
+    get:
+      tags:
+        - Companies
+      summary: Return resources of a given company
+      description: Return resources of a company based on it's id.
+      operationId: getCompanyResources
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns all company's resources in a JSON Array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    resources:
+                      $ref: '#/components/schemas/Resource'
+        '404':
+          description: The requested company couldn't be found
+        '500':
+          description: Something has gone wrong on our side
+    put:
+      tags:
+        - Companies
+      summary: Add resource to company.
+      description: Add a resource to a specified company
+      operationId: addResourceToCompany
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      requestBody:
+        description: Define the resource's name & weight
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                weight:
+                  type: number
+                  format: float
+            example:
+              - name: Platinum
+                weight: 3050.40
+      responses:
+        '201':
+          description: Resource has been created and added
+        '404':
+          description: Company couldn't be found
+        '409':
+          description: Resourse already exists
+        '413':
+          description: The resource's too big or has too many decimals
+        '500':
+          description: Internal Server Error
+  /api/company:
+    put:
+      tags:
+        - Companies
+      summary: Adds a new company
+      description: Adds a new company to the back-end.
+      operationId: makeCompany
+      requestBody:
+        description: Login & details of the company
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                name:
+                  type: string
+                colony:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              example:
+                - name: "MarsDex"
+                  Colony: "Bova Point"
+                  email: MarsDex@mars.com
+                  password: ILoveIron
+      responses:
+        '201':
+          description: "Created Company"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processed:
+                    type: boolean
+                  id:
+                    type: string
+                    format: uuid
+        '409':
+          description: "The e-mail's already in use"
+        '500':
+          description: "Failed to create account"
+components:
+  schemas:
+    Resource:
+      type: object
+      properties:
+        name:
+          type: string
+        weight:
+          type: integer
+        added:
+          type: string
+          format: date
+        rarity:
+          type: integer
+      example:
+        - name: "gold"
+          weight: 200
+          added: "2052-01-20"
+          rarity: 0.05
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        colony:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+      example:
+        - id: "27434bff-b6b2-4333-9ea2-e0bd7a7dd17e"
+          name: "MarsDex"
+          Colony: "Bova Point"
+          email: MarsDex@mars.com
+    Status:
+      type: string
+      enum:
+        - Payed
+        - Processing
+        - In Transport
+        - Delivered
+    Colony:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        storage:
+          type: number
+        location:
+          type: object
+          properties:
+            longitude:
+              type: number
+            latitude:
+              type: number
+            altitude:
+              type: number
