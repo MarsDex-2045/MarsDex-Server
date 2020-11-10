@@ -29,9 +29,10 @@ paths:
                 type: string
   /api/company/{id}:
     get:
+      summary: Retrieve company info.
       tags:
         - Companies
-      description: get information about the company with given ID
+      description: get information about the company with given ID.
       operationId: getCompanyByID
       parameters:
         - in: path
@@ -66,6 +67,7 @@ paths:
           description: Server side Issue thats our fault
   /api/colony:
     get:
+      summary: List all colonies
       tags:
         - Colonies
       description: Get a list of colonies
@@ -84,6 +86,7 @@ paths:
           description: method not allowed
   /api/colony/{id}:
     get:
+      summary: Retrieve a colony's info.
       tags:
         - Colonies
       description: get information about the colony with given ID
