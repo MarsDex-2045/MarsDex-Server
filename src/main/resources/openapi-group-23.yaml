@@ -196,6 +196,35 @@ paths:
           description: The requested company couldn't be found
         '500':
           description: Something has gone wrong on our side
+    put:
+      tags:
+        - Companies
+      summary: Add resource to company.
+      description: Add a resource to a specified company
+      operationId: addResourceToCompany
+      requestBody:
+        description: Define the resource's name & weight
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                weight:
+                  type: number
+                  format: float
+            example:
+              - name: Platinum
+                weight: 3050.40
+      responses:
+        '201':
+          description: Resource has been created and added
+        '404':
+          description: Company couldn't be found
+        '500':
+          description: Internal Server Error
   /api/company:
     put:
       tags:
