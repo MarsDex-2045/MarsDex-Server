@@ -8,6 +8,13 @@ servers:
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-23
     description: 'Public web api'
+
+tags:
+  - name: Colonies
+    description: All endpoints relating to colony data.
+  - name: Companies
+    description: All endpoints relating to company data.
+
 paths:
   /api/message:
     get:
@@ -22,7 +29,10 @@ paths:
                 type: string
   /api/company/{id}:
     get:
-      description: get information about the company with given ID
+      summary: Retrieve company info.
+      tags:
+        - Companies
+      description: get information about the company with given ID.
       operationId: getCompanyByID
       parameters:
         - in: path
@@ -50,13 +60,16 @@ paths:
                     email:
                       type: string
                     phoneNumber:
-                      type: String
+                      type: string
         '404':
           description: Id not found
         '500':
           description: Server side Issue thats our fault
   /api/colony:
     get:
+      summary: List all colonies
+      tags:
+        - Colonies
       description: Get a list of colonies
       operationId: getColonies
       responses:
@@ -73,6 +86,9 @@ paths:
           description: method not allowed
   /api/colony/{id}:
     get:
+      summary: Retrieve a colony's info.
+      tags:
+        - Colonies
       description: get information about the colony with given ID
       operationId: GetColonyByID
       parameters:
@@ -107,6 +123,8 @@ paths:
                     $ref: '#/components/schemas/Resource'
   /api/company/{id}/transport:
     get:
+      tags:
+        - Companies
       summary: Return transports for a company
       description: Returns transports from and to a company.
       operationId: getCompanyTransport
@@ -151,6 +169,8 @@ paths:
 
   /api/company/{id}/resource:
     get:
+      tags:
+        - Companies
       summary: Return resources of a given company
       description: Return resources of a company based on it's id.
       operationId: getCompanyResources
@@ -179,8 +199,50 @@ paths:
           description: The requested company couldn't be found
         '500':
           description: Something has gone wrong on our side
+    put:
+      tags:
+        - Companies
+      summary: Add resource to company.
+      description: Add a resource to a specified company
+      operationId: addResourceToCompany
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      requestBody:
+        description: Define the resource's name & weight
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                weight:
+                  type: number
+                  format: float
+            example:
+              - name: Platinum
+                weight: 3050.40
+      responses:
+        '201':
+          description: Resource has been created and added
+        '404':
+          description: Company couldn't be found
+        '409':
+          description: Resourse already exists
+        '413':
+          description: The resource's too big or has too many decimals
+        '500':
+          description: Internal Server Error
   /api/company:
     put:
+      tags:
+        - Companies
       summary: Adds a new company
       description: Adds a new company to the back-end.
       operationId: makeCompany
