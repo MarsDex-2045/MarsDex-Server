@@ -119,11 +119,11 @@ public class MarsController {
         return mock;
     }
 
-    public JsonArray getCompaniesResources() {
+    public JsonArray getCompaniesResources(String id) {
         JsonArray res = new JsonArray();
         for (int i = 1; i<20; i++){
             JsonObject json = new JsonObject();
-            json.put("id", "0e36e547-35f9-4329-a320-db52394b4a1a");
+            json.put("id", id);
             JsonArray container = new JsonArray();
             JsonObject resource = new JsonObject();
             resource.put("name", "gold V"+i);

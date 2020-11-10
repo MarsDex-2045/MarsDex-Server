@@ -19,6 +19,6 @@ class MarsOpenApiBridge {
     }
 
     public JsonArray getCompaniesResources(RoutingContext ctx) {
-        return controller.getCompaniesResources();
+        return controller.getCompaniesResources(ctx.request().getParam("id"));
     }
 }
