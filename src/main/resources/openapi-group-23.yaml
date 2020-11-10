@@ -105,30 +105,31 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-                    location:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          longitude:
-                            type: number
-                          latitude:
-                            type:  number
-                          altitude:
-                            type: number
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  location:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        longitude:
+                          type: number
+                        latitude:
+                          type:  number
+                        altitude:
+                          type: number
+                        resources:
+                          $ref: '#/components/schemas/Resource'
 
   /api/company/{id}/resource:
     get:
       summary: Return resources of a given company
       description: Return resources of a company based on it's id.
+      operationId: getResourcesByID
       parameters:
         - name: id
           in: path
