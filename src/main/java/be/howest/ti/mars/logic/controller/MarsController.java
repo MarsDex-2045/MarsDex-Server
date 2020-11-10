@@ -105,18 +105,18 @@ public class MarsController {
         loc8.put("Altitude", 63);
         //add location to the Jsonobject 8
         res8.put("location", loc8);
-        JsonObject[] Mock = new JsonObject[8];
+        JsonObject[] mock = new JsonObject[8];
 
-        Mock[0] = res1;
-        Mock[1] = res2;
-        Mock[2] = res3;
-        Mock[3] = res4;
-        Mock[4] = res5;
-        Mock[5] = res6;
-        Mock[6] = res7;
-        Mock[7] = res8;
+        mock[0] = res1;
+        mock[1] = res2;
+        mock[2] = res3;
+        mock[3] = res4;
+        mock[4] = res5;
+        mock[5] = res6;
+        mock[6] = res7;
+        mock[7] = res8;
 
-        return Mock;
+        return mock;
     }
 
     public JsonArray getCompaniesResources() {
