@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: 'Mars Concept Title'
-  description: 'Please complete this spec as seen in the module Information Module'
+  title: 'MarsDex'
+  description: 'MarsDex is a resource indexing tool that you can use to know where you nee dto go to find the things you need.'
   version: 0.0.1
 servers:
   - url: http://localhost:8080/
@@ -20,3 +20,21 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/company/{id}/resource:
+    get:
+      summary: Return resources of a given company
+      description: Return resources of a company based on it's id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns all company's resource
+        '404':
+          description: The requested company couldn't be found
+        '500':
+          description: Something has gone wrong on our side
