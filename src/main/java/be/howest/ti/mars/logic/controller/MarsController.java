@@ -146,4 +146,14 @@ public class MarsController {
         json.put("phoneNumber", "+3265788999");
         return json;
     }
+
+    public JsonObject getColonyById(String id) {
+        JsonObject json = new JsonObject();
+        json.put("id", id);
+        json.put("colony", "Jamerson's Landing");
+        json.put("name", "MarsDex");
+        json.put("email", "marsdex@mars.com");
+        json.put("phoneNumber", "+3298322331");
+        return json;
+    }
 }

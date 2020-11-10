@@ -25,4 +25,8 @@ class MarsOpenApiBridge {
     public Object getCompanyById(RoutingContext ctx) {
         return controller.getCompanyById(ctx.request().getParam("id"));
     }
+
+    public Object getColonyById(RoutingContext ctx) {
+        return controller.getColonyById(ctx.request().getParam("id"));
+    }
 }

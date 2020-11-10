@@ -33,7 +33,7 @@ paths:
       tags:
         - Companies
       description: get information about the company with given ID.
-      operationId: getCompanyByID
+      operationId: getCompanyById
       parameters:
         - in: path
           name: id
@@ -90,7 +90,7 @@ paths:
       tags:
         - Colonies
       description: get information about the colony with given ID
-      operationId: GetColonyByID
+      operationId: getColonyById
       parameters:
         - in : path
           name: id
@@ -198,7 +198,7 @@ paths:
         '404':
           description: The requested company couldn't be found
         '500':
-          description: Something has gone wrong on our side
+          description: Internal Server Error
     put:
       tags:
         - Companies
