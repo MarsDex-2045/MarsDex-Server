@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: 'Mars Concept Title'
-  description: 'Please complete this spec as seen in the module Information Module'
+  title: 'MarsDex'
+  description: 'MarsDex API can be used to access information about each colony on Mars.'
   version: 0.0.1
 servers:
   - url: http://localhost:8080/
@@ -106,8 +106,8 @@ paths:
           description: Something has gone wrong on our side
   /api/company:
     put:
-      summary: adds a new company
-      description: adds a new company to the back-end.
+      summary: Adds a new company
+      description: Adds a new company to the back-end.
       operationId: makeCompany
       requestBody:
         description: Login & details of the company
@@ -135,6 +135,16 @@ paths:
       responses:
         '201':
           description: "Created Company"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processed:
+                    type: boolean
+                  id:
+                    type: string
+                    format: uuid
         '409':
           description: "The e-mail's already in use"
         '500':
@@ -164,6 +174,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         colony:
           type: string
         name:
