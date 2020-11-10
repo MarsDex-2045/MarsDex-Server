@@ -113,6 +113,16 @@ paths:
       responses:
         '201':
           description: "Created Company"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processed:
+                    type: boolean
+                  id:
+                    type: string
+                    format: uuid
         '409':
           description: "The e-mail's already in use"
         '500':
