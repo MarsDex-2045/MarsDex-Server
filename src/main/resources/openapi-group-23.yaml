@@ -33,7 +33,28 @@ paths:
             type: string
       responses:
         '200':
-          description: Returns all company's resource
+          description: Returns all company's resources in a JSON Array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    resources:
+                      type: object
+                      properties:
+                        weight:
+                          type: integer
+                        added:
+                          type: string
+                          format: date
+                        rarity:
+                          type: integer
+
+
         '404':
           description: The requested company couldn't be found
         '500':
