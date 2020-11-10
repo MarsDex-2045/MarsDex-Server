@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 'MarsDex'
-  description: 'MarsDex is a resource indexing tool that you can use to know where you nee dto go to find the things you need.'
+  description: 'MarsDex is a resource indexing tool that you can use to know where you need to go to find the things you need.'
   version: 0.0.1
 servers:
   - url: http://localhost:8080
@@ -89,7 +89,25 @@ paths:
                           type: number
                         resources:
                           $ref: '#/components/schemas/Resource'
-
+  /api/company/{id}/transport:
+    get:
+      summary: Return transports for a company
+      description: Returns transports from and to a company.
+      operationId: getCompanyResources
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Returns a list of all transports'
+        '404':
+          description: "Not able to find the given company"
+        '505':
+          description: "Internal Server error"
   /api/company/{id}/resource:
     get:
       summary: Return resources of a given company
@@ -202,4 +220,3 @@ components:
           name: "MarsDex"
           Colony: "Bova Point"
           email: MarsDex@mars.com
-
