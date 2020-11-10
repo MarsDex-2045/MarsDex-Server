@@ -14,7 +14,7 @@ class MarsOpenApiBridge {
     public Object getMessage(RoutingContext ctx) {
         return controller.getMessage();
     }
-    public Object getColonies(RoutingContext ctx) {
+    public JsonArray getColonies(RoutingContext ctx) {
         return controller.getColonies();
     }
 
@@ -28,5 +28,9 @@ class MarsOpenApiBridge {
 
     public Object getCompanyTransports(RoutingContext ctx) {
         return controller.getCompanyTransports(ctx.request().getParam("id"));
+    }
+
+    public Object getColonyById(RoutingContext ctx) {
+        return controller.getColonyById(ctx.request().getParam("id"));
     }
 }
