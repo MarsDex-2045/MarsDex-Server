@@ -20,6 +20,41 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/company/{id}:
+    get:
+      description: get information about the company with given ID
+      operationId: getCompanyByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: all information about company Id =id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    colony:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phoneNumber:
+                      type: String
+        '404':
+          description: Id not found
+        '500':
+          description: Server side Issue thats our fault
   /api/colony:
     get:
       description: Get a list of colonies

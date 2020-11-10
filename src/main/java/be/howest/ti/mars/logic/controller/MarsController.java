@@ -136,4 +136,14 @@ public class MarsController {
         }
         return res;
     }
+
+    public Object getCompanyById(String id) {
+        JsonObject json = new JsonObject();
+        json.put("id", id);
+        json.put("colony", "b71f5881-cec6-49ee-9c99-e1ea32146913");
+        json.put("name", "MarsDex");
+        json.put("email", "marsdex@mars.com");
+        json.put("phoneNumber", "+3265788999");
+        return json;
+    }
 }
