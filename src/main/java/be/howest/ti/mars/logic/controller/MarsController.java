@@ -1,8 +1,7 @@
 package be.howest.ti.mars.logic.controller;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
-import java.lang.reflect.Array;
 
 public class MarsController {
     public String getMessage() {
@@ -120,4 +119,21 @@ public class MarsController {
         return Mock;
     }
 
+    public JsonArray getCompaniesResources() {
+        JsonArray res = new JsonArray();
+        for (int i = 1; i<20; i++){
+            JsonObject json = new JsonObject();
+            json.put("id", "0e36e547-35f9-4329-a320-db52394b4a1a");
+            JsonArray container = new JsonArray();
+            JsonObject resource = new JsonObject();
+            resource.put("name", "gold V"+i);
+            resource.put("weight", 200 + i);
+            resource.put("added", "2020-01-20");
+            resource.put("rarity", 0.005);
+            container.add(resource);
+            json.put("resource", container);
+            res.add(json);
+        }
+        return res;
+    }
 }
