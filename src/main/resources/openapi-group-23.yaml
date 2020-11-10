@@ -44,18 +44,28 @@ paths:
                     id:
                       type: string
                     resources:
-                      type: object
-                      properties:
-                        weight:
-                          type: integer
-                        added:
-                          type: string
-                          format: date
-                        rarity:
-                          type: integer
-
-
+                      $ref: '#/components/schemas/Resource'
         '404':
           description: The requested company couldn't be found
         '500':
           description: Something has gone wrong on our side
+
+components:
+  schemas:
+    Resource:
+      type: object
+      properties:
+        name:
+          type: string
+        weight:
+          type: integer
+        added:
+          type: string
+          format: date
+        rarity:
+          type: integer
+      example:
+        - name: "gold"
+          weight: 200
+          added: "2052-01-20"
+          rarity: 0.05
