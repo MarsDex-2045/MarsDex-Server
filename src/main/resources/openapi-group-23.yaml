@@ -239,6 +239,41 @@ paths:
           description: The resource's too big or has too many decimals
         '500':
           description: Internal Server Error
+    patch:
+      tags:
+        - Companies
+      summary: Edit a resource
+      description: Edit the resource of a company
+      operationId: editResourceOfCompany
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      requestBody:
+        description: Define the resource's name & weight
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                weight:
+                  type: number
+                  format: float
+      responses:
+        '203':
+          description: Resource has been altered
+        '404':
+          description: Resource or Company could not be found
+        '413':
+          description: The resource's too big or has too many decimals
+        '500':
+          description: Internal Server Error
   /api/company:
     put:
       tags:
