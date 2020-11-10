@@ -4,7 +4,7 @@ info:
   description: 'MarsDex is a resource indexing tool that you can use to know where you nee dto go to find the things you need.'
   version: 0.0.1
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-23
     description: 'Public web api'
@@ -20,6 +20,39 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/colony:
+      get:
+        description: Get a list of colonies
+        operationId: getColonies
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      storage:
+                        type: number
+                      location:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            longitude:
+                              type: number
+                            latitude:
+                              type:  number
+                            altitude:
+                              type: number
+          '405':
+            description: method not allowed
   /api/company/{id}/resource:
     get:
       summary: Return resources of a given company
