@@ -1,6 +1,7 @@
 package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
+import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
 
 class MarsOpenApiBridge {
@@ -15,5 +16,9 @@ class MarsOpenApiBridge {
     }
     public Object getColonies(RoutingContext ctx) {
         return controller.getColonies();
+    }
+
+    public JsonArray getCompaniesResources(RoutingContext ctx) {
+        return controller.getCompaniesResources(ctx.request().getParam("id"));
     }
 }
