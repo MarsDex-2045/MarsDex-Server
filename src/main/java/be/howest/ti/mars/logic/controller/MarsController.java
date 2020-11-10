@@ -150,10 +150,22 @@ public class MarsController {
     public JsonObject getColonyById(String id) {
         JsonObject json = new JsonObject();
         json.put("id", id);
-        json.put("colony", "Jamerson's Landing");
-        json.put("name", "MarsDex");
-        json.put("email", "marsdex@mars.com");
-        json.put("phoneNumber", "+3298322331");
+        json.put("name", "Jamerson's landing");
+        JsonObject location = new JsonObject();
+        location.put("longitude", -74.006015);
+        location.put("latitude", 40.712728);
+        location.put("altitude", 69.420);
+        json.put("location", location);
+        JsonArray resources = new JsonArray();
+        for (int i = 1; i<20; i++){
+            JsonObject resource = new JsonObject();
+            resource.put("name", "gold V"+i);
+            resource.put("weight", 200 + i);
+            resource.put("added", "2020-01-20");
+            resource.put("rarity", 0.005);
+            resources.add(resource);
+        }
+        json.put("resources", resources);
         return json;
     }
 }

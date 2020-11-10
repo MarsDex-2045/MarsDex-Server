@@ -115,10 +115,13 @@ paths:
                     properties:
                       longitude:
                         type: number
+                        format: float
                       latitude:
-                        type:  number
+                        type: number
+                        format: float
                       altitude:
                         type: number
+                        format: float
                   resources:
                     $ref: '#/components/schemas/Resource'
   /api/company/{id}/transport:
