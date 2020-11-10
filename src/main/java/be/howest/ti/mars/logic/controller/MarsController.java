@@ -24,9 +24,9 @@ public class MarsController {
         res1.put("location", loc1);
 
         JsonObject res2 = new JsonObject();
-        res1.put("id","idnumero2");
-        res1.put("name", "RutgerIsDeBeste2");
-        res1.put("storage", 15004);
+        res2.put("id","idnumero2");
+        res2.put("name", "RutgerIsDeBeste2");
+        res2.put("storage", 15004);
         JsonObject loc2 = new JsonObject();
         //make JSon object Location
         loc2.put("longitude", 44);
@@ -48,9 +48,9 @@ public class MarsController {
         res3.put("location", loc3);
 
         JsonObject res4 = new JsonObject();
-        res1.put("id", "idnumero4");
-        res1.put("name", "RutgerIsDeBeste4");
-        res1.put("storage", 5000);
+        res4.put("id", "idnumero4");
+        res4.put("name", "RutgerIsDeBeste4");
+        res4.put("storage", 5000);
         JsonObject loc4 = new JsonObject();
         //make JSon object Location
         loc4.put("longitude", 45);
