@@ -8,7 +8,7 @@ public class MarsController {
         return "Hello, Mars!";
     }
 
-    public JsonObject getColonies() {
+    public JsonArray getColonies() {
         JsonArray mock = new JsonArray();
         for (int i = 1; i<20; i++){
             JsonObject colony = new JsonObject();
