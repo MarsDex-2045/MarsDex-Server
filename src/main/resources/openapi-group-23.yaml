@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: 'Mars Concept Title'
-  description: 'Please complete this spec as seen in the module Information Module'
+  title: 'MarsDex'
+  description: 'MarsDex is a resource indexing tool that you can use to know where you nee dto go to find the things you need.'
   version: 0.0.1
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-23
     description: 'Public web api'
@@ -20,21 +20,53 @@ paths:
             application/json:
               schema:
                 type: string
-
-  /api/colony/{id}:
+  /api/colony:
+      get:
+        description: Get a list of colonies
+        operationId: getColonies
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      storage:
+                        type: number
+                      location:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            longitude:
+                              type: number
+                            latitude:
+                              type:  number
+                            altitude:
+                              type: number
+          '405':
+            description: method not allowed
+  /api/company/{id}/resource:
     get:
-      description: get information about the colony with given ID
-      operationId: GetColonyByID
+      summary: Return resources of a given company
+      description: Return resources of a company based on it's id.
       parameters:
-        - in : path
-          name: id
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
           schema:
             type: string
-          required: true
-          description : all information about colony Id =id
       responses:
         '200':
-          description: OK
+          description: Returns all company's resources in a JSON Array
           content:
             application/json:
               schema:
@@ -43,18 +75,30 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: integer
-                    name:
                       type: string
-                    location:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          longitude:
-                            type: number
-                          latitude:
-                            type:  number
-                          altitude:
-                            type: number
+                    resources:
+                      $ref: '#/components/schemas/Resource'
+        '404':
+          description: The requested company couldn't be found
+        '500':
+          description: Something has gone wrong on our side
 
+components:
+  schemas:
+    Resource:
+      type: object
+      properties:
+        name:
+          type: string
+        weight:
+          type: integer
+        added:
+          type: string
+          format: date
+        rarity:
+          type: integer
+      example:
+        - name: "gold"
+          weight: 200
+          added: "2052-01-20"
+          rarity: 0.05
