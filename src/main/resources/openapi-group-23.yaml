@@ -38,6 +38,8 @@ paths:
                       type: integer
                     name:
                       type: string
+                    storage:
+                      type: number
                     location:
                       type: array
                       items:
@@ -48,4 +50,4 @@ paths:
                           latitude:
                             type:  number
                           altitude:
-                            type: numberK
+                            type: number
