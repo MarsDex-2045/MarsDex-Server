@@ -51,3 +51,5 @@ paths:
                             type:  number
                           altitude:
                             type: number
+        '405':
+          description: method not allowed
