@@ -132,7 +132,8 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "getMessage", bridge::getMessage);
         addRouteWithCtxFunction(factory, "getColonies", bridge::getColonies);
         addRouteWithCtxFunction(factory, "getCompanyResources", bridge::getCompaniesResources);
-        addRouteWithCtxFunction(factory, "getCompanyByID", bridge::getCompanyById);
+        addRouteWithCtxFunction(factory, "getCompanyById", bridge::getCompanyById);
+        addRouteWithCtxFunction(factory, "getColonyById", bridge::getColonyById);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,
