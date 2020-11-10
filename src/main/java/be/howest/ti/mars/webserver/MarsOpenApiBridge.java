@@ -18,11 +18,15 @@ class MarsOpenApiBridge {
         return controller.getColonies();
     }
 
-    public JsonArray getCompaniesResources(RoutingContext ctx) {
-        return controller.getCompaniesResources(ctx.request().getParam("id"));
+    public JsonArray getCompanyResources(RoutingContext ctx) {
+        return controller.getCompanyResources(ctx.request().getParam("id"));
     }
 
     public Object getCompanyById(RoutingContext ctx) {
         return controller.getCompanyById(ctx.request().getParam("id"));
+    }
+
+    public Object getCompanyTransports(RoutingContext ctx) {
+        return controller.getCompanyTransports(ctx.request().getParam("id"));
     }
 }

@@ -14,10 +14,14 @@ tags:
     description: All endpoints relating to colony data.
   - name: Companies
     description: All endpoints relating to company data.
+  - name: Utility
+    description: Endpoints that are used for testing purposes exclusively
 
 paths:
   /api/message:
     get:
+      tags:
+        - Utility
       description: Get a nice message
       operationId: getMessage
       responses:
@@ -329,15 +333,17 @@ components:
         name:
           type: string
         weight:
-          type: integer
+          type: number
+          format: float
         added:
           type: string
           format: date
         rarity:
-          type: integer
+          type: number
+          format: float
       example:
         - name: "gold"
-          weight: 200
+          weight: 200.45
           added: "2052-01-20"
           rarity: 0.05
     Company:

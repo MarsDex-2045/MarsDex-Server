@@ -3,6 +3,9 @@ package be.howest.ti.mars.logic.controller;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class MarsController {
     public String getMessage() {
         return "Hello, Mars!";
@@ -119,7 +122,7 @@ public class MarsController {
         return mock;
     }
 
-    public JsonArray getCompaniesResources(String id) {
+    public JsonArray getCompanyResources(String id) {
         JsonArray res = new JsonArray();
         for (int i = 1; i<20; i++){
             JsonObject json = new JsonObject();
@@ -128,7 +131,7 @@ public class MarsController {
             JsonObject resource = new JsonObject();
             resource.put("name", "gold V"+i);
             resource.put("weight", 200 + i);
-            resource.put("added", "2020-01-20");
+            resource.put("added", LocalDate.now());
             resource.put("rarity", 0.005);
             container.add(resource);
             json.put("resource", container);
@@ -145,5 +148,28 @@ public class MarsController {
         json.put("email", "marsdex@mars.com");
         json.put("phoneNumber", "+3265788999");
         return json;
+    }
+
+    public Object getCompanyTransports(String id) {
+        JsonArray transports = new JsonArray();
+        for (int i = 1; i < 20; i++) {
+            JsonObject json = new JsonObject();
+            json.put("shippingId", id);
+            json.put("status", "Payed");
+            JsonArray resources = new JsonArray();
+            for (int j = 1; j < 5; j++) {
+                JsonObject resource = new JsonObject();
+                resource.put("name", "Silver V" + 1);
+                resource.put("weight", 200.45 + j);
+                resource.put("added", LocalDate.now());
+                resource.put("rarity", 0.05);
+                resources.add(resource);
+            }
+            json.put("resources", resources);
+            json.put("sendTime", LocalDateTime.now());
+            JsonObject sender = new JsonObject();
+            sender.put("sender", "?");
+        }
+        return transports;
     }
 }
