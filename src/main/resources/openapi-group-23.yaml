@@ -49,7 +49,7 @@ paths:
                       type: string
                     email:
                       type: string
-                    PhoneNumber:
+                    phoneNumber:
                       type: number
         '404':
           description: Id not found
