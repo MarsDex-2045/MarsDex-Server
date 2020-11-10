@@ -23,7 +23,7 @@ paths:
   /api/company/{id}:
     get:
       description: get information about the company with given ID
-      operationId: GetCompanyByID
+      operationId: getCompanyByID
       parameters:
         - in: path
           name: id
@@ -50,7 +50,7 @@ paths:
                     email:
                       type: string
                     phoneNumber:
-                      type: number
+                      type: String
         '404':
           description: Id not found
         '500':
@@ -129,7 +129,7 @@ paths:
     get:
       summary: Return resources of a given company
       description: Return resources of a company based on it's id.
-      operationId: getResourcesByID
+      operationId: getCompanyResources
       parameters:
         - name: id
           in: path
