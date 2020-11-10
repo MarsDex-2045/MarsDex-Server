@@ -37,8 +37,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/Company'
         '404':
           description: Id not found
@@ -110,6 +108,7 @@ paths:
     put:
       summary: adds a new company
       description: adds a new company to the back-end.
+      operationId: makeCompany
       requestBody:
         description: Login & details of the company
         required: true
