@@ -12,7 +12,7 @@ public class MarsController {
     public Object getColonies() {
 
         JsonObject res1 = new JsonObject();
-        res1.put("id", 1);
+        res1.put("id", "idnumero1");
         res1.put("name", "RutgerIsDeBeste");
         res1.put("storage", 1500);
         JsonObject loc1 = new JsonObject();
@@ -24,7 +24,7 @@ public class MarsController {
         res1.put("location", loc1);
 
         JsonObject res2 = new JsonObject();
-        res1.put("id", 2);
+        res1.put("id","idnumero2");
         res1.put("name", "RutgerIsDeBeste2");
         res1.put("storage", 15004);
         JsonObject loc2 = new JsonObject();
@@ -36,7 +36,7 @@ public class MarsController {
         res2.put("location", loc2);
 
         JsonObject res3 = new JsonObject();
-        res3.put("id", 3);
+        res3.put("id", "idnumero3");
         res3.put("name", "RutgerIsDeBeste3");
         res3.put("storage", 5400);
         JsonObject loc3 = new JsonObject();
@@ -48,7 +48,7 @@ public class MarsController {
         res3.put("location", loc3);
 
         JsonObject res4 = new JsonObject();
-        res1.put("id", 4);
+        res1.put("id", "idnumero4");
         res1.put("name", "RutgerIsDeBeste4");
         res1.put("storage", 5000);
         JsonObject loc4 = new JsonObject();
