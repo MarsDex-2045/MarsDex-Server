@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: 'MarsDex'
-  description: 'MarsDex is a resource indexing tool that you can use to know where you nee dto go to find the things you need.'
+  title: 'Mars Concept Title'
+  description: 'Please complete this spec as seen in the module Information Module'
   version: 0.0.1
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080/
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-23
     description: 'Public web api'
@@ -20,39 +20,111 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/company/{id}:
+    get:
+      description: get information about the company with given ID
+      operationId: GetCompanyByID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: all information about company Id =id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    colony:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phoneNumber:
+                      type: number
+        '404':
+          description: Id not found
+        '500':
+          description: Server side Issue thats our fault
   /api/colony:
-      get:
-        description: Get a list of colonies
-        operationId: getColonies
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      name:
-                        type: string
-                      storage:
-                        type: number
-                      location:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            longitude:
-                              type: number
-                            latitude:
-                              type:  number
-                            altitude:
-                              type: number
-          '405':
-            description: method not allowed
+    get:
+      description: Get a list of colonies
+      operationId: getColonies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    storage:
+                      type: number
+                    location:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          longitude:
+                            type: number
+                          latitude:
+                            type:  number
+                          altitude:
+                            type: number
+        '405':
+          description: method not allowed
+  /api/colony/{id}:
+    get:
+      description: get information about the colony with given ID
+      operationId: GetColonyByID
+      parameters:
+        - in : path
+          name: id
+          schema:
+            type: string
+          required: true
+          description : all information about colony Id =id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    location:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          longitude:
+                            type: number
+                          latitude:
+                            type:  number
+                          altitude:
+                            type: number
+
   /api/company/{id}/resource:
     get:
       summary: Return resources of a given company
@@ -102,3 +174,6 @@ components:
           weight: 200
           added: "2052-01-20"
           rarity: 0.05
+
+
+
