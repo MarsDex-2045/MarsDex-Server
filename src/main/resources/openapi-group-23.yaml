@@ -8,6 +8,13 @@ servers:
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-23
     description: 'Public web api'
+    
+tags:
+  - name: Colonies
+    description: All endpoints relating to colony data.
+  - name: Companies
+    description: All endpoints relating to company data.
+
 paths:
   /api/message:
     get:
@@ -22,6 +29,8 @@ paths:
                 type: string
   /api/company/{id}:
     get:
+      tags:
+        - Companies
       description: get information about the company with given ID
       operationId: getCompanyByID
       parameters:
@@ -57,6 +66,8 @@ paths:
           description: Server side Issue thats our fault
   /api/colony:
     get:
+      tags:
+        - Colonies
       description: Get a list of colonies
       operationId: getColonies
       responses:
@@ -73,6 +84,8 @@ paths:
           description: method not allowed
   /api/colony/{id}:
     get:
+      tags:
+        - Colonies
       description: get information about the colony with given ID
       operationId: GetColonyByID
       parameters:
@@ -107,6 +120,8 @@ paths:
                     $ref: '#/components/schemas/Resource'
   /api/company/{id}/transport:
     get:
+      tags:
+        - Companies
       summary: Return transports for a company
       description: Returns transports from and to a company.
       operationId: getCompanyTransport
@@ -151,6 +166,8 @@ paths:
 
   /api/company/{id}/resource:
     get:
+      tags:
+        - Companies
       summary: Return resources of a given company
       description: Return resources of a company based on it's id.
       operationId: getCompanyResources
@@ -181,6 +198,8 @@ paths:
           description: Something has gone wrong on our side
   /api/company:
     put:
+      tags:
+        - Companies
       summary: Adds a new company
       description: Adds a new company to the back-end.
       operationId: makeCompany
