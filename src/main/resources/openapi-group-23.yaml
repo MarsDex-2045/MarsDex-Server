@@ -37,7 +37,20 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Company'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    colony:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phoneNumber:
+                      type: number
         '404':
           description: Id not found
         '500':
@@ -104,51 +117,6 @@ paths:
           description: The requested company couldn't be found
         '500':
           description: Something has gone wrong on our side
-  /api/company:
-    put:
-      summary: Adds a new company
-      description: Adds a new company to the back-end.
-      operationId: makeCompany
-      requestBody:
-        description: Login & details of the company
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                name:
-                  type: string
-                colony:
-                  type: string
-                password:
-                  type: string
-                  format: password
-              example:
-                - name: "MarsDex"
-                  Colony: "Bova Point"
-                  email: MarsDex@mars.com
-                  password: ILoveIron
-      responses:
-        '201':
-          description: "Created Company"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  processed:
-                    type: boolean
-                  id:
-                    type: string
-                    format: uuid
-        '409':
-          description: "The e-mail's already in use"
-        '500':
-          description: "Failed to create account"
 
 components:
   schemas:
@@ -169,21 +137,6 @@ components:
           weight: 200
           added: "2052-01-20"
           rarity: 0.05
-    Company:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        colony:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-      example:
-        - id: "27434bff-b6b2-4333-9ea2-e0bd7a7dd17e"
-          name: "MarsDex"
-          Colony: "Bova Point"
-          email: MarsDex@mars.com
+
+
+
