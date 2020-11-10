@@ -51,3 +51,7 @@ paths:
                       type: string
                     PhoneNumber:
                       type: number
+        '404':
+            description: Id not found
+        '500':
+            description: Server side Issue thats our fault
