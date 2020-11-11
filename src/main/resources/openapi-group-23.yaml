@@ -42,7 +42,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
+            type: id
           required: true
           description: all information about company Id =id
       responses:
@@ -56,8 +56,8 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: string
-                      example: "b217ea02-4608-4574-b965-8d306c899335"
+                      type: id
+                      example: 56
                     colony:
                       type: string
                       example: "Jamerson's Landing"
@@ -104,7 +104,7 @@ paths:
         - in : path
           name: id
           schema:
-            type: string
+            type: id
           required: true
           description : all information about colony Id =id
       responses:
@@ -124,13 +124,13 @@ paths:
                     properties:
                       longitude:
                         type: number
-                        format: float
+                        format: double
                       latitude:
                         type: number
-                        format: float
+                        format: double
                       altitude:
                         type: number
-                        format: float
+                        format: double
                   resources:
                     $ref: '#/components/schemas/Resource'
   /api/company/{id}/transport:
@@ -158,8 +158,7 @@ paths:
                   type: object
                   properties:
                     shippingId:
-                      type: string
-                      format: uuid
+                      type: integer
                     status:
                       $ref: '#/components/schemas/Status'
                     resources:
@@ -190,7 +189,7 @@ paths:
           required: true
           description: Id that identifies a company.
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: Returns all company's resources in a JSON Array
@@ -202,7 +201,7 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: string
+                      type: integer
                     resources:
                       $ref: '#/components/schemas/Resource'
         '404':
@@ -221,7 +220,7 @@ paths:
           required: true
           description: Id that identifies a company.
           schema:
-            type: string
+            type: integer
       requestBody:
         description: Define the resource's name & weight
         required: true
@@ -261,7 +260,7 @@ paths:
           required: true
           description: Id that identifies a company.
           schema:
-            type: string
+            type: integer
       requestBody:
         description: Define the resource's name & weight
         required: true
@@ -325,8 +324,7 @@ paths:
                   processed:
                     type: boolean
                   id:
-                    type: string
-                    format: uuid
+                    type: integer
         '409':
           description: "The e-mail's already in use"
         '500':
@@ -340,13 +338,13 @@ components:
           type: string
         weight:
           type: number
-          format: float
+          format: double
         added:
           type: string
           format: date
         rarity:
           type: number
-          format: float
+          format: double
       example:
         - name: "gold"
           weight: 200.45
@@ -356,8 +354,7 @@ components:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
         colony:
           type: string
         name:
@@ -366,7 +363,7 @@ components:
           type: string
           format: email
       example:
-        - id: "27434bff-b6b2-4333-9ea2-e0bd7a7dd17e"
+        - id: 5
           name: "MarsDex"
           Colony: "Bova Point"
           email: MarsDex@mars.com
@@ -381,8 +378,8 @@ components:
       type: object
       properties:
         id:
-          type: string
-          example: "b3b2bad1-17ef-477c-8c83-49475f9c1b91"
+          type: integer
+          example: 89
         name:
           type: string
           example: "Bova Point"
