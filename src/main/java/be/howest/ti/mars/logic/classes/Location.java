@@ -1,5 +1,8 @@
 package be.howest.ti.mars.logic.classes;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+
 import java.util.Objects;
 
 public class Location {
@@ -24,6 +27,14 @@ public class Location {
 
     public double  getAltitude() {
         return Altitude;
+    }
+
+    public JsonObject ToJson(Location location){
+            JsonObject LocationJSON = new JsonObject();
+        LocationJSON.put("longitude", location.getLongitude());
+        LocationJSON.put("latitude", location.getLatitude());
+        LocationJSON.put("altitude", location.getAltitude());
+        return LocationJSON;
     }
 
     @Override
