@@ -2,6 +2,8 @@ package be.howest.ti.mars.logic.classes;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.LinkOption;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LocationTest {
@@ -25,4 +27,18 @@ class LocationTest {
         assertEquals(loc1.getAltitude(),2645.333);
     }
 
+    @Test
+    void testEquals() {
+        Location loc1 = new Location(15.666, 144.444,2645.333);
+        Location loc2 = new Location(15.667, 144.444,2645.333);
+        assertNotEquals(loc1,loc2);
+    }
+
+    @Test
+    void testHashCode() {
+        Location loc1 = new Location(15.666, 144.444,2645.333);
+        Location loc2 = new Location(15.666, 144.444,2645.333);
+        assertEquals(loc1, loc2);
+        assertEquals(loc2.hashCode(), loc1.hashCode());
+    }
 }
