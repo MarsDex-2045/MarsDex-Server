@@ -53,7 +53,7 @@ create table if not exists shipments(
     sender_id int not null,
     send_time datetime not null,
     receiver_id int not null,
-    receive_time datetime not null,
+    receive_time datetime,
     status enum('Payed', 'Processing', 'In Transit', 'Delivered'),
     foreign key(sender_id) references companies(id),
     foreign key (receiver_id) references companies(id)
