@@ -31,6 +31,9 @@ class LocationTest {
     void testEquals() {
         Location loc1 = new Location(15.666, 144.444,2645.333);
         Location loc2 = new Location(15.667, 144.444,2645.333);
+        Location loc3 = new Location(17.666, 144.444,2645.333);
+        Location loc4 = new Location(17.666, 144.444,2645.333);
+        assertEquals(loc3, loc4);
         assertNotEquals(loc1,loc2);
     }
 
