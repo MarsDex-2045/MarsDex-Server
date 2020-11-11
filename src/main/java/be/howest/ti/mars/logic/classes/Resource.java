@@ -2,7 +2,7 @@ package be.howest.ti.mars.logic.classes;
 
 import io.vertx.core.json.JsonObject;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Resource {
@@ -10,14 +10,30 @@ public class Resource {
     private final String name;
     private final double price;
     private final double weight;
-    private final Date addDate;
+    private final Calendar addDate;
 
-    public Resource(int id, String name, double price, double weight, Date addDate) {
+    public Resource(int id, String name, double price, double weight, Calendar addDate) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.weight = weight;
         this.addDate = addDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public Calendar getAddDate() {
+        return addDate;
     }
 
     @Override
@@ -39,7 +55,7 @@ public class Resource {
         json.put("name", this.name);
         json.put("price", this.price);
         json.put("added", this.addDate.toString());
-        json.put("added", this.weight);
+        json.put("weight", this.weight);
         return json;
     }
 }
