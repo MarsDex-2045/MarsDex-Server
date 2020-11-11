@@ -1,7 +1,6 @@
 package be.howest.ti.mars.logic.classes;
 
 import io.vertx.core.json.JsonObject;
-
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -20,22 +19,6 @@ public class Resource {
         this.addDate = addDate;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public Calendar getAddDate() {
-        return addDate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,12 +33,18 @@ public class Resource {
         return Objects.hash(id, name);
     }
 
-   public JsonObject toJSON(){
+    public JsonObject toJSON() {
         JsonObject json = new JsonObject();
         json.put("name", this.name);
         json.put("price", this.price);
-        json.put("added", this.addDate.toString());
+        json.put("added", calendarToDateFormat(this.addDate));
         json.put("weight", this.weight);
         return json;
+    }
+
+    private String calendarToDateFormat(Calendar calendar){
+        return calendar.get(Calendar.YEAR) + "-" +
+                calendar.get(Calendar.MONTH) + "-" +
+                calendar.get(Calendar.DAY_OF_MONTH);
     }
 }

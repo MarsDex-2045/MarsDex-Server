@@ -36,10 +36,10 @@ class ResourceTest {
         JsonObject json = testResources[0].toJSON();
 
         LOGGER.log(Level.INFO, json.toString());
-        assertEquals(testResources[0].getName(), json.getString("name"));
-        assertEquals(testResources[0].getPrice(), json.getDouble("price"));
-        assertEquals(testResources[0].getWeight(), json.getDouble("weight"));
-        assertEquals(testResources[0].getAddDate().toString(), json.getString("added"));
+        assertEquals("Panite", json.getString("name"));
+        assertEquals(200.234, json.getDouble("price"));
+        assertEquals(2500, json.getDouble("weight"));
+        assertEquals("2052-11-13", json.getString("added"));
     }
 
     private Resource[] generateResources(){
