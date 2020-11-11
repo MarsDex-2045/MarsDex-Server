@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS companies(
 
 CREATE TABLE IF NOT EXISTS resources (
     id int primary key auto_increment not null,
-    price double not null
+    price double not null,
+    name nvarchar(30) not null
 );
 
 CREATE TABLE IF NOT EXISTS colonies_companies(
@@ -48,11 +49,11 @@ create table if not exists companies_resources(
 );
 
 create table if not exists shipments(
-    id int not null primary key,
+    id int not null primary key auto_increment,
     sender_id int not null,
     send_time datetime not null,
     receiver_id int not null,
-    receive_time datetime not null,
+    receive_time datetime,
     status enum('Payed', 'Processing', 'In Transit', 'Delivered'),
     foreign key(sender_id) references companies(id),
     foreign key (receiver_id) references companies(id)
