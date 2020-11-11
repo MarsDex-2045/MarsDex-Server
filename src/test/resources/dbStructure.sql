@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS companies(
 
 CREATE TABLE IF NOT EXISTS resources (
     id int primary key auto_increment not null,
-    price double not null
+    price double not null,
+    name nvarchar(30) not null
 );
 
 CREATE TABLE IF NOT EXISTS colonies_companies(
