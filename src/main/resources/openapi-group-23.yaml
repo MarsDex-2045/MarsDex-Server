@@ -310,7 +310,7 @@ paths:
                   format: password
               example:
                 - name: "MarsDex"
-                  Colony: "Bova Point"
+                  colony: "Bova Point"
                   email: MarsDex@mars.com
                   password: ILoveIron
       responses:
