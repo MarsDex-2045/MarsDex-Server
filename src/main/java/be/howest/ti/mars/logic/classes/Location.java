@@ -29,11 +29,11 @@ public class Location {
         return Altitude;
     }
 
-    public JsonObject ToJson(Location location){
+    public JsonObject ToJson(){
             JsonObject LocationJSON = new JsonObject();
-        LocationJSON.put("longitude", location.getLongitude());
-        LocationJSON.put("latitude", location.getLatitude());
-        LocationJSON.put("altitude", location.getAltitude());
+        LocationJSON.put("longitude", this.getLongitude());
+        LocationJSON.put("latitude", this.getLatitude());
+        LocationJSON.put("altitude", this.getAltitude());
         return LocationJSON;
     }
 

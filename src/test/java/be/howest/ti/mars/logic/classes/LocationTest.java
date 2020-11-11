@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.classes;
 
+import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.LinkOption;
@@ -43,5 +44,15 @@ class LocationTest {
         Location loc2 = new Location(15.666, 144.444,2645.333);
         assertEquals(loc1, loc2);
         assertEquals(loc2.hashCode(), loc1.hashCode());
+    }
+    @Test
+    void testJSON(){
+        Location loc1 = new Location(15.666, 144.444,2645.333);
+        Location loc2 = new Location(15.667, 144.444,2645.333);
+        JsonObject LocationJSON2 = new JsonObject();
+        LocationJSON2.put("longitude", loc1.getLongitude());
+        LocationJSON2.put("latitude", loc1.getLatitude());
+        LocationJSON2.put("altitude", loc1.getAltitude());
+        assertEquals(loc1.ToJson(),LocationJSON2);
     }
 }
