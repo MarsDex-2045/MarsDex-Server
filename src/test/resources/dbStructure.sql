@@ -49,7 +49,7 @@ create table if not exists companies_resources(
 );
 
 create table if not exists shipments(
-    id int not null primary key,
+    id int not null primary key auto_increment,
     sender_id int not null,
     send_time datetime not null,
     receiver_id int not null,
