@@ -32,3 +32,18 @@ insert into resources(price, name)
 VALUES (232.553, 'Low Temperature Diamonds');
 insert into resources(price, name)
 VALUES (135.218, 'Void Opals');
+
+insert into colonies_companies(colony_id, company_id)
+VALUES (1, 1);
+insert into colonies_companies(colony_id, company_id)
+VALUES (2, 2);
+insert into colonies_companies(colony_id, company_id)
+VALUES (2, 3);
+insert into colonies_companies(colony_id, company_id)
+VALUES (3, 4);
+insert into colonies_companies(colony_id, company_id)
+VALUES (3, 5);
+insert into colonies_companies(colony_id, company_id)
+VALUES (4, 6);
+insert into colonies_companies(colony_id, company_id)
+VALUES (4, 7);
