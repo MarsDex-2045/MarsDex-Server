@@ -3,8 +3,6 @@ package be.howest.ti.mars.logic.classes;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.LinkOption;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class LocationTest {
@@ -52,6 +50,6 @@ class LocationTest {
         LocationJSON2.put("longitude", loc1.getLongitude());
         LocationJSON2.put("latitude", loc1.getLatitude());
         LocationJSON2.put("altitude", loc1.getAltitude());
-        assertEquals(loc1.ToJson(),LocationJSON2);
+        assertEquals(loc1.toJson(),LocationJSON2);
     }
 }
