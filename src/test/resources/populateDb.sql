@@ -32,6 +32,20 @@ insert into resources(price, name)
 VALUES (232.553, 'Low Temperature Diamonds');
 insert into resources(price, name)
 VALUES (135.218, 'Void Opals');
+insert into resources(price, name)
+VALUES (149.218, 'Benitoite');
+insert into resources(price, name)
+VALUES (139.218, 'Bertrandite');
+insert into resources(price, name)
+VALUES (5.343, 'Coltan');
+insert into resources(price, name)
+VALUES (10.453, 'Cryolite');
+insert into resources (price, name)
+values (2.694, 'Gallite');
+insert into resources(price, name)
+VALUES (24.998, 'Goslarite');
+insert into resources(price, name)
+VALUES (234.223,'Lithium Hydroxide');
 
 insert into colonies_companies(colony_id, company_id)
 VALUES (1, 1);
