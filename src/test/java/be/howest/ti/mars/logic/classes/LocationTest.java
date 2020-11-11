@@ -48,7 +48,6 @@ class LocationTest {
     @Test
     void testJSON(){
         Location loc1 = new Location(15.666, 144.444,2645.333);
-        Location loc2 = new Location(15.667, 144.444,2645.333);
         JsonObject LocationJSON2 = new JsonObject();
         LocationJSON2.put("longitude", loc1.getLongitude());
         LocationJSON2.put("latitude", loc1.getLatitude());
