@@ -14,10 +14,14 @@ tags:
     description: All endpoints relating to colony data.
   - name: Companies
     description: All endpoints relating to company data.
+  - name: Utility
+    description: Endpoints that are used for testing purposes exclusively
 
 paths:
   /api/message:
     get:
+      tags:
+        - Utility
       description: Get a nice message
       operationId: getMessage
       responses:
@@ -53,14 +57,19 @@ paths:
                   properties:
                     id:
                       type: string
+                      example: "b217ea02-4608-4574-b965-8d306c899335"
                     colony:
                       type: string
+                      example: "Jamerson's Landing"
                     name:
                       type: string
+                      example: "MarsDex"
                     email:
                       type: string
+                      example: "marsdex@mars.com"
                     phoneNumber:
                       type: string
+                      example: "+324561772"
         '404':
           description: Id not found
         '500':
@@ -156,13 +165,11 @@ paths:
                     resources:
                       $ref: '#/components/schemas/Resource'
                     sendTime:
-                      type: string
-                      format: date-time
+                     $ref: '#/components/schemas/Time'
                     sender:
                       $ref: '#/components/schemas/Colony'
                     recieveTime:
-                      type: string
-                      format: date-time
+                      $ref: '#/components/schemas/Time'
                     reciever:
                       $ref: '#/components/schemas/Colony'
         '404':
@@ -332,15 +339,17 @@ components:
         name:
           type: string
         weight:
-          type: integer
+          type: number
+          format: float
         added:
           type: string
           format: date
         rarity:
-          type: integer
+          type: number
+          format: float
       example:
         - name: "gold"
-          weight: 200
+          weight: 200.45
           added: "2052-01-20"
           rarity: 0.05
     Company:
@@ -373,16 +382,34 @@ components:
       properties:
         id:
           type: string
+          example: "b3b2bad1-17ef-477c-8c83-49475f9c1b91"
         name:
           type: string
+          example: "Bova Point"
         storage:
           type: number
+          example: 150000
         location:
           type: object
           properties:
             longitude:
               type: number
+              example: 40.236179
             latitude:
               type: number
+              example: -70.253211
             altitude:
               type: number
+              example: 150
+    Time:
+      type: object
+      nullable: true
+      properties:
+        date:
+          type: string
+          format: date
+          example: "2050-11-1"
+        time:
+          type: string
+          format: time
+          example: "22:22"
