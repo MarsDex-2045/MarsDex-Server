@@ -41,3 +41,4 @@ public class Location {
         return Objects.hash(Longitude, Latitude, Altitude);
     }
 }
+
