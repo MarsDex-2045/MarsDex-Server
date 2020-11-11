@@ -3,26 +3,26 @@ package be.howest.ti.mars.logic.classes;
 import java.util.Objects;
 
 public class Location {
-    private final float  Longitude;
-    private final  float  Latitude;
-    private final float  Altitude;
+    private final double   Longitude;
+    private final double Latitude;
+    private final double Altitude;
 
 
-    public Location(float  longitude, float  latitude, float  altitude) {
+    public Location(double longitude, double latitude, double altitude) {
         Longitude = longitude;
         Latitude = latitude;
         Altitude = altitude;
     }
 
-    public float  getLongitude() {
+    public double  getLongitude() {
         return Longitude;
     }
 
-    public float  getLatitude() {
+    public double getLatitude() {
         return Latitude;
     }
 
-    public float  getAltitude() {
+    public double  getAltitude() {
         return Altitude;
     }
 
