@@ -1,18 +1,14 @@
 package be.howest.ti.mars.logic.classes;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Colony {
     private final int id;
     private final Location location;
     private final String name;
-    HashMap<Integer, Resource> resources = new HashMap<>();
+    Map<Resource, Integer> resources = new HashMap<>();
 
     public int getId() {
         return id;
@@ -26,21 +22,20 @@ public class Colony {
         return name;
     }
 
-    public HashMap<Integer, Resource> getResources() {
-        return resources;
+    public Resource getResource(Resource resource) {
+        return null;
     }
 
-    public Colony(int id, String name, Location location, JsonObject resources) {
+    public Colony(int id, String name, Location location) {
         this.id = id;
         this.location = location;
         this.name = name;
     }
-    public void AddResource(int id, String name, double price, double weight, Calendar addDate){
-    Resource add = new Resource(id,name,price,weight,addDate);
-        resources.put(id,add);
+    public void AddResource(Resource resource){
+      //  resources.put(id,resource);
     }
     public ArrayList<Resource> GetAllResources(){
-        return new ArrayList<>(resources.values());
+       // return new ArrayList<>(resources.values());
     }
 
 
