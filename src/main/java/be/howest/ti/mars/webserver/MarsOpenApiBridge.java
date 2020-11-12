@@ -34,6 +34,6 @@ class MarsOpenApiBridge {
     }
 
     public Object makeCompany(RoutingContext ctx) {
-        return ctx.request().response().setStatusCode(201);
+        return controller.makeColony();
     }
 }
