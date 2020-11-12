@@ -36,4 +36,8 @@ class MarsOpenApiBridge {
     public Object makeCompany(RoutingContext ctx) {
         return controller.makeColony();
     }
+
+    public Boolean editCompanyResources(RoutingContext ctx) {
+        return true;
+    }
 }
