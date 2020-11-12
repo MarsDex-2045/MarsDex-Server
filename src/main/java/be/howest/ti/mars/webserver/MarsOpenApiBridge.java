@@ -29,4 +29,8 @@ class MarsOpenApiBridge {
     public Object getColonyById(RoutingContext ctx) {
         return controller.getColonyById(ctx.request().getParam("id"));
     }
+
+    public boolean addResourceToCompany(RoutingContext ctx) {
+        return true;
+    }
 }
