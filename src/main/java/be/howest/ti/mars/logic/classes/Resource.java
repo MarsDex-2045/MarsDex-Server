@@ -8,7 +8,7 @@ public class Resource {
     private final int id;
     private final String name;
     private final double price;
-    private final double weight;
+    private double weight;
     private final Calendar addDate;
 
     public Resource(int id, String name, double price, double weight, Calendar addDate) {
@@ -17,6 +17,14 @@ public class Resource {
         this.price = price;
         this.weight = weight;
         this.addDate = addDate;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getWeight() {
+        return weight;
     }
 
     @Override
