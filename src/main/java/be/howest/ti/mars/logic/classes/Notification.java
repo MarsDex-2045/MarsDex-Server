@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonObject;
 import java.util.Objects;
 
 public class Notification {
-    int id;
-    String heading;
-    String message;
+    private final int id;
+    private final String heading;
+    private final String message;
 
     public Notification(int id, String heading, String message) {
         this.id = id;
