@@ -2,6 +2,8 @@ package be.howest.ti.mars.logic.classes;
 
 import io.vertx.core.json.JsonObject;
 
+import java.util.Objects;
+
 public class Colony {
     private final int id;
     private final Location location;
@@ -33,5 +35,18 @@ public class Colony {
         return ColonyJSON ;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Colony colony = (Colony) o;
+        return getId() == colony.getId() &&
+                getLocation().equals(colony.getLocation()) &&
+                getName().equals(colony.getName());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getLocation(), getName());
+    }
 }
