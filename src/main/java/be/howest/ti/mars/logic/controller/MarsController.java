@@ -115,4 +115,11 @@ public class MarsController {
         }
         return transports;
     }
+
+    public JsonObject makeColony() {
+        JsonObject json = new JsonObject();
+        json.put("processed", true);
+        json.put("id", 2);
+        return json;
+    }
 }
