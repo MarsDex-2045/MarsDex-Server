@@ -26,23 +26,6 @@ public class Company {
         this.storage = null;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Company company = (Company) o;
-        return id == company.id &&
-                name.equals(company.name) &&
-                password.equals(company.password) &&
-                email.equals(company.email) &&
-                phone.equals(company.phone);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, password, email, phone);
-    }
-
     public boolean checkPassword(String givenPassword){
         return givenPassword.equals(this.password);
     }
@@ -73,5 +56,22 @@ public class Company {
                 .put("email", this.email)
                 .put("phoneNumber", this.phone);
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        return id == company.id &&
+                name.equals(company.name) &&
+                password.equals(company.password) &&
+                email.equals(company.email) &&
+                phone.equals(company.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, email, phone);
     }
 }

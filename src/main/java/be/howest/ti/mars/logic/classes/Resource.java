@@ -27,20 +27,6 @@ public class Resource {
         return weight;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resource resource = (Resource) o;
-        return id == resource.id &&
-                name.equals(resource.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
     public JsonObject toJSON() {
         JsonObject json = new JsonObject();
         json.put("name", this.name);
@@ -54,5 +40,19 @@ public class Resource {
         return calendar.get(Calendar.YEAR) + "-" +
                 calendar.get(Calendar.MONTH) + "-" +
                 calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource resource = (Resource) o;
+        return id == resource.id &&
+                name.equals(resource.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
