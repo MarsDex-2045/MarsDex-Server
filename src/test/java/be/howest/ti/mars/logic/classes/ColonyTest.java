@@ -1,6 +1,5 @@
 package be.howest.ti.mars.logic.classes;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
@@ -34,12 +33,12 @@ class ColonyTest {
         JsonObject json = colonies[0].toJSON();
 
         LOGGER.log(Level.INFO, json.toString());
-        //for (int i = 0; i < this.company1.allResourcesToJSONArray().size(); i++){
-            //assertTrue(json.getJsonArray("resources").contains(this.company1.allResourcesToJSONArray().getJsonObject(i)));
-        //}
-        //for (int i = 0; i < this.company2.allResourcesToJSONArray().size(); i++){
-            //assertTrue(json.getJsonArray("resources").contains(this.company2.allResourcesToJSONArray().getJsonObject(i)));
-        //}
+        for (int i = 0; i < this.company1.allResourcesToJSONArray().size(); i++){
+            assertTrue(json.getJsonArray("resources").contains(this.company1.allResourcesToJSONArray().getJsonObject(i)));
+        }
+        for (int i = 0; i < this.company2.allResourcesToJSONArray().size(); i++) {
+            assertTrue(json.getJsonArray("resources").contains(this.company2.allResourcesToJSONArray().getJsonObject(i)));
+        }
     }
 
     @Test
@@ -55,9 +54,9 @@ class ColonyTest {
         res[0] = new Colony(1, "Jamerson's Lading", new Location(124.000, 243.000, 42.000));
         res[1] = new Colony(1, "Jamerson's Lading", new Location(124.000, 243.000, 42.000));
         res[2] = new Colony(2, "Bova Point", new Location(28.000, 243.636, 42.000));
-        company1.addResource(resource1, 22);
-        company1.addResource(resource2, 33);
-        company2.addResource(resource3, 43);
+        company1.addResource(resource1);
+        company1.addResource(resource2);
+        company2.addResource(resource3);
         res[0].addCompany(company1);
         res[0].addCompany(company2);
         res[1].addCompany(company1);

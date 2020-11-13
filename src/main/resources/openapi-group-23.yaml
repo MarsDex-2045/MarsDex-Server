@@ -241,7 +241,7 @@ paths:
             example:
               - name: Platinum
                 weight: 3050.40
-                price: 22,235
+                price: 22.235
       responses:
         '201':
           description: Resource has been created and added
@@ -279,6 +279,13 @@ paths:
                 weight:
                   type: number
                   format: float
+                price:
+                  type: number
+                  format: float
+              example:
+                - name: Platinum
+                  weight: 3050.40
+                  price: 22.235
       responses:
         '200':
           description: Resource has been altered
@@ -350,7 +357,6 @@ components:
         price:
           type: number
           format: double
-
       example:
         - name: "gold"
           weight: 200.45
