@@ -14,6 +14,9 @@ class TestData {
     protected final static Resource resource3 = new Resource(3, "Void Opals", 20.552, 2.55, dateData1);
     protected final static Resource resource4 = new Resource(4, "Low Temperature Diamonds", 20.552, 2.55, dateData1);
     protected final static Resource resource5 = new Resource(5, "Cobalt", 20.552, 2.55, dateData1);
+    protected final static Location location1 = new Location(15.666, 144.444,2645.333);
+    protected final static Location location2 = new Location(17.666, 144.444,2645.333);
+    protected final static Location location2c = new Location(17.666, 144.444,2645.333);
 
     protected static Notification[] generateNotifications(){
         Notification[] res = new Notification[3];
@@ -36,9 +39,9 @@ class TestData {
     protected static Location[] generateLocations(){
         Location[] res = new Location[3];
 
-        res[0] = new Location(15.666, 144.444,2645.333);
-        res[1] = new Location(17.666, 144.444,2645.333);
-        res[2] = new Location(17.666, 144.444,2645.333);
+        res[0] = location1;
+        res[1] = location2;
+        res[2] = location2c;
 
         return res;
     }
@@ -58,9 +61,9 @@ class TestData {
 
     protected static Colony[] generateColonies(){
         Colony[] res = new Colony[3];
-        res[0] = new Colony(1, "Jamerson's Lading", new Location(124.000, 243.000, 42.000));
-        res[1] = new Colony(1, "Jamerson's Lading", new Location(124.000, 243.000, 42.000));
-        res[2] = new Colony(2, "Bova Point", new Location(28.000, 243.636, 42.000));
+        res[0] = new Colony(1, "Jamerson's Lading", location2);
+        res[1] = new Colony(1, "Jamerson's Lading", location2);
+        res[2] = new Colony(2, "Bova Point", location1);
         company1.addResource(resource1);
         company1.addResource(resource2);
         company2.addResource(resource3);

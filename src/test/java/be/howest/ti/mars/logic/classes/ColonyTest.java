@@ -44,6 +44,8 @@ class ColonyTest {
 
     @Test
     void testHashCode(){
-
+        Colony[] colonies = generateColonies();
+        assertEquals(colonies[0].hashCode(), colonies[1].hashCode());
+        assertNotEquals(colonies[1].hashCode(), colonies[2].hashCode());
     }
 }
