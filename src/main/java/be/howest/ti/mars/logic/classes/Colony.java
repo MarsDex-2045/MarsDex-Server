@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.classes;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
@@ -16,15 +17,21 @@ public class Colony {
         this.name = name;
     }
 
+    public void addCompany(Company company){
+        this.companies.add(company);
+    }
 
-    public JsonObject toJson(){
+
+    public JsonObject toJSON(){
         JsonObject json = new JsonObject();
-        json .put("id", this.id);
-        json .put("name", this.name);
-        json .put("location", this.location);
-        //W.I.P.
-
-        return json ;
+        json.put("id", this.id)
+                .put("name", this.name)
+                .put("location", this.location.toJson());
+        JsonArray allResources = new JsonArray();
+        for (Company company: this.companies){
+            allResources.add(company.allResourcesToJson());
+        }
+        return json;
     }
 
     @Override
