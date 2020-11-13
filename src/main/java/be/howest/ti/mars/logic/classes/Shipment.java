@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Set;
 
 public class Shipment {
@@ -66,5 +67,24 @@ public class Shipment {
     private static String calendarToTimeFormat(Calendar calendar){
         return calendar.get(Calendar.HOUR) + ":" +
                 calendar.get(Calendar.MINUTE);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shipment shipment = (Shipment) o;
+        return id == shipment.id &&
+                sender.equals(shipment.sender) &&
+                sendTime.equals(shipment.sendTime) &&
+                receiver.equals(shipment.receiver) &&
+                Objects.equals(endTime, shipment.endTime) &&
+                content.equals(shipment.content) &&
+                status == shipment.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, sender, sendTime, receiver, endTime, content, status);
     }
 }
