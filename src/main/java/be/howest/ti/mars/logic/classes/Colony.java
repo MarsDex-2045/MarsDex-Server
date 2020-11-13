@@ -8,46 +8,23 @@ public class Colony {
     private final int id;
     private final Location location;
     private final String name;
-    Map<Resource, Integer> resources = new HashMap<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Resource getResource(Resource resource) {
-        return null;
-    }
+    private final List<Company> companies = new ArrayList<>();
 
     public Colony(int id, String name, Location location) {
         this.id = id;
         this.location = location;
         this.name = name;
     }
-    public void AddResource(Resource resource){
-        //  resources.put(id,resource);
-    }
-    public ArrayList<Resource> GetAllResources(){
-        // return new ArrayList<>(resources.values());
-        return null;
-    }
 
 
     public JsonObject toJson(){
-        JsonObject ColonyJSON = new JsonObject();
-        ColonyJSON .put("id", this.getId());
-        ColonyJSON .put("name", this.getName());
-        ColonyJSON .put("location", this.getLocation());
+        JsonObject json = new JsonObject();
+        json .put("id", this.id);
+        json .put("name", this.name);
+        json .put("location", this.location);
+        //W.I.P.
 
-
-        return ColonyJSON ;
+        return json ;
     }
 
     @Override
@@ -55,14 +32,14 @@ public class Colony {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Colony colony = (Colony) o;
-        return getId() == colony.getId() &&
-                getLocation().equals(colony.getLocation()) &&
-                getName().equals(colony.getName());
+        return id == colony.id &&
+                location.equals(colony.location) &&
+                name.equals(colony.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLocation(), getName());
+        return Objects.hash(id, location, name);
     }
 }
 
