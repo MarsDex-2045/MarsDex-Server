@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.classes;
 
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
@@ -35,9 +36,15 @@ class ShipmentTest {
 
     @Test
     void testEquals() {
+        Shipment[] shipments = generateShipments();
+        assertEquals(shipments[0], shipments[1]);
+        assertNotEquals(shipments[1], shipments[2]);
     }
 
     @Test
     void testHashCode() {
+        Shipment[] shipments = generateShipments();
+        assertNotEquals(shipments[0], shipments[2]);
+        assertEquals(shipments[0], shipments[1]);
     }
 }
