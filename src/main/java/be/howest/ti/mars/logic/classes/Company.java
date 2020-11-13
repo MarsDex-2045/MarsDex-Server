@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.classes;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import java.util.*;
 
@@ -46,7 +47,9 @@ public class Company {
         return givenPassword.equals(this.password);
     }
 
-    private JsonArray allResources(){
+    public JsonObject allResourcesToJson(){
+        JsonObject json = new JsonObject();
+        json.put("id", this.id);
         JsonArray resourcesList = new JsonArray();
         for (Map.Entry<Resource, Double> entrySet : this.resources.entrySet()){
             double resourceWeight = entrySet.getKey().getWeight();
@@ -55,6 +58,16 @@ public class Company {
             totalResource.setWeight(resourceWeight * resourceAmount);
             resourcesList.add(totalResource.toJSON());
         }
-        return resourcesList;
+        json.put("resources", resourcesList);
+        return json;
+    }
+
+    public JsonObject toJSON(){
+        JsonObject json = new JsonObject();
+        json.put("id", this.id)
+                .put("name", this.name)
+                .put("email", this.email)
+                .put("phoneNumber", this.phone);
+        return json;
     }
 }
