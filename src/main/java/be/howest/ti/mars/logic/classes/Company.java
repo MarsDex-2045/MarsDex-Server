@@ -34,9 +34,14 @@ public class Company {
         this.resources.put(resource, amount);
     }
 
-    public JsonObject allResourcesToJson(){
+    public JsonObject allResourcesToJSONObject(){
         JsonObject json = new JsonObject();
         json.put("id", this.id);
+        json.put("resources", allResourcesToJSONArray());
+        return json;
+    }
+
+    protected JsonArray allResourcesToJSONArray(){
         JsonArray resourcesList = new JsonArray();
         for (Map.Entry<Resource, Integer> entrySet : this.resources.entrySet()){
             double resourceWeight = entrySet.getKey().getWeight();
@@ -45,8 +50,7 @@ public class Company {
             totalResource.setWeight(resourceWeight * resourceAmount);
             resourcesList.add(totalResource.toJSON());
         }
-        json.put("resources", resourcesList);
-        return json;
+        return resourcesList;
     }
 
     public JsonObject toJSON(){

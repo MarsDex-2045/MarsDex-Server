@@ -49,7 +49,7 @@ class CompanyTest {
         Company[] companies = initCompanies();
 
 
-        JsonObject json = companies[1].allResourcesToJson();
+        JsonObject json = companies[1].allResourcesToJSONObject();
         JsonArray resourceArray = json.getJsonArray("resources");
 
         LOGGER.log(Level.INFO, json.toString());

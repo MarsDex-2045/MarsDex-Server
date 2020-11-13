@@ -9,18 +9,18 @@ public class Colony {
     private final int id;
     private final Location location;
     private final String name;
-    private final List<Company> companies = new ArrayList<>();
+    private final Set<Company> companies;
 
     public Colony(int id, String name, Location location) {
         this.id = id;
         this.location = location;
         this.name = name;
+        this.companies  = new HashSet<>();
     }
 
     public void addCompany(Company company){
         this.companies.add(company);
     }
-
 
     public JsonObject toJSON(){
         JsonObject json = new JsonObject();
@@ -29,9 +29,16 @@ public class Colony {
                 .put("location", this.location.toJson());
         JsonArray allResources = new JsonArray();
         for (Company company: this.companies){
-            allResources.add(company.allResourcesToJson());
+            for (int i = 0; i < company.allResourcesToJSONArray().size(); i++){
+                allResources.add(company.allResourcesToJSONArray().getJsonObject(i));
+            }
         }
+        json.put("resources", allResources);
         return json;
+    }
+
+    public Set<Company> getCompanies() {
+        return companies;
     }
 
     @Override

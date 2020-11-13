@@ -235,9 +235,13 @@ paths:
                 weight:
                   type: number
                   format: float
+                price:
+                  type: number
+                  format: float
             example:
               - name: Platinum
                 weight: 3050.40
+                price: 22,235
       responses:
         '201':
           description: Resource has been created and added
@@ -343,14 +347,15 @@ components:
         added:
           type: string
           format: date
-        rarity:
+        price:
           type: number
           format: double
+
       example:
         - name: "gold"
           weight: 200.45
           added: "2052-01-20"
-          rarity: 0.05
+          price: 20.221
     Company:
       type: object
       properties:
