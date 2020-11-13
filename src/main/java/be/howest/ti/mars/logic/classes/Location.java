@@ -16,7 +16,7 @@ public class Location {
         this.altitude = altitude;
     }
 
-    public double  getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -24,12 +24,12 @@ public class Location {
         return latitude;
     }
 
-    public double  getAltitude() {
+    public double getAltitude() {
         return altitude;
     }
 
-    public JsonObject toJson(){
-            JsonObject locationJSON = new JsonObject();
+    public JsonObject toJson() {
+        JsonObject locationJSON = new JsonObject();
         locationJSON.put("longitude", this.getLongitude());
         locationJSON.put("latitude", this.getLatitude());
         locationJSON.put("altitude", this.getAltitude());
