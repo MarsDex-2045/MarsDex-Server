@@ -39,7 +39,7 @@ public class MarsController {
             resource.put("name", "gold V"+i);
             resource.put("weight", 200 + i);
             resource.put("added", LocalDate.now());
-            resource.put("rarity", 0.005);
+            resource.put("price", 20.221 + 1);
             container.add(resource);
             json.put("resource", container);
             res.add(json);
@@ -72,7 +72,7 @@ public class MarsController {
             resource.put("name", "gold V"+i);
             resource.put("weight", 200 + i);
             resource.put("added", "2020-01-20");
-            resource.put("rarity", 0.005);
+            resource.put("price", 20.221 + 1);
             resources.add(resource);
         }
         json.put("resources", resources);
@@ -91,7 +91,7 @@ public class MarsController {
                 resource.put("name", "Silver V" + 1);
                 resource.put("weight", 200.45 + j);
                 resource.put("added", LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue() + "-" + LocalDate.now().getDayOfMonth());
-                resource.put("rarity", 0.05);
+                resource.put("price", 20.221 + 1);
                 resources.add(resource);
             }
             json.put("resources", resources);

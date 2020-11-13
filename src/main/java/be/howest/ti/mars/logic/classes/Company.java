@@ -12,7 +12,7 @@ public class Company {
     private final String email;
     private final String phone;
     private String storage;
-    private final Map<Resource, Integer> resources;
+    private final Set<Resource> resources;
     private final Deque<Notification> notifications;
 
     public Company(int id, String name, String password, String email, String phone) {
@@ -21,7 +21,7 @@ public class Company {
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.resources = new HashMap<>();
+        this.resources = new HashSet<>();
         this.notifications = new LinkedList<>();
         this.storage = null;
     }
@@ -30,23 +30,23 @@ public class Company {
         return givenPassword.equals(this.password);
     }
 
-    public void addResource(Resource resource, int amount){
-        this.resources.put(resource, amount);
+    public void addResource(Resource resource){
+        this.resources.add(resource);
     }
 
-    public JsonObject allResourcesToJson(){
+    public JsonObject allResourcesToJSONObject(){
         JsonObject json = new JsonObject();
         json.put("id", this.id);
-        JsonArray resourcesList = new JsonArray();
-        for (Map.Entry<Resource, Integer> entrySet : this.resources.entrySet()){
-            double resourceWeight = entrySet.getKey().getWeight();
-            double resourceAmount = entrySet.getValue();
-            Resource totalResource = entrySet.getKey();
-            totalResource.setWeight(resourceWeight * resourceAmount);
-            resourcesList.add(totalResource.toJSON());
-        }
-        json.put("resources", resourcesList);
+        json.put("resources", allResourcesToJSONArray());
         return json;
+    }
+
+    protected JsonArray allResourcesToJSONArray(){
+        JsonArray resourcesList = new JsonArray();
+        for (Resource resource : this.resources){
+            resourcesList.add(resource.toJSON());
+        }
+        return resourcesList;
     }
 
     public JsonObject toJSON(){

@@ -49,7 +49,7 @@ class CompanyTest {
         Company[] companies = initCompanies();
 
 
-        JsonObject json = companies[1].allResourcesToJson();
+        JsonObject json = companies[1].allResourcesToJSONObject();
         JsonArray resourceArray = json.getJsonArray("resources");
 
         LOGGER.log(Level.INFO, json.toString());
@@ -80,11 +80,11 @@ class CompanyTest {
         res[1] = new Company(2, "104th Discovery Battalion", "Expl0rer", "104thdb@mars.com", "+32456162");
         res[2] = new Company(1, "MarsDex", "BigIr0n", "marsdex@mars.com", "+324561621");
         Calendar dateData = new Calendar.Builder().setDate(2052, 11, 10).build();
-        res[1].addResource(resource1, 20);
-        res[1].addResource(resource2, 20);
-        res[1].addResource(resource3, 20);
-        res[1].addResource(resource4, 20);
-        res[1].addResource(resource5, 20);
+        res[1].addResource(resource1);
+        res[1].addResource(resource2);
+        res[1].addResource(resource3);
+        res[1].addResource(resource4);
+        res[1].addResource(resource5);
         return res;
     }
 }
