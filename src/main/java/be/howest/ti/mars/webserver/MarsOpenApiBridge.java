@@ -3,6 +3,7 @@ package be.howest.ti.mars.webserver;
 import be.howest.ti.mars.logic.controller.MarsController;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
+
 class MarsOpenApiBridge {
     private final MarsController controller;
 
@@ -38,6 +39,10 @@ class MarsOpenApiBridge {
     }
 
     public Boolean editCompanyResources(RoutingContext ctx) {
+        return true;
+    }
+
+    public boolean addResourceToCompany(RoutingContext ctx) {
         return true;
     }
 }

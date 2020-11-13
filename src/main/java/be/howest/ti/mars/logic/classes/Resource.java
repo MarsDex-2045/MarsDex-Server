@@ -8,7 +8,7 @@ public class Resource {
     private final int id;
     private final String name;
     private final double price;
-    private final double weight;
+    private double weight;
     private final Calendar addDate;
 
     public Resource(int id, String name, double price, double weight, Calendar addDate) {
@@ -19,18 +19,12 @@ public class Resource {
         this.addDate = addDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resource resource = (Resource) o;
-        return id == resource.id &&
-                name.equals(resource.name);
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
+    public double getWeight() {
+        return weight;
     }
 
     public JsonObject toJSON() {
@@ -46,5 +40,19 @@ public class Resource {
         return calendar.get(Calendar.YEAR) + "-" +
                 calendar.get(Calendar.MONTH) + "-" +
                 calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource resource = (Resource) o;
+        return id == resource.id &&
+                name.equals(resource.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
