@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ColonyTest {
 
-    private final Resource resource1 = new Resource(1, "Panite", 234.667, 22.000, dateData);
-    private final Resource resource2 = new Resource(2, "Berylium", 22.356, 10.050, dateData);
-    private final Resource resource3 = new Resource(2, "Cobalt", 25.356, 12.150, dateData);
+    private final Resource resource1 = new Resource(1, "Panite", 234.667, 22.000, dateData2);
+    private final Resource resource2 = new Resource(2, "Berylium", 22.356, 10.050, dateData2);
+    private final Resource resource3 = new Resource(2, "Cobalt", 25.356, 12.150, dateData2);
     private static final Logger LOGGER = Logger.getLogger(ColonyTest.class.getName());
 
 
