@@ -31,7 +31,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/company/{id}:
+  /api/company/{companyId}:
     get:
       summary: Retrieve company info.
       tags:
@@ -40,11 +40,11 @@ paths:
       operationId: getCompanyById
       parameters:
         - in: path
-          name: id
+          name: companyId
           schema:
             type: integer
           required: true
-          description: all information about company Id =id
+          description: id that identifices a company.
       responses:
         '200':
           description: OK
@@ -93,7 +93,7 @@ paths:
 
         '405':
           description: method not allowed
-  /api/colony/{id}:
+  /api/colony/{companyId}:
     get:
       summary: Retrieve a colony's info.
       tags:
@@ -102,11 +102,11 @@ paths:
       operationId: getColonyById
       parameters:
         - in : path
-          name: id
+          name: companyId
           schema:
             type: integer
           required: true
-          description : all information about colony Id =id
+          description : id that identifices a company.
       responses:
         '200':
           description: OK
@@ -133,7 +133,7 @@ paths:
                         format: double
                   resources:
                     $ref: '#/components/schemas/Resource'
-  /api/company/{id}/transport:
+  /api/company/{companyId}/transport:
     get:
       tags:
         - Companies
@@ -141,7 +141,7 @@ paths:
       description: Returns transports from and to a company.
       operationId: getCompanyTransport
       parameters:
-        - name: id
+        - name: companyId
           in: path
           required: true
           description: Id that identifies a company.
@@ -176,7 +176,7 @@ paths:
         '505':
           description: "Internal Server error"
 
-  /api/company/{id}/resource:
+  /api/company/{companyId}/resource:
     get:
       tags:
         - Companies
@@ -184,7 +184,7 @@ paths:
       description: Return resources of a company based on it's id.
       operationId: getCompanyResources
       parameters:
-        - name: id
+        - name: companyId
           in: path
           required: true
           description: Id that identifies a company.
@@ -215,7 +215,7 @@ paths:
       description: Add a resource to a specified company
       operationId: addResourceToCompany
       parameters:
-        - name: id
+        - name: companyId
           in: path
           required: true
           description: Id that identifies a company.
@@ -259,7 +259,7 @@ paths:
       description: Edit the resource of a company
       operationId: editResourceCompany
       parameters:
-        - name: id
+        - name: companyId
           in: path
           required: true
           description: Id that identifies a company.
