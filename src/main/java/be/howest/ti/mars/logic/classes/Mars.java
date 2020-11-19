@@ -1,5 +1,7 @@
 package be.howest.ti.mars.logic.classes;
 
+import io.vertx.core.json.JsonArray;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,5 +20,21 @@ public class Mars {
 
     public Set<Colony> getColonies() {
         return colonies;
+    }
+
+    public JsonArray getColoniesAsJSON(){
+        JsonArray json = new JsonArray();
+        for (Colony colony: this.colonies){
+            json.add(colony.toJSON());
+        }
+        return json;
+    }
+
+    public JsonArray getTransportAsJSON(){
+        JsonArray json = new JsonArray();
+        for (Shipment shipment: this.shipments){
+            json.add(shipment.toJSON());
+        }
+        return json;
     }
 }
