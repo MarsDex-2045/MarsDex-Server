@@ -5,6 +5,7 @@ import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
 import be.howest.ti.mars.logic.classes.Resource;
+import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import be.howest.ti.mars.logic.exceptions.LogicException;
 import org.h2.tools.Server;
 
@@ -90,8 +91,14 @@ public class MarsRepository {
                 }
                 return company;
             }
-        } catch (SQLException throwables) {
-            LOGGER.log(Level.SEVERE, throwables.toString());
+        } catch (SQLException ex) {
+            LOGGER.log(Level.INFO, "Potential empty company detected; Running Existence check.");
+            if (existanceCheck(companyId)){
+                // This should return the company, but without resources
+            }
+            else {
+                throw new IdentifierException("Faulty Company ID");
+            }
         }
         throw new LogicException();
     }
@@ -103,5 +110,10 @@ public class MarsRepository {
                 rs.getDouble("PRICE"),
                 rs.getDouble("WEIGHT"),
                 new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
+    }
+
+    private boolean existanceCheck(int companyId){
+        // This should contain logic that decides if the company exists in the H2 DB.
+        return true;
     }
 }
