@@ -4,10 +4,14 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.classes.Resource;
+import be.howest.ti.mars.logic.exceptions.LogicException;
 import org.h2.tools.Server;
 
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -80,11 +84,24 @@ public class MarsRepository {
                                             rs.getString("PASSWORD"),
                                             rs.getString("EMAIL"),
                                             rs.getString("PHONE"));
-                LOGGER.log(Level.INFO, () -> company.toJSON().toString());
+                company.addResource(convertToResource(rs));
+                while (rs.next()){
+                    company.addResource(convertToResource(rs));
+                }
+                return company;
             }
         } catch (SQLException throwables) {
             LOGGER.log(Level.SEVERE, throwables.toString());
         }
-        return new Company(1, "ne", "pass", "psaa@gmail.com", "+232323232");
+        throw new LogicException();
+    }
+
+    private Resource convertToResource(ResultSet rs) throws SQLException{
+        LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
+        return new Resource(rs.getInt("RESOURCE_ID"),
+                rs.getString("RESOURCE_NAME"),
+                rs.getDouble("PRICE"),
+                rs.getDouble("WEIGHT"),
+                new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
     }
 }

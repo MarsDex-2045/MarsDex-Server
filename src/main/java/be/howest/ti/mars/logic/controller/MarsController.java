@@ -22,11 +22,9 @@ public class MarsController {
         return json;
     }
 
-    public JsonArray getCompanyResources(String idString) {
-        JsonArray res = new JsonArray();
+    public JsonObject getCompanyResources(String idString) {
         int id = Integer.parseInt(idString);
-        MarsRepository.getInstance().getCompany(id);
-        return res;
+        return MarsRepository.getInstance().getCompany(id).allResourcesToJSONObject();
     }
 
     public Object getCompanyById(String id) {
