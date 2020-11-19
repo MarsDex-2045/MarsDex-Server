@@ -14,6 +14,11 @@ public class Mars {
         this.shipments = new HashSet<>();
     }
 
+    public Mars(Set<Colony> colonies, Set<Shipment> shipments){
+        this.colonies = colonies;
+        this.shipments = shipments;
+    }
+
     public Set<Shipment> getShipments() {
         return shipments;
     }

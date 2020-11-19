@@ -86,4 +86,9 @@ class TestData {
         res[2] = new Shipment(2, generateColonies()[0], generateColonies()[2], resources);
         return res;
     }
+
+    protected static Mars generateMars(){
+        return new Mars(Set.of(generateColonies()[0], generateColonies()[2]),
+                        Set.of(generateShipments()[0], generateShipments()[2]));
+    }
 }
