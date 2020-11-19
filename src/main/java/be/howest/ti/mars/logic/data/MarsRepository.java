@@ -6,7 +6,6 @@ import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
 import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
-import be.howest.ti.mars.logic.exceptions.LogicException;
 import org.h2.tools.Server;
 
 
@@ -93,14 +92,8 @@ public class MarsRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.INFO, "Potential empty company detected; Running Existence check.");
-            if (existanceCheck(companyId)){
-                // This should return the company, but without resources
-            }
-            else {
-                throw new IdentifierException("Faulty Company ID");
-            }
+            return existenceCheck(companyId);
         }
-        throw new LogicException();
     }
 
     private Resource convertToResource(ResultSet rs) throws SQLException{
@@ -112,8 +105,21 @@ public class MarsRepository {
                 new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
     }
 
-    private boolean existanceCheck(int companyId){
-        // This should contain logic that decides if the company exists in the H2 DB.
-        return true;
+    private Company existenceCheck(int companyId){
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)){
+            stmt.setInt(1, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                rs.next();
+                return new Company(rs.getInt("ID"),
+                                    rs.getString("NAME"),
+                                    rs.getString("PASSWORD"),
+                                    rs.getString("EMAIL"),
+                                    rs.getString("PHONE"));
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.INFO, "Check ended: There are no companies with the given ID");
+            throw new IdentifierException("Faulty Company ID");
+        }
     }
 }

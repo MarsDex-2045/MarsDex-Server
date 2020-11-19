@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 class H2Statements {
     protected static final String H2_GET_COLONIES = "SELECT * FROM MARSDEX.COLONIES";
     protected static final String H2_GET_COMPANY_FULL = h2StatementCompanyFull();
+    protected static final String H2_GET_COMPANY_SIMPLE = "SELECT * FROM MARSDEX.COMPANIES WHERE ID = ?";
     private H2Statements() {
     }
 
