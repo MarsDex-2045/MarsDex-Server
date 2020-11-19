@@ -7,7 +7,7 @@ class H2Statements {
     }
 
     private static String h2StatementCompanyFull(){
-        return "SELECT C.ID AS COMPANY_ID, C.NAME AS COMPANY_NAME, C.EMAIL, C.PHONE, " +
+        return "SELECT C.ID AS COMPANY_ID, C.NAME AS COMPANY_NAME, C.PASSWORD, C.EMAIL, C.PHONE, " +
                 "R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, R.PRICE, CR.WEIGHT, CR.ADDED_TIMESTAMP " +
                 "FROM MARSDEX.COMPANIES C " +
                 "JOIN MARSDEX.COMPANIES_RESOURCES CR ON C.ID = CR.COMPANY_ID " +

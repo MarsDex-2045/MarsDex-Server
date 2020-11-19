@@ -75,8 +75,8 @@ public class MarsRepository {
             stmt.setInt(1, companyId);
             try(ResultSet rs = stmt.executeQuery()){
                 rs.next();
-                Company company = new Company(rs.getInt(1),
-                                            rs.getString(2),
+                Company company = new Company(rs.getInt("COMPANY_ID"),
+                                            rs.getString("COMPANY_NAME"),
                                             rs.getString("PASSWORD"),
                                             rs.getString("EMAIL"),
                                             rs.getString("PHONE"));
