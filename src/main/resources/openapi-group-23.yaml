@@ -14,14 +14,10 @@ tags:
     description: All endpoints relating to colony data.
   - name: Companies
     description: All endpoints relating to company data.
-  - name: Utility
-    description: Endpoints that are used for testing purposes exclusively
 
 paths:
   /api/message:
     get:
-      tags:
-        - Utility
       description: Get a nice message
       operationId: getMessage
       responses:
@@ -42,7 +38,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: integer
+            type: string
           required: true
           description: all information about company Id =id
       responses:
@@ -56,20 +52,15 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: integer
-                      example: 56
+                      type: string
                     colony:
                       type: string
-                      example: "Jamerson's Landing"
                     name:
                       type: string
-                      example: "MarsDex"
                     email:
                       type: string
-                      example: "marsdex@mars.com"
                     phoneNumber:
                       type: string
-                      example: "+324561772"
         '404':
           description: Id not found
         '500':
@@ -104,7 +95,7 @@ paths:
         - in : path
           name: id
           schema:
-            type: integer
+            type: string
           required: true
           description : all information about colony Id =id
       responses:
@@ -116,7 +107,8 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: integer
+                    type: string
+                    format: uuid
                   name:
                     type: string
                   location:
@@ -124,13 +116,13 @@ paths:
                     properties:
                       longitude:
                         type: number
-                        format: double
+                        format: float
                       latitude:
                         type: number
-                        format: double
+                        format: float
                       altitude:
                         type: number
-                        format: double
+                        format: float
                   resources:
                     $ref: '#/components/schemas/Resource'
   /api/company/{id}/transport:
@@ -158,17 +150,20 @@ paths:
                   type: object
                   properties:
                     shippingId:
-                      type: integer
+                      type: string
+                      format: uuid
                     status:
                       $ref: '#/components/schemas/Status'
                     resources:
                       $ref: '#/components/schemas/Resource'
                     sendTime:
-                     $ref: '#/components/schemas/Time'
+                      type: string
+                      format: date-time
                     sender:
                       $ref: '#/components/schemas/Colony'
                     recieveTime:
-                      $ref: '#/components/schemas/Time'
+                      type: string
+                      format: date-time
                     reciever:
                       $ref: '#/components/schemas/Colony'
         '404':
@@ -189,7 +184,7 @@ paths:
           required: true
           description: Id that identifies a company.
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Returns all company's resources in a JSON Array
@@ -201,7 +196,7 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: integer
+                      type: string
                     resources:
                       $ref: '#/components/schemas/Resource'
         '404':
@@ -220,7 +215,7 @@ paths:
           required: true
           description: Id that identifies a company.
           schema:
-            type: integer
+            type: string
       requestBody:
         description: Define the resource's name & weight
         required: true
@@ -234,13 +229,9 @@ paths:
                 weight:
                   type: number
                   format: float
-                price:
-                  type: number
-                  format: float
             example:
               - name: Platinum
                 weight: 3050.40
-                price: 22.235
       responses:
         '201':
           description: Resource has been created and added
@@ -257,14 +248,14 @@ paths:
         - Companies
       summary: Edit a resource
       description: Edit the resource of a company
-      operationId: editResourceCompany
+      operationId: editResourceOfCompany
       parameters:
         - name: id
           in: path
           required: true
           description: Id that identifies a company.
           schema:
-            type: integer
+            type: string
       requestBody:
         description: Define the resource's name & weight
         required: true
@@ -278,20 +269,33 @@ paths:
                 weight:
                   type: number
                   format: float
-                price:
-                  type: number
-                  format: float
-              example:
-                - name: Platinum
-                  weight: 3050.40
-                  price: 22.235
       responses:
-        '200':
+        '203':
           description: Resource has been altered
         '404':
           description: Resource or Company could not be found
         '413':
           description: The resource's too big or has too many decimals
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Companies
+      summary: Edit a resource
+      description: Edit the resource of a company
+      operationId: DeleteResourceOfCompany
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id that identifies a company.
+          schema:
+            type: string
+      responses:
+        '203':
+          description: Resource has been deleted
+        '404':
+          description: Resource or Company could not be found
         '500':
           description: Internal Server Error
   /api/company:
@@ -321,7 +325,7 @@ paths:
                   format: password
               example:
                 - name: "MarsDex"
-                  colony: "Bova Point"
+                  Colony: "Bova Point"
                   email: MarsDex@mars.com
                   password: ILoveIron
       responses:
@@ -335,7 +339,8 @@ paths:
                   processed:
                     type: boolean
                   id:
-                    type: integer
+                    type: string
+                    format: uuid
         '409':
           description: "The e-mail's already in use"
         '500':
@@ -348,24 +353,23 @@ components:
         name:
           type: string
         weight:
-          type: number
-          format: double
+          type: integer
         added:
           type: string
           format: date
-        price:
-          type: number
-          format: double
+        rarity:
+          type: integer
       example:
         - name: "gold"
-          weight: 200.45
+          weight: 200
           added: "2052-01-20"
-          price: 20.221
+          rarity: 0.05
     Company:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         colony:
           type: string
         name:
@@ -374,7 +378,7 @@ components:
           type: string
           format: email
       example:
-        - id: 5
+        - id: "27434bff-b6b2-4333-9ea2-e0bd7a7dd17e"
           name: "MarsDex"
           Colony: "Bova Point"
           email: MarsDex@mars.com
@@ -389,35 +393,17 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          example: 89
+          type: string
         name:
           type: string
-          example: "Bova Point"
         storage:
           type: number
-          example: 150000
         location:
           type: object
           properties:
             longitude:
               type: number
-              example: 40.236179
             latitude:
               type: number
-              example: -70.253211
             altitude:
               type: number
-              example: 150
-    Time:
-      type: object
-      nullable: true
-      properties:
-        date:
-          type: string
-          format: date
-          example: "2050-11-1"
-        time:
-          type: string
-          format: time
-          example: "22:22"
