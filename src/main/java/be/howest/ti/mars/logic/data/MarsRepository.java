@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.exceptions.LogicException;
 import org.h2.tools.Server;
 
 
@@ -68,15 +69,24 @@ public class MarsRepository {
         return res;
     }
 
-    public void getColony(int id){
+    public Colony getColony(int id){
         try(Connection con = DriverManager.getConnection(this.url, this.username, this.password);
             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()){
-                LOGGER.log(Level.INFO, "Made it!");
+                return transferToColony(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        throw new LogicException();
+    }
+
+    private Colony transferToColony(ResultSet rs) throws SQLException{
+        rs.next();
+        int cId = rs.getInt("COLONY_ID");
+        String cName = rs.getString("COLONY_NAME");
+        Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
+        return new Colony(cId, cName, location);
     }
 }
