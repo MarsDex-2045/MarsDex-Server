@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.classes;
 import io.vertx.core.json.JsonArray;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +54,17 @@ class MarsTest {
         LOGGER.log(Level.INFO, marsArray.toString());
         assertTrue(marsArray.contains(refArray.getJsonObject(0)));
         assertTrue(marsArray.contains(refArray.getJsonObject(1)));
+    }
+
+    @Test
+    void newMars() {
+        Mars mars = new Mars();
+
+        Set<Colony> marsColonies = mars.getColonies();
+        Set<Shipment> marsShipments = mars.getShipments();
+
+        assertEquals(marsColonies, new HashSet<>());
+        assertEquals(marsShipments, new HashSet<>());
     }
 
     private JsonArray generateRefShipmentsArray() {
