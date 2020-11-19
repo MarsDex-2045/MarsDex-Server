@@ -1,11 +1,10 @@
 package be.howest.ti.mars.logic.data;
 
+
 import org.h2.tools.Server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
@@ -44,11 +43,5 @@ public class MarsRepository {
         INSTANCE.dbWebConsole = Server.createWebServer(
                 "-ifNotExists",
                 "-webPort", String.valueOf(console)).start();
-    }
-
-    public void buildDB() throws SQLException{
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password)) {
-            LOGGER.log(Level.INFO, "Connection with DB established.");
-        }
     }
 }

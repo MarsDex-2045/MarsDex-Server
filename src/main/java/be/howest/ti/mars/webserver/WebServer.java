@@ -50,12 +50,6 @@ public class WebServer extends AbstractVerticle {
                 configureDatabase(dbProperties);
                 int port = properties.getJsonObject("http").getInteger("port");
                 LOGGER.info(String.format("Starting web server on port %s ", port));
-                try {
-                    MarsRepository.getInstance().buildDB();
-                } catch (SQLException throwables) {
-                    LOGGER.log(Level.WARNING, "Not able to build DB; Running without filled DB");
-                    throwables.printStackTrace();
-                }
                 configureOpenApiServer(promise, OPEN_API_SPEC, port);
             }
         });
