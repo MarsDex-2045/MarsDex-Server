@@ -63,8 +63,20 @@ public class MarsRepository {
                 res.add(colonyInfo);
             }
         } catch (SQLException throwables) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query.");
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query; Returning empty array");
         }
         return res;
+    }
+
+    public void getColony(int id){
+        try(Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+            PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()){
+                LOGGER.log(Level.INFO, "Made it!");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
