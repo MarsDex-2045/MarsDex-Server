@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static be.howest.ti.mars.logic.classes.TestData.generateNotifications;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationTest {
@@ -35,13 +36,5 @@ class NotificationTest {
         LOGGER.log(Level.INFO, res.toString());
         assertEquals("Test Message",res.getString("heading"));
         assertEquals("Test Message", res.getString("message"));
-    }
-
-    private Notification[] generateNotifications(){
-        Notification[] res = new Notification[3];
-        res[0] = new Notification(1, "Test Message", "Test Message");
-        res[1] = new Notification(2, "Test Message", "Test Message");
-        res[2] = new Notification(1, "Not a Test Message", "Not a Test Message");
-        return res;
     }
 }

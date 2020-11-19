@@ -56,5 +56,3 @@ public class Colony {
         return Objects.hash(id, location, name);
     }
 }
-
-

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static be.howest.ti.mars.logic.classes.TestData.generateLocations;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LocationTest {
@@ -13,28 +14,28 @@ class LocationTest {
 
     @Test
     void getLongitude() {
-        Location[] locations = initLocations();
+        Location[] locations = generateLocations();
         Location loc1 = locations[0];
         assertEquals(loc1.getLongitude(),15.666);
     }
 
     @Test
     void getLatitude() {
-        Location[] locations = initLocations();
+        Location[] locations = generateLocations();
         Location loc1 = locations[0];
         assertEquals(loc1.getLatitude(),144.444);
     }
 
     @Test
     void getAltitude() {
-        Location[] locations = initLocations();
+        Location[] locations = generateLocations();
         Location loc1 = locations[0];
         assertEquals(loc1.getAltitude(),2645.333);
     }
 
     @Test
     void testEquals() {
-        Location[] locations = initLocations();
+        Location[] locations = generateLocations();
 
         assertEquals(locations[2], locations[1]);
         assertNotEquals(locations[0],locations[2]);
@@ -42,7 +43,7 @@ class LocationTest {
 
     @Test
     void testHashCode() {
-        Location[] locations = initLocations();
+        Location[] locations = generateLocations();
 
         assertEquals(locations[2], locations[1]);
         assertEquals(locations[2].hashCode(), locations[1].hashCode());
@@ -50,7 +51,7 @@ class LocationTest {
 
     @Test
     void testJSON(){
-        Location[] locations = initLocations();
+        Location[] locations = generateLocations();
         JsonObject json = locations[0].toJson();
 
         LOGGER.log(Level.INFO, json.toString());
@@ -59,13 +60,5 @@ class LocationTest {
         assertEquals(2645.333, json.getDouble("altitude"));
     }
 
-    private Location[] initLocations(){
-        Location[] res = new Location[3];
 
-        res[0] = new Location(15.666, 144.444,2645.333);
-        res[1] = new Location(17.666, 144.444,2645.333);
-        res[2] = new Location(17.666, 144.444,2645.333);
-
-        return res;
-    }
 }

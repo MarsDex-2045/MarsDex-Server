@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static be.howest.ti.mars.logic.classes.TestData.generateResources;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTest {
@@ -40,15 +41,5 @@ class ResourceTest {
         assertEquals(200.234, json.getDouble("price"));
         assertEquals("2052-11-13", json.getString("added"));
         assertEquals(200.234, json.getDouble("price"));
-    }
-
-    private Resource[] generateResources(){
-        Resource[] res = new Resource[3];
-        Calendar date1 = new Calendar.Builder().setDate(2052, 11, 13).build();
-        Calendar date2 = new Calendar.Builder().setDate(2052, 11, 28).build();
-        res[0] = new Resource(1, "Panite", 200.234, 2500, date1);
-        res[1] = new Resource(2, "Baurite", 145.666, 243, date2);
-        res[2] = new Resource(1, "Panite", 200.234, 2500, date1);
-        return res;
     }
 }
