@@ -73,6 +73,9 @@ public class MarsRepository {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
             PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
             stmt.setInt(1, companyId);
+            try(ResultSet rs = stmt.executeQuery()){
+                LOGGER.log(Level.INFO, "Made it!");
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
