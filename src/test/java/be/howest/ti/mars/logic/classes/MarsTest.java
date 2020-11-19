@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonArray;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static be.howest.ti.mars.logic.classes.TestData.*;
@@ -35,13 +36,30 @@ class MarsTest {
         Mars mars = generateMars();
         JsonArray refArray = generateRefColoniesArray();
 
-        assertTrue(mars.getColoniesAsJSON().contains(refArray.getJsonObject(0)));
-        assertTrue(mars.getColoniesAsJSON().contains(refArray.getJsonObject(1)));
+        JsonArray marsArray = mars.getColoniesAsJSON();
+
+        LOGGER.log(Level.INFO, marsArray.toString());
+        assertTrue(marsArray.contains(refArray.getJsonObject(0)));
+        assertTrue(marsArray.contains(refArray.getJsonObject(1)));
     }
 
     @Test
     void getShipmentsAsJSON() {
+        Mars mars = generateMars();
+        JsonArray refArray = generateRefShipmentsArray();
 
+        JsonArray marsArray = mars.getShipmentsAsJSON();
+
+        LOGGER.log(Level.INFO, marsArray.toString());
+        assertTrue(marsArray.contains(refArray.getJsonObject(0)));
+        assertTrue(marsArray.contains(refArray.getJsonObject(1)));
+    }
+
+    private JsonArray generateRefShipmentsArray() {
+        JsonArray res = new JsonArray();
+        res.add(generateShipments()[0].toJSON());
+        res.add(generateShipments()[2].toJSON());
+        return res;
     }
 
     private JsonArray generateRefColoniesArray() {
