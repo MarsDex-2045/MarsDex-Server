@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Mars {
-    Set<Shipment> shipments;
-    Set<Colony> colonies;
+    private final Set<Shipment> shipments;
+    private final Set<Colony> colonies;
 
     public Mars(){
         this.colonies = new HashSet<>();
