@@ -2,7 +2,11 @@ package be.howest.ti.mars.logic.data;
 
 import org.h2.tools.Server;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -16,6 +20,7 @@ To make this class useful, please complete it with the topics seen in the module
  */
 public class MarsRepository {
     private static final MarsRepository INSTANCE = new MarsRepository();
+    private static final Logger LOGGER = Logger.getLogger(MarsRepository.class.getName());
     private Server dbWebConsole;
     private String username;
     private String password;
@@ -39,5 +44,11 @@ public class MarsRepository {
         INSTANCE.dbWebConsole = Server.createWebServer(
                 "-ifNotExists",
                 "-webPort", String.valueOf(console)).start();
+    }
+
+    public void buildDB() throws SQLException{
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password)) {
+            LOGGER.log(Level.INFO, "Connection with DB established.");
+        }
     }
 }
