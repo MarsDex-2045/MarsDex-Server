@@ -2,6 +2,7 @@ package be.howest.ti.mars.logic.data;
 
 
 import be.howest.ti.mars.logic.classes.Colony;
+import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
 import org.h2.tools.Server;
 
@@ -66,5 +67,15 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query.");
         }
         return res;
+    }
+
+    public Company getCompany(int companyId){
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+            PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
+            stmt.setInt(1, companyId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return new Company(1, "ne", "pass", "psaa@gmail.com", "+232323232");
     }
 }
