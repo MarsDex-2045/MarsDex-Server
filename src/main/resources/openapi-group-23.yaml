@@ -294,6 +294,7 @@ paths:
           description: The resource's too big or has too many decimals
         '500':
           description: Internal Server Error
+  /api/company/{companyId}/resource/{resourceId}:
     delete:
       tags:
         - Companies
@@ -301,12 +302,18 @@ paths:
       description: Remove the resource of a company
       operationId: deleteResourceOfCompany
       parameters:
-        - name: id
+        - name: companyId
           in: path
           required: true
           description: Id that identifies a company.
           schema:
-            type: string
+            type: integer
+        - name: resourceId
+          in: path
+          required: true
+          description: Id that identifies a resource of a company.
+          schema:
+            type: integer
       responses:
         '203':
           description: Resource has been deleted
