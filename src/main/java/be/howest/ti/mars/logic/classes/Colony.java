@@ -37,6 +37,14 @@ public class Colony {
         return json;
     }
 
+    public JsonObject toShortJSON(){
+        JsonObject json = new JsonObject();
+        json.put("id", this.id)
+                .put("name", this.name)
+                .put("location", this.location.toJson());
+        return json;
+    }
+
     public Set<Company> getCompanies() {
         return companies;
     }
