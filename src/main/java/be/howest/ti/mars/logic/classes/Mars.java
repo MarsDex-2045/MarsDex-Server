@@ -30,12 +30,12 @@ public class Mars {
     public JsonArray getColoniesAsJSON(){
         JsonArray json = new JsonArray();
         for (Colony colony: this.colonies){
-            json.add(colony.toJSON());
+            json.add(colony.toShortJSON());
         }
         return json;
     }
 
-    public JsonArray getTransportAsJSON(){
+    public JsonArray getShipmentsAsJSON(){
         JsonArray json = new JsonArray();
         for (Shipment shipment: this.shipments){
             json.add(shipment.toJSON());

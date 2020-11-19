@@ -4,11 +4,15 @@ import io.vertx.core.json.JsonArray;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static be.howest.ti.mars.logic.classes.TestData.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MarsTest {
+    private static final Logger LOGGER = Logger.getLogger(MarsTest.class.getName());
+
 
     @Test
     void getShipments() {
@@ -28,17 +32,22 @@ class MarsTest {
 
     @Test
     void getColoniesAsJSON() {
+        Mars mars = generateMars();
+        JsonArray refArray = generateRefColoniesArray();
+
+        assertTrue(mars.getColoniesAsJSON().contains(refArray.getJsonObject(0)));
+        assertTrue(mars.getColoniesAsJSON().contains(refArray.getJsonObject(1)));
     }
 
     @Test
-    void getTransportAsJSON() {
+    void getShipmentsAsJSON() {
+
     }
 
-    private JsonArray generateRefArray() {
+    private JsonArray generateRefColoniesArray() {
         JsonArray res = new JsonArray();
-        Shipment[] shipments = generateShipments();
-        res.add(shipments[0]);
-        res.add(shipments[2]);
+        res.add(generateColonies()[0].toShortJSON());
+        res.add(generateColonies()[2].toShortJSON());
         return res;
     }
 }
