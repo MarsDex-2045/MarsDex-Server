@@ -281,8 +281,8 @@ paths:
     delete:
       tags:
         - Companies
-      summary: Edit a resource
-      description: Edit the resource of a company
+      summary: remove a resource
+      description: remove the resource of a company
       operationId: DeleteResourceOfCompany
       parameters:
         - name: id
