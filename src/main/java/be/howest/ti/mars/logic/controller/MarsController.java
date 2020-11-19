@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.data.MarsRepository;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -14,19 +15,11 @@ public class MarsController {
     }
 
     public JsonArray getColonies() {
-        JsonArray mock = new JsonArray();
-        for (int i = 1; i<20; i++){
-            JsonObject colony = new JsonObject();
-            colony.put("id", i);
-            colony.put("name", "V"+i);
-            JsonObject location = new JsonObject();
-            location.put("longitude", -74.006015);
-            location.put("latitude", 40.712728);
-            location.put("altitude", 69.420);
-            colony.put("location", location);
-            mock.add(colony);
-        }
-        return mock;
+        JsonArray json = new JsonArray();
+        MarsRepository.getInstance().getAllColonies().forEach(
+                colony -> json.add(colony.toShortJSON())
+        );
+        return json;
     }
 
     public JsonArray getCompanyResources(String id) {
