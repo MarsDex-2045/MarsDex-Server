@@ -15,8 +15,11 @@ public class MarsController {
     }
 
     public JsonArray getColonies() {
-        System.err.println(MarsRepository.getInstance().getAllColonies().toString());
-        return new JsonArray();
+        JsonArray json = new JsonArray();
+        MarsRepository.getInstance().getAllColonies().forEach(
+                colony -> json.add(colony.toShortJSON())
+        );
+        return json;
     }
 
     public JsonArray getCompanyResources(String id) {
