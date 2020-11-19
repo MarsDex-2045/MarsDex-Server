@@ -90,9 +90,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Colony'
-
-        '405':
-          description: method not allowed
+        '404':
+          description: Method not found
   /api/colony/{id}:
     get:
       summary: Retrieve a colony's info.
