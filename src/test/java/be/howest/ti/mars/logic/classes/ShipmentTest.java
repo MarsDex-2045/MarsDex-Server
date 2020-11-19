@@ -1,6 +1,5 @@
 package be.howest.ti.mars.logic.classes;
 
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
