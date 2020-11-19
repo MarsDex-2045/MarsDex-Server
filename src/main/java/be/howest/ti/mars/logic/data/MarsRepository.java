@@ -74,10 +74,16 @@ public class MarsRepository {
             PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
             stmt.setInt(1, companyId);
             try(ResultSet rs = stmt.executeQuery()){
-                LOGGER.log(Level.INFO, "Made it!");
+                rs.next();
+                Company company = new Company(rs.getInt(1),
+                                            rs.getString(2),
+                                            rs.getString("PASSWORD"),
+                                            rs.getString("EMAIL"),
+                                            rs.getString("PHONE"));
+                LOGGER.log(Level.INFO, () -> company.toJSON().toString());
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOGGER.log(Level.SEVERE, throwables.toString());
         }
         return new Company(1, "ne", "pass", "psaa@gmail.com", "+232323232");
     }
