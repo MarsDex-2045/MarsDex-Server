@@ -1,8 +1,18 @@
 package be.howest.ti.mars.logic.data;
 
+
+import be.howest.ti.mars.logic.classes.Colony;
+import be.howest.ti.mars.logic.classes.Location;
 import org.h2.tools.Server;
 
-import java.sql.SQLException;
+
+import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static be.howest.ti.mars.logic.data.H2Statements.*;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -16,6 +26,7 @@ To make this class useful, please complete it with the topics seen in the module
  */
 public class MarsRepository {
     private static final MarsRepository INSTANCE = new MarsRepository();
+    private static final Logger LOGGER = Logger.getLogger(MarsRepository.class.getName());
     private Server dbWebConsole;
     private String username;
     private String password;
@@ -39,5 +50,21 @@ public class MarsRepository {
         INSTANCE.dbWebConsole = Server.createWebServer(
                 "-ifNotExists",
                 "-webPort", String.valueOf(console)).start();
+    }
+
+    public Set<Colony> getAllColonies(){
+        Set<Colony> res = new HashSet<>();
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONIES);
+             ResultSet rs = stmt.executeQuery()){
+            while (rs.next()){
+                Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
+                Colony colonyInfo = new Colony(rs.getInt("ID"), rs.getString("NAME"), location);
+                res.add(colonyInfo);
+            }
+        } catch (SQLException throwables) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query.");
+        }
+        return res;
     }
 }

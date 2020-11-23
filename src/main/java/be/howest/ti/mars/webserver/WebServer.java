@@ -50,7 +50,6 @@ public class WebServer extends AbstractVerticle {
                 configureDatabase(dbProperties);
                 int port = properties.getJsonObject("http").getInteger("port");
                 LOGGER.info(String.format("Starting web server on port %s ", port));
-
                 configureOpenApiServer(promise, OPEN_API_SPEC, port);
             }
         });

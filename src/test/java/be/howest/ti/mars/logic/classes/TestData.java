@@ -1,5 +1,7 @@
 package be.howest.ti.mars.logic.classes;
 
+import be.howest.ti.mars.logic.data.MarsRepository;
+
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
