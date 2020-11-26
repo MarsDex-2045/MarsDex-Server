@@ -11,7 +11,7 @@ public class Company {
     private final String password;
     private final String email;
     private final String phone;
-    private String storage;
+    private int storage;
     private final Set<Resource> resources;
     private final Deque<Notification> notifications;
 
@@ -43,7 +43,18 @@ public class Company {
         this.phone = phone;
         this.resources = new HashSet<>();
         this.notifications = new LinkedList<>();
-        this.storage = null;
+        this.storage = 0;
+    }
+
+    public Company(int id, String name, String password, String email, String phone, int storage) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.resources = new HashSet<>();
+        this.notifications = new LinkedList<>();
+        this.storage = storage;
     }
     public boolean checkPassword(String givenPassword){
         return givenPassword.equals(this.password);

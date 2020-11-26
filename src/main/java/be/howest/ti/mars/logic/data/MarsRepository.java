@@ -184,11 +184,13 @@ public class MarsRepository {
     public Colony getColony(int id){
         try(Connection con = DriverManager.getConnection(this.url, this.username, this.password);
             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
+            String companyIdColumnName = "COMPANY_ID";
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()){
                 Colony colony = transferToColony(rs);
+                colony.addCompany(getCompany(rs.getInt(companyIdColumnName)));
                 while(rs.next()){
-                    colony.addCompany(getCompany(rs.getInt("COMPANY_ID")));
+                    colony.addCompany(getCompany(rs.getInt(companyIdColumnName)));
                 }
                 return colony;
             }
