@@ -101,7 +101,7 @@ public class MarsRepository {
 
 
     //rutger
-    private Map<Integer,Boolean> addCompany(String email, String name, String pwd, String phone, String colony) {
+    public Map<Integer,Boolean> addCompany(String email, String name, String pwd, String phone, String colony) {
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {

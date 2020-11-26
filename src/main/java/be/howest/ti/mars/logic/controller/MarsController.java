@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Map;
 
 public class MarsController {
 
@@ -65,10 +66,9 @@ public class MarsController {
             JsonArray colonies = getColonies();
             json.put("sender", colonies.getValue(0));
             LocalDateTime receiveData = LocalDateTime.of(2052, 11, 5, 22, 22);
-            if(i % 2 == 0){
+            if (i % 2 == 0) {
                 json.putNull("receiveTime");
-            }
-            else{
+            } else {
                 JsonObject receiveTime = new JsonObject();
                 receiveTime.put("date", receiveData.getYear() + "-" + receiveData.getMonthValue() + "-" + receiveData.getDayOfMonth());
                 receiveTime.put("time", receiveData.getHour() + ":" + receiveData.getMinute());
@@ -80,10 +80,11 @@ public class MarsController {
         return transports;
     }
 
-    public JsonObject makeCompany() {
-        JsonObject json = new JsonObject();
-        json.put("processed", true);
-        json.put("id", 2);
-        return json;
+    public JsonObject makeCompany(String name, String password, String phone, String email, String colony) {
+        Map<Integer,Boolean> res =     MarsRepository.getInstance().addCompany(email, name, password, phone, colony);
+        JsonObject res2 = new JsonObject();
+        res2.put("Boolean",res.values());
+        res2.put("CompanyId",res.keySet());
+        return res2;
     }
 }
