@@ -100,7 +100,7 @@ public class MarsRepository {
 
     //rutger
     private void addCompany(String email, String name, String pwd, String phone, String colony) {
-        int companyid;
+        int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, "name");
@@ -110,19 +110,20 @@ public class MarsRepository {
             prep.executeUpdate();
             try (ResultSet autoId = prep.getGeneratedKeys()) {
                 autoId.next();
-                companyid = (autoId.getInt(1));
+                companyId = (autoId.getInt(1));
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new RuntimeException("A database error occured.");
         }
+        addColonyLink(companyId,getColonyIdByName(name));
     }
 
-    private void addcolonyIDCompanyId(int companyid, int colonyId) {
+    private void addColonyLink(int companyId, int colonyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANYIDCOLONYID)) {
             prep.setInt(1, colonyId);
-            prep.setInt(2, companyid);
+            prep.setInt(2, companyId);
             prep.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
