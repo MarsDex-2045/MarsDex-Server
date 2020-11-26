@@ -11,9 +11,7 @@ import org.h2.tools.Server;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,7 +97,7 @@ public class MarsRepository {
 
 
     //rutger
-    private void addCompany(String email, String name, String pwd, String phone, String colony) {
+    private Map<Integer,Boolean> addCompany(String email, String name, String pwd, String phone, String colony) {
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
@@ -117,6 +115,9 @@ public class MarsRepository {
             throw new RuntimeException("A database error occured.");
         }
         addColonyLink(companyId,getColonyIdByName(name));
+        Map<Integer,Boolean> res = new HashMap<>();
+        res.put(companyId,true);
+        return res;
     }
 
     private void addColonyLink(int companyId, int colonyId) {
