@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -80,8 +81,8 @@ public class MarsController {
         return transports;
     }
 
-    public JsonObject makeCompany(String name, String password, String phone, String email, String colony) {
-        Map<Integer,Boolean> res =     MarsRepository.getInstance().addCompany(email, name, password, phone, colony);
+    public JsonObject makeCompany(Company company) {
+        Map<Integer,Boolean> res =     MarsRepository.getInstance().addCompany(company);
         JsonObject res2 = new JsonObject();
         res2.put("Boolean",res.values());
         res2.put("CompanyId",res.keySet());

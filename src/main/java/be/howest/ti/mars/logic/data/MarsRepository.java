@@ -103,7 +103,7 @@ public class MarsRepository {
 
 
     
-    private Map<Integer,Boolean> addCompany(Company company ){
+    public Map<Integer,Boolean> addCompany(Company company ){
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
