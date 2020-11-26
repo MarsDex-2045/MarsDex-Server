@@ -35,7 +35,7 @@ public class Company {
         return phone;
     }
 
-    public Company(int id, String name, String password, String email, String phone) {
+    public Company(int id, String name, String password, String email,String phone) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -56,30 +56,31 @@ public class Company {
         this.notifications = new LinkedList<>();
         this.storage = storage;
     }
-    public boolean checkPassword(String givenPassword){
+
+    public boolean checkPassword(String givenPassword) {
         return givenPassword.equals(this.password);
     }
 
-    public void addResource(Resource resource){
+    public void addResource(Resource resource) {
         this.resources.add(resource);
     }
 
-    public JsonObject allResourcesToJSONObject(){
+    public JsonObject allResourcesToJSONObject() {
         JsonObject json = new JsonObject();
         json.put("id", this.id);
         json.put("resources", allResourcesToJSONArray());
         return json;
     }
 
-    protected JsonArray allResourcesToJSONArray(){
+    protected JsonArray allResourcesToJSONArray() {
         JsonArray resourcesList = new JsonArray();
-        for (Resource resource : this.resources){
+        for (Resource resource : this.resources) {
             resourcesList.add(resource.toJSON());
         }
         return resourcesList;
     }
 
-    public JsonObject toJSON(){
+    public JsonObject toJSON() {
         JsonObject json = new JsonObject();
         json.put("id", this.id)
                 .put("name", this.name)

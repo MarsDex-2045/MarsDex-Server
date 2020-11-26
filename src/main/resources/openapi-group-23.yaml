@@ -353,6 +353,7 @@ paths:
                   colony: "Bova Point"
                   email: MarsDex@mars.com
                   password: ILoveIron
+                  phone: "000064"
       responses:
         '201':
           description: "Created Company"

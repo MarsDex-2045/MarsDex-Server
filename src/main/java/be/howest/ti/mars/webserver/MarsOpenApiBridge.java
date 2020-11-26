@@ -46,7 +46,7 @@ class MarsOpenApiBridge {
         String password = body.getString("password");
         String phone = body.getString("phone");
         Company company = new Company(0,name,password,email,phone);
-        return controller.makeCompany(company);
+        return controller.makeCompany(company,colony);
     }
 
     public Boolean editCompanyResources(RoutingContext ctx) {

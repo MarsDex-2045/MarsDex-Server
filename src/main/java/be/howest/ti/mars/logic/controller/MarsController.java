@@ -83,8 +83,8 @@ public class MarsController {
 
 
 
-    public JsonObject makeCompany(Company company) {
-        Map<Integer,Boolean> res = MarsRepository.getInstance().addCompany(company);
+    public JsonObject makeCompany(Company company,String colonyName) {
+        Map<Integer,Boolean> res = MarsRepository.getInstance().addCompany(company,colonyName);
         JsonObject returnBody= new JsonObject();
         returnBody.put("company-id",company.getId()).put("succeeded",true);
         return returnBody;

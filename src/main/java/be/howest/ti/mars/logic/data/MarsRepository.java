@@ -9,8 +9,6 @@ import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
 
-import java.io.InvalidObjectException;
-import java.security.spec.InvalidParameterSpecException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -102,8 +100,7 @@ public class MarsRepository {
     }
 
 
-    
-    public Map<Integer,Boolean> addCompany(Company company){
+    public Map<Integer, Boolean> addCompany(Company company, String colonyName) {
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
@@ -120,9 +117,9 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new IllegalArgumentException("Object is fault");
         }
-        addColonyLink(companyId,getColonyIdByName(company.getName()));
-        Map<Integer,Boolean> res = new HashMap<>();
-        res.put(companyId,true);
+        addColonyLink(companyId, getColonyIdByName(colonyName));
+        Map<Integer, Boolean> res = new HashMap<>();
+        res.put(companyId, true);
         return res;
     }
 
@@ -140,17 +137,8 @@ public class MarsRepository {
 
 
     private int getColonyIdByName(String colony) {
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-             PreparedStatement prep = con.prepareStatement(H2_GET_ColonyIDByName)) {
-            {
-                prep.setString(1, colony);
-                ResultSet rs = prep.executeQuery();
-                return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new IdentifierException("Faulty Colony name");
-        }
+
+        return 3;
     }
 
 
@@ -181,15 +169,15 @@ public class MarsRepository {
         }
     }
 
-    public Colony getColony(int id){
-        try(Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-            PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
+    public Colony getColony(int id) {
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)) {
             String companyIdColumnName = "COMPANY_ID";
             stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 Colony colony = transferToColony(rs);
                 colony.addCompany(getCompany(rs.getInt(companyIdColumnName)));
-                while(rs.next()){
+                while (rs.next()) {
                     colony.addCompany(getCompany(rs.getInt(companyIdColumnName)));
                 }
                 return colony;
@@ -200,7 +188,7 @@ public class MarsRepository {
         }
     }
 
-    private Colony transferToColony(ResultSet rs) throws SQLException{
+    private Colony transferToColony(ResultSet rs) throws SQLException {
         rs.next();
         int cId = rs.getInt("COLONY_ID");
         String cName = rs.getString("COLONY_NAME");
