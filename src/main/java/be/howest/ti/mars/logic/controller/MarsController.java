@@ -81,10 +81,12 @@ public class MarsController {
         return transports;
     }
 
+
+
     public JsonObject makeCompany(Company company) {
         Map<Integer,Boolean> res = MarsRepository.getInstance().addCompany(company);
         JsonObject returnBody= new JsonObject();
-       returnBody.put("company-id",company.getId()).put("succeeded",true);
+        returnBody.put("company-id",company.getId()).put("succeeded",true);
         return returnBody;
     }
 }

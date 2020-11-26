@@ -1,5 +1,6 @@
 package be.howest.ti.mars.webserver;
 
+import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.controller.MarsController;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -35,8 +36,15 @@ class MarsOpenApiBridge {
         return controller.getColonyById(ctx.request().getParam("colonyId"));
     }
 
-    public Object makeCompany(RoutingContext ctx) {
-        return controller.makeCompany();
+    public JsonObject makeCompany(RoutingContext ctx) {
+        JsonObject body = ctx.getBodyAsJson();
+        String name = body.getString("name");
+        String colony = body.getString("colony");
+        String email = body.getString("email");
+        String password = body.getString("password");
+        String phone = body.getString("phone");
+        Company company = new Company(0,name,password,email,phone);
+        return controller.makeCompany(company);
     }
 
     public Boolean editCompanyResources(RoutingContext ctx) {

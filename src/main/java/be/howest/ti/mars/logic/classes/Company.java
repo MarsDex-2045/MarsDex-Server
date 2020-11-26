@@ -45,7 +45,6 @@ public class Company {
         this.notifications = new LinkedList<>();
         this.storage = null;
     }
-
     public boolean checkPassword(String givenPassword){
         return givenPassword.equals(this.password);
     }
