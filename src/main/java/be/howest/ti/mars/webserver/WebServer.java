@@ -164,16 +164,15 @@ public class WebServer extends AbstractVerticle {
 
     private CorsHandler createCorsHandler() {
         return CorsHandler.create(".*.")
-                .allowedHeader("Access-Control-Allow-Headers: Authorization")
                 .allowedHeader("x-requested-with")
-                .allowedHeader("Access-Control-Allow-Credentials")
                 .allowedHeader("Access-Control-Allow-Origin")
                 .allowedHeader("origin")
                 .allowedHeader("Content-Type")
                 .allowedHeader("accept")
-                .allowCredentials(true)
                 .allowedMethod(HttpMethod.GET)
                 .allowedMethod(HttpMethod.POST)
+                .allowedMethod(HttpMethod.OPTIONS)
+                .allowedMethod(HttpMethod.PATCH)
                 .allowedMethod(HttpMethod.DELETE)
                 .allowedMethod(HttpMethod.PUT);
     }
