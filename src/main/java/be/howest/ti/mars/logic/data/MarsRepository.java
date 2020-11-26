@@ -121,7 +121,7 @@ public class MarsRepository {
 
     private void addColonyLink(int companyId, int colonyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-             PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANYIDCOLONYID)) {
+             PreparedStatement prep = con.prepareStatement(H2_INSERT_COLONYLINK)) {
             prep.setInt(1, colonyId);
             prep.setInt(2, companyId);
             prep.executeUpdate();
