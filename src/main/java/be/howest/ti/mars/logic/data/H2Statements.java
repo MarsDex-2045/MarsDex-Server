@@ -4,8 +4,21 @@ class H2Statements {
     protected static final String H2_GET_COLONIES = "SELECT * FROM MARSDEX.COLONIES";
     protected static final String H2_GET_COMPANY_FULL = h2StatementCompanyFull();
     protected static final String H2_GET_COMPANY_SIMPLE = "SELECT * FROM MARSDEX.COMPANIES WHERE ID = ?";
+    protected static final String H2_GET_COLONY = h2StatementColonyFull();
+
     private H2Statements() {
     }
+
+    private static String h2StatementColonyFull() {
+        return "SELECT CN.ID AS COLONY_ID, CN.NAME AS COLONY_NAME, CN.LATITUDE, CN.LONGITUDE,  CN.ALTITUDE," +
+                " CC.COMPANY_ID AS COMPANY_ID " +
+                "FROM MARSDEX.COLONIES CN " +
+                "JOIN MARSDEX.COLONIES_COMPANIES CC ON CN.ID = CC.COLONY_ID " +
+                "JOIN MARSDEX.COMPANIES CM ON CC.COMPANY_ID = CM.ID " +
+                "WHERE CN.ID = ?";
+    }
+
+
 
     private static String h2StatementCompanyFull(){
         return "SELECT C.ID AS COMPANY_ID, C.NAME AS COMPANY_NAME, C.PASSWORD, C.EMAIL, C.PHONE, " +

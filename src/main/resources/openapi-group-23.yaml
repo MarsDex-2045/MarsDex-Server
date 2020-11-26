@@ -92,7 +92,7 @@ paths:
                   $ref: '#/components/schemas/Colony'
         '404':
           description: Method not found
-  /api/colony/{companyId}:
+  /api/colony/{colonyId}:
     get:
       summary: Retrieve a colony's info.
       tags:
@@ -101,7 +101,7 @@ paths:
       operationId: getColonyById
       parameters:
         - in : path
-          name: companyId
+          name: colonyId
           schema:
             type: integer
           required: true
@@ -132,6 +132,8 @@ paths:
                         format: double
                   resources:
                     $ref: '#/components/schemas/Resource'
+        '404':
+            description: Colony could not be found.
   /api/company/{companyId}/transport:
     get:
       tags:
