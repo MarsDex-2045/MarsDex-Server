@@ -344,6 +344,8 @@ paths:
                 password:
                   type: string
                   format: password
+                phone:
+                  type: string
               example:
                 - name: "MarsDex"
                   colony: "Bova Point"
