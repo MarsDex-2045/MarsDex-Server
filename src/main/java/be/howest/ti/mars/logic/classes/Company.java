@@ -15,6 +15,22 @@ public class Company {
     private final Set<Resource> resources;
     private final Deque<Notification> notifications;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
     public Company(int id, String name, String password, String email, String phone) {
         this.id = id;
         this.name = name;
