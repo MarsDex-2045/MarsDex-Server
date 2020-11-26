@@ -24,7 +24,7 @@ public class MarsController {
 
     public JsonObject getColonyById(String idString) {
         int id = Integer.parseInt(idString);
-        MarsRepository.getInstance().getColony(id);
+        System.out.println(MarsRepository.getInstance().getColony(id).toJSON().toString());
         return new JsonObject();
     }
 
@@ -82,7 +82,7 @@ public class MarsController {
         return transports;
     }
 
-    public JsonObject makeColony() {
+    public JsonObject makeCompany() {
         JsonObject json = new JsonObject();
         json.put("processed", true);
         json.put("id", 2);

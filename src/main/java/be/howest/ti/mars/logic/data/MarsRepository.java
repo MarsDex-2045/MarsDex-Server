@@ -129,10 +129,14 @@ public class MarsRepository {
             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()){
-                return transferToColony(rs);
+                Colony colony = transferToColony(rs);
+                while(rs.next()){
+                    colony.addCompany(getCompany(rs.getInt("COMPANY_ID")));
+                }
+                return colony;
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOGGER.severe(throwables.toString());
         }
         throw new LogicException();
     }
