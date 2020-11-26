@@ -15,6 +15,10 @@ public class Company {
     private final Set<Resource> resources;
     private final Deque<Notification> notifications;
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
