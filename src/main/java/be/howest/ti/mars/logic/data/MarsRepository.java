@@ -9,6 +9,8 @@ import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
 
+import java.io.InvalidObjectException;
+import java.security.spec.InvalidParameterSpecException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -116,7 +118,7 @@ public class MarsRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new RuntimeException("A database error occured.");
+            throw new IllegalArgumentException("Object is fault");
         }
         addColonyLink(companyId,getColonyIdByName(company.getName()));
         Map<Integer,Boolean> res = new HashMap<>();
@@ -132,7 +134,7 @@ public class MarsRepository {
             prep.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new RuntimeException("A database error occured.");
+            throw new IdentifierException("Faulty ID");
         }
     }
 
@@ -147,7 +149,7 @@ public class MarsRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new RuntimeException("A database error occured.");
+            throw new IdentifierException("Faulty Colony name");
         }
     }
 
