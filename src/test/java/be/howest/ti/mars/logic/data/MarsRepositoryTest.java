@@ -78,5 +78,15 @@ class MarsRepositoryTest {
 
     @Test
     void getColony() {
+        MarsRepository data = MarsRepository.getInstance();
+        Colony ref = new Colony(3, "Ehrlich City", new Location(33.21322, 	-33.2132, 300.0));
+        Company refC1 = new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000);
+        Company refC2 = new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000);
+
+        Colony colony = data.getColony(3);
+
+        assertEquals(ref, colony);
+        assertTrue(colony.getCompanies().contains(refC1));
+        assertTrue(colony.getCompanies().contains(refC2));
     }
 }
