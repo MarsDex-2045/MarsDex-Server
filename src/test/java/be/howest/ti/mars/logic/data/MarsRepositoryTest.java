@@ -35,8 +35,8 @@ class MarsRepositoryTest {
     }
 
     private void createDataBase() throws IOException, SQLException {
-        executeScript("src/test/resources/dbStructure.sql");
-        executeScript("src/test/resources/populateDb.sql");
+        executeScript("src/test/resources/dbClean.sql");
+        executeScript("src/test/resources/dbConstruction.sql");
     }
 
     private void executeScript(String filePath) throws IOException, SQLException {
@@ -46,7 +46,7 @@ class MarsRepositoryTest {
             stmt.execute();
             LOGGER.log(Level.INFO, "Executed SQL File from " + filePath);
         } catch (SQLException throwables) {
-            LOGGER.severe("A SQL Error has occurred: " + throwables.getMessage());
+            LOGGER.severe("A SQL Error has occurred");
             throw throwables;
         }
     }
