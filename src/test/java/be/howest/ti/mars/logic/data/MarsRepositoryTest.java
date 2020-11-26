@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,6 +75,7 @@ class MarsRepositoryTest {
 
         assertEquals(ref1, maMiCo);
         assertEquals(ref2, marsDex);
+        assertThrows(IdentifierException.class, () -> data.getCompany(22));
     }
 
     @Test
@@ -88,5 +90,6 @@ class MarsRepositoryTest {
         assertEquals(ref, colony);
         assertTrue(colony.getCompanies().contains(refC1));
         assertTrue(colony.getCompanies().contains(refC2));
+        assertThrows(IdentifierException.class, () -> data.getColony(22));
     }
 }
