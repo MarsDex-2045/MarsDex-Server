@@ -133,6 +133,7 @@ public class MarsRepository {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()){
                 Colony colony = transferToColony(rs);
+                colony.addCompany(getCompany(rs.getInt("COMPANY_ID")));
                 while(rs.next()){
                     colony.addCompany(getCompany(rs.getInt("COMPANY_ID")));
                 }
