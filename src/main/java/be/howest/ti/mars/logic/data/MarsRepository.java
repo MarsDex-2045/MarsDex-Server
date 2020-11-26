@@ -37,7 +37,8 @@ public class MarsRepository {
     private String password;
     private String url;
 
-    private MarsRepository() { }
+    private MarsRepository() {
+    }
 
     public static MarsRepository getInstance() {
         return INSTANCE;
@@ -57,12 +58,12 @@ public class MarsRepository {
                 "-webPort", String.valueOf(console)).start();
     }
 
-    public Set<Colony> getAllColonies(){
+    public Set<Colony> getAllColonies() {
         Set<Colony> res = new HashSet<>();
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONIES);
-             ResultSet rs = stmt.executeQuery()){
-            while (rs.next()){
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
                 Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
                 Colony colonyInfo = new Colony(rs.getInt("ID"), rs.getString("NAME"), location);
                 res.add(colonyInfo);
@@ -73,19 +74,19 @@ public class MarsRepository {
         return res;
     }
 
-    public Company getCompany(int companyId){
+    public Company getCompany(int companyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-            PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
             stmt.setInt(1, companyId);
-            try(ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
                 Company company = new Company(rs.getInt("COMPANY_ID"),
-                                            rs.getString("COMPANY_NAME"),
-                                            rs.getString("PASSWORD"),
-                                            rs.getString("EMAIL"),
-                                            rs.getString("PHONE"));
+                        rs.getString("COMPANY_NAME"),
+                        rs.getString("PASSWORD"),
+                        rs.getString("EMAIL"),
+                        rs.getString("PHONE"));
                 company.addResource(convertToResource(rs));
-                while (rs.next()){
+                while (rs.next()) {
                     company.addResource(convertToResource(rs));
                 }
                 return company;
@@ -96,7 +97,44 @@ public class MarsRepository {
         }
     }
 
-    private Resource convertToResource(ResultSet rs) throws SQLException{
+
+    //rutger
+    private void addCompany(String email, String name, String pwd, String phone,String colony) {
+        int companyid;
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY,Statement.RETURN_GENERATED_KEYS)) {
+            prep.setString(1, "name");
+            prep.setString(2, "pwd");
+            prep.setString(3, "email");
+            prep.setString(4, "phone");
+            prep.executeUpdate();
+            try (ResultSet autoId = prep.getGeneratedKeys()) {
+                autoId.next();
+                companyid = (autoId.getInt(1));
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new RuntimeException("A database error occured.");
+        }
+    }
+
+
+    private int getColonyIdByName(String colony) {
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement prep = con.prepareStatement(H2_GET_ColonyIDByName)) {
+            {
+                prep.setString(1,colony);
+                ResultSet rs= prep.executeQuery();
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new RuntimeException("A database error occured.");
+        }
+    }
+
+    //einde rutger
+    private Resource convertToResource(ResultSet rs) throws SQLException {
         LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
         return new Resource(rs.getInt("RESOURCE_ID"),
                 rs.getString("RESOURCE_NAME"),
@@ -105,17 +143,17 @@ public class MarsRepository {
                 new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
     }
 
-    private Company existenceCheck(int companyId){
+    private Company existenceCheck(int companyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-        PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)){
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)) {
             stmt.setInt(1, companyId);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
                 return new Company(rs.getInt("ID"),
-                                    rs.getString("NAME"),
-                                    rs.getString("PASSWORD"),
-                                    rs.getString("EMAIL"),
-                                    rs.getString("PHONE"));
+                        rs.getString("NAME"),
+                        rs.getString("PASSWORD"),
+                        rs.getString("EMAIL"),
+                        rs.getString("PHONE"));
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.INFO, "Check ended: There are no companies with the given ID");

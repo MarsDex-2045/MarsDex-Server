@@ -5,6 +5,7 @@ class H2Statements {
     protected static final String H2_GET_COMPANY_FULL = h2StatementCompanyFull();
     protected static final String H2_GET_COMPANY_SIMPLE = "SELECT * FROM MARSDEX.COMPANIES WHERE ID = ?";
     protected static final String H2_INSERT_COMPANY = "INSERT INTO MARSDEX.COMPANIES (name,email,phone,password) VALUES (?,?,?,?)";
+    protected static final String H2_INSERT_COMPANYIDCOLONYID = "INSERT INTO colonies_companies VALUES (?,?)";
     protected static final String H2_GET_ColonyIDByName = "SELECT ID FROM colonies_companies WHERE name= ?";
     private H2Statements() {
     }
