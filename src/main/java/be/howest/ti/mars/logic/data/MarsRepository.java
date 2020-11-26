@@ -101,14 +101,14 @@ public class MarsRepository {
 
 
     
-    private Map<Integer,Boolean> addCompany(String email, String name, String pwd, String phone, String colony) {
+    private Map<Integer,Boolean> addCompany(Company company ){
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
-            prep.setString(1, "name");
-            prep.setString(2, "pwd");
-            prep.setString(3, "email");
-            prep.setString(4, "phone");
+            prep.setString(1, company.getName());
+            prep.setString(2, company.getPassword());
+            prep.setString(3, company.getEmail());
+            prep.setString(4, company.getPhone());
             prep.executeUpdate();
             try (ResultSet autoId = prep.getGeneratedKeys()) {
                 autoId.next();
@@ -118,7 +118,7 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new RuntimeException("A database error occured.");
         }
-        addColonyLink(companyId,getColonyIdByName(name));
+        addColonyLink(companyId,getColonyIdByName(company.getName()));
         Map<Integer,Boolean> res = new HashMap<>();
         res.put(companyId,true);
         return res;
