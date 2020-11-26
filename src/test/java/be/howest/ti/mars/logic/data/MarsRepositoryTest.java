@@ -54,7 +54,6 @@ class MarsRepositoryTest {
         Colony ref4 = new Colony(4, "Silves Claim", new Location(22.21773, 24.33564, -200.232));
 
         Set<Colony> colonies = data.getAllColonies();
-        LOGGER.log(Level.INFO, String.valueOf(colonies.isEmpty()));
 
         assertEquals(colonies.size(), 4);
         assertTrue(colonies.contains(ref1));
@@ -65,6 +64,16 @@ class MarsRepositoryTest {
 
     @Test
     void getCompany() {
+        MarsRepository data = MarsRepository.getInstance();
+        Company ref1 = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567", 150000);
+        Company ref2 = new Company(1, "MarsDex", "DataH0arder", "marsdex@mars.com", "+6623145878", 0);
+
+
+        Company maMiCo = data.getCompany(2);
+        Company marsDex = data.getCompany(1);
+
+        assertEquals(ref1, maMiCo);
+        assertEquals(ref2, marsDex);
     }
 
     @Test
