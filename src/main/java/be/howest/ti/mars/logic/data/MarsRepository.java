@@ -99,10 +99,10 @@ public class MarsRepository {
 
 
     //rutger
-    private void addCompany(String email, String name, String pwd, String phone,String colony) {
+    private void addCompany(String email, String name, String pwd, String phone, String colony) {
         int companyid;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-             PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY,Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, "name");
             prep.setString(2, "pwd");
             prep.setString(3, "email");
@@ -118,13 +118,25 @@ public class MarsRepository {
         }
     }
 
+    private void addcolonyIDCompanyId(int companyid, int colonyId) {
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANYIDCOLONYID)) {
+            prep.setInt(1, colonyId);
+            prep.setInt(2, companyid);
+            prep.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new RuntimeException("A database error occured.");
+        }
+    }
+
 
     private int getColonyIdByName(String colony) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_GET_ColonyIDByName)) {
             {
-                prep.setString(1,colony);
-                ResultSet rs= prep.executeQuery();
+                prep.setString(1, colony);
+                ResultSet rs = prep.executeQuery();
                 return rs.getInt(1);
             }
         } catch (SQLException ex) {
