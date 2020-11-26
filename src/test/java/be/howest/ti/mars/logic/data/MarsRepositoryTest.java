@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.classes.Company;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,15 +27,7 @@ class MarsRepositoryTest {
     }
 
     @BeforeEach
-    void setupTest(){
-        try{
-            createDataBase();
-        } catch (IOException | SQLException e) {
-            LOGGER.severe("Something went wrong while creating the database.");
-        }
-    }
-
-    private void createDataBase() throws IOException, SQLException {
+    void setupTest() throws IOException, SQLException {
         executeScript("src/test/resources/dbClean.sql");
         executeScript("src/test/resources/dbConstruction.sql");
     }
@@ -43,16 +36,14 @@ class MarsRepositoryTest {
         String batch = Files.readString(Path.of(filePath));
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(batch)) {
-            stmt.execute();
+            stmt.executeBatch();
             LOGGER.log(Level.INFO, "Executed SQL File from " + filePath);
-        } catch (SQLException throwables) {
-            LOGGER.severe("A SQL Error has occurred");
-            throw throwables;
         }
     }
 
     @Test
     void getAllColonies() {
+
     }
 
     @Test
