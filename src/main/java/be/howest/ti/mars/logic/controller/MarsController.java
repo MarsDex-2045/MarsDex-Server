@@ -24,8 +24,7 @@ public class MarsController {
 
     public JsonObject getColonyById(String idString) {
         int id = Integer.parseInt(idString);
-        System.out.println(MarsRepository.getInstance().getColony(id).toJSON().toString());
-        return new JsonObject();
+        return MarsRepository.getInstance().getColony(id).toJSON();
     }
 
     public JsonObject getCompanyResources(String idString) {
@@ -42,7 +41,6 @@ public class MarsController {
         json.put("phoneNumber", "+3265788999");
         return json;
     }
-
 
     public Object getCompanyTransports(String id) {
         JsonArray transports = new JsonArray();

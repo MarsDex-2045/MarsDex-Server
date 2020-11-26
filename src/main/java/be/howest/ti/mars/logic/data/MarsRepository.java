@@ -6,7 +6,6 @@ import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
 import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
-import be.howest.ti.mars.logic.exceptions.LogicException;
 import org.h2.tools.Server;
 
 
@@ -136,9 +135,9 @@ public class MarsRepository {
                 return colony;
             }
         } catch (SQLException throwables) {
-            LOGGER.severe(throwables.toString());
+            LOGGER.severe("No colony could be found.");
+            throw new IdentifierException("Faulty Colony Id");
         }
-        throw new LogicException();
     }
 
     private Colony transferToColony(ResultSet rs) throws SQLException{

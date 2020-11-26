@@ -205,6 +205,9 @@ public class WebServer extends AbstractVerticle {
             if(ex.getMessage().contains("Company")){
                 replyWithFailure(ctx, 404, "Not found", ex.getMessage());
             }
+            else{
+                replyWithFailure(ctx, 404, "No found", ex.getMessage());
+            }
         } catch (Throwable throwable) { //NOSONAR
             LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
             replyWithFailure(ctx, 500, "Internal Server Error", null);

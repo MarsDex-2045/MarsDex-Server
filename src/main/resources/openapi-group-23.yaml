@@ -132,6 +132,8 @@ paths:
                         format: double
                   resources:
                     $ref: '#/components/schemas/Resource'
+        '404':
+            description: Colony could not be found.
   /api/company/{companyId}/transport:
     get:
       tags:
