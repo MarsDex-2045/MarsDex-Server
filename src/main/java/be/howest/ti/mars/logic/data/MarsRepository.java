@@ -100,15 +100,15 @@ public class MarsRepository {
     }
 
 
-    //rutger
-    public Map<Integer,Boolean> addCompany(Company company) {
+    
+    private Map<Integer,Boolean> addCompany(String email, String name, String pwd, String phone, String colony) {
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
-            prep.setString(1, company.getName());
-            prep.setString(2, company.getPassword());
-            prep.setString(3, company.getEmail());
-            prep.setString(4, company.getPhone());
+            prep.setString(1, "name");
+            prep.setString(2, "pwd");
+            prep.setString(3, "email");
+            prep.setString(4, "phone");
             prep.executeUpdate();
             try (ResultSet autoId = prep.getGeneratedKeys()) {
                 autoId.next();
@@ -118,7 +118,7 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new RuntimeException("A database error occured.");
         }
-        addColonyLink(companyId,getColonyIdByName(company.getName()));
+        addColonyLink(companyId,getColonyIdByName(name));
         Map<Integer,Boolean> res = new HashMap<>();
         res.put(companyId,true);
         return res;
@@ -151,7 +151,7 @@ public class MarsRepository {
         }
     }
 
-    //einde rutger
+
     private Resource convertToResource(ResultSet rs) throws SQLException {
         LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
         return new Resource(rs.getInt("RESOURCE_ID"),
