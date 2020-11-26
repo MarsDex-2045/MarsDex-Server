@@ -100,7 +100,7 @@ public class MarsRepository {
     }
 
 
-    //rutger
+    
     private Map<Integer,Boolean> addCompany(String email, String name, String pwd, String phone, String colony) {
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
@@ -151,7 +151,7 @@ public class MarsRepository {
         }
     }
 
-    //einde rutger
+
     private Resource convertToResource(ResultSet rs) throws SQLException {
         LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
         return new Resource(rs.getInt("RESOURCE_ID"),
