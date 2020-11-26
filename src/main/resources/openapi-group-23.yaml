@@ -172,7 +172,7 @@ paths:
                       $ref: '#/components/schemas/Colony'
         '404':
           description: "Not able to find the given company"
-        '505':
+        '500':
           description: "Internal Server error"
 
   /api/company/{companyId}/resource:
@@ -195,8 +195,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   type: object
                   properties:
                     id:

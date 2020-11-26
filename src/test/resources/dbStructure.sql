@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS companies(
     name nvarchar(70) not null,
     email nvarchar(100) not null,
     phone nvarchar(20) not null,
+    password nvarchar(100) not null,
     storage int
 );
 

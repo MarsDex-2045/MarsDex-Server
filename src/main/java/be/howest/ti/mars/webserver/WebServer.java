@@ -1,6 +1,7 @@
 package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -198,8 +199,16 @@ public class WebServer extends AbstractVerticle {
     }
 
     private void onInternalServerError(RoutingContext ctx) {
-        LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
-        replyWithFailure(ctx, 500, "Internal Server Error", null);
+        try{
+            throw ctx.failure();
+        } catch (IdentifierException ex){
+            if(ex.getMessage().contains("Company")){
+                replyWithFailure(ctx, 404, "Not found", ex.getMessage());
+            }
+        } catch (Throwable throwable) { //NOSONAR
+            LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
+            replyWithFailure(ctx, 500, "Internal Server Error", null);
+        }
     }
 
     private void replyWithFailure(RoutingContext ctx, int statusCode, String message, String cause) {

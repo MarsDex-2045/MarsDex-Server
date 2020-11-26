@@ -28,22 +28,9 @@ public class MarsController {
         return new JsonObject();
     }
 
-    public JsonArray getCompanyResources(String id) {
-        JsonArray res = new JsonArray();
-        for (int i = 1; i<20; i++){
-            JsonObject json = new JsonObject();
-            json.put("id", id);
-            JsonArray container = new JsonArray();
-            JsonObject resource = new JsonObject();
-            resource.put("name", "gold V"+i);
-            resource.put("weight", 200 + i);
-            resource.put("added", LocalDate.now());
-            resource.put("price", 20.221 + 1);
-            container.add(resource);
-            json.put("resource", container);
-            res.add(json);
-        }
-        return res;
+    public JsonObject getCompanyResources(String idString) {
+        int id = Integer.parseInt(idString);
+        return MarsRepository.getInstance().getCompany(id).allResourcesToJSONObject();
     }
 
     public Object getCompanyById(String id) {
@@ -55,7 +42,6 @@ public class MarsController {
         json.put("phoneNumber", "+3265788999");
         return json;
     }
-
 
 
     public Object getCompanyTransports(String id) {
