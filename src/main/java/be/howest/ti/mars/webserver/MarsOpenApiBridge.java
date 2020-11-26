@@ -7,6 +7,8 @@ import io.vertx.ext.web.RoutingContext;
 
 class MarsOpenApiBridge {
     private final MarsController controller;
+    private static final String COMPANY_ID_PARAMETER = "companyId";
+    private static final String COLONY_ID_PARAMETER = "colonyId";
 
     MarsOpenApiBridge() {
         this.controller = new MarsController();
@@ -20,19 +22,19 @@ class MarsOpenApiBridge {
     }
 
     public JsonObject getCompanyResources(RoutingContext ctx) {
-        return controller.getCompanyResources(ctx.request().getParam("companyId"));
+        return controller.getCompanyResources(ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 
     public Object getCompanyById(RoutingContext ctx) {
-        return controller.getCompanyById(ctx.request().getParam("companyId"));
+        return controller.getCompanyById(ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 
     public Object getCompanyTransports(RoutingContext ctx) {
-        return controller.getCompanyTransports(ctx.request().getParam("companyId"));
+        return controller.getCompanyTransports(ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 
     public Object getColonyById(RoutingContext ctx) {
-        return controller.getColonyById(ctx.request().getParam("colonyId"));
+        return controller.getColonyById(ctx.request().getParam(COLONY_ID_PARAMETER));
     }
 
     public Object makeCompany(RoutingContext ctx) {

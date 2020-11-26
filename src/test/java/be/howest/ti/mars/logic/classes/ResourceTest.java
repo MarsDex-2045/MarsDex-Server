@@ -42,4 +42,20 @@ class ResourceTest {
         assertEquals("2052-11-13", json.getString("added"));
         assertEquals(200.234, json.getDouble("price"));
     }
+
+    @Test
+    void setWeight(){
+        Resource resource = generateResources()[0];
+
+        resource.setWeight(20);
+
+        assertEquals(20, resource.getWeight());
+    }
+
+    @Test
+    void getWeight(){
+        Resource resource = generateResources()[0];
+
+        assertEquals(2500, resource.getWeight());
+    }
 }
