@@ -39,6 +39,10 @@ public class MarsRepository {
 
     private MarsRepository() { }
 
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(this.url, this.username, this.password);
+    }
+
     public static MarsRepository getInstance() {
         return INSTANCE;
     }
