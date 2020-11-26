@@ -40,6 +40,10 @@ public class MarsRepository {
     private MarsRepository() {
     }
 
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(this.url, this.username, this.password);
+    }
+
     public static MarsRepository getInstance() {
         return INSTANCE;
     }
@@ -69,7 +73,7 @@ public class MarsRepository {
                 res.add(colonyInfo);
             }
         } catch (SQLException throwables) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query.");
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query; Returning empty array");
         }
         return res;
     }
@@ -172,5 +176,30 @@ public class MarsRepository {
             LOGGER.log(Level.INFO, "Check ended: There are no companies with the given ID");
             throw new IdentifierException("Faulty Company ID");
         }
+    }
+
+    public Colony getColony(int id){
+        try(Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+            PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()){
+                Colony colony = transferToColony(rs);
+                while(rs.next()){
+                    colony.addCompany(getCompany(rs.getInt("COMPANY_ID")));
+                }
+                return colony;
+            }
+        } catch (SQLException throwables) {
+            LOGGER.severe("No colony could be found.");
+            throw new IdentifierException("Faulty Colony Id");
+        }
+    }
+
+    private Colony transferToColony(ResultSet rs) throws SQLException{
+        rs.next();
+        int cId = rs.getInt("COLONY_ID");
+        String cName = rs.getString("COLONY_NAME");
+        Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
+        return new Colony(cId, cName, location);
     }
 }

@@ -164,16 +164,15 @@ public class WebServer extends AbstractVerticle {
 
     private CorsHandler createCorsHandler() {
         return CorsHandler.create(".*.")
-                .allowedHeader("Access-Control-Allow-Headers: Authorization")
                 .allowedHeader("x-requested-with")
-                .allowedHeader("Access-Control-Allow-Credentials")
                 .allowedHeader("Access-Control-Allow-Origin")
                 .allowedHeader("origin")
                 .allowedHeader("Content-Type")
                 .allowedHeader("accept")
-                .allowCredentials(true)
                 .allowedMethod(HttpMethod.GET)
                 .allowedMethod(HttpMethod.POST)
+                .allowedMethod(HttpMethod.OPTIONS)
+                .allowedMethod(HttpMethod.PATCH)
                 .allowedMethod(HttpMethod.DELETE)
                 .allowedMethod(HttpMethod.PUT);
     }
@@ -204,6 +203,9 @@ public class WebServer extends AbstractVerticle {
         } catch (IdentifierException ex){
             if(ex.getMessage().contains("Company")){
                 replyWithFailure(ctx, 404, "Not found", ex.getMessage());
+            }
+            else{
+                replyWithFailure(ctx, 404, "No found", ex.getMessage());
             }
         } catch (Throwable throwable) { //NOSONAR
             LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));

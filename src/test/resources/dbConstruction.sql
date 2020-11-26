@@ -1,18 +1,64 @@
-//CREATE COMPANIES
-insert into companies(name, email, phone, password, storage)
-VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', 'DataH0arder', null);
-insert into companies(name, email, phone, password, storage)
-VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', 'B1g1r0n', 150000);
-insert into companies(name, email, phone, password, storage)
-VALUES ('Generic Company', 'generic@earth.com', '+3246777245', 'G3n3r1c', 1000000);
-insert into companies(name, email, phone, password, storage)
-VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', 'V1s10na1r',150000);
-insert into companies(name, email, phone, password, storage)
-VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '8ydr0n', 250000);
-insert into companies(name, email, phone, password, storage)
-VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x', 1500);
-insert into companies(name, email, phone, password, storage)
-VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101', 400000);
+create schema if not exists marsdex;
+
+set schema marsdex;
+
+create table if not exists colonies(
+    id int primary key auto_increment not null ,
+    name nvarchar(50) not null,
+    latitude double not null ,
+    longitude double not null ,
+    altitude double not null
+);
+
+CREATE TABLE IF NOT EXISTS COMPANIES(
+    id int primary key auto_increment not null,
+    name nvarchar(70) not null,
+    email nvarchar(100) not null,
+    phone nvarchar(20) not null,
+    password nvarchar(100) not null,
+    storage int
+);
+
+CREATE TABLE IF NOT EXISTS resources (
+    id int primary key auto_increment not null,
+    price double not null,
+    name nvarchar(30) not null
+);
+
+CREATE TABLE IF NOT EXISTS colonies_companies(
+    colony_id int not null,
+    company_id int not null,
+    foreign key (colony_id) references colonies(id),
+    foreign key (company_id) references companies(id)
+);
+
+create table if not exists companies_resources(
+    company_id int not null,
+    resource_id int not null,
+    weight double not null,
+    added_timestamp date not null,
+    foreign key(company_id) references companies(id),
+    foreign key(resource_id) references resources(id)
+);
+
+create table if not exists shipments(
+    id int not null primary key auto_increment,
+    sender_id int not null,
+    send_time datetime not null,
+    receiver_id int not null,
+    receive_time datetime,
+    status enum('Payed', 'Processing', 'In Transit', 'Delivered'),
+    foreign key(sender_id) references companies(id),
+    foreign key (receiver_id) references companies(id)
+);
+
+create table if not exists shipments_resources(
+    shipment_id int not null,
+    resource_id int not null,
+    weight double not null,
+    foreign key (shipment_id) references shipments(id),
+    foreign key (resource_id) references resources(id)
+);
 
 //CREATE COLONIES
 insert into colonies(name, latitude, longitude, altitude)
@@ -23,6 +69,23 @@ insert into colonies(name, latitude, longitude, altitude)
 VALUES ('Ehrlich City', 33.21322, -33.2132, 300.000);
 insert into colonies(name, latitude, longitude, altitude)
 VALUES ('Silves Claim', 22.21773, 24.33564, -200.232);
+
+
+//CREATE COMPANIES
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', 'DataH0arder', null);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', 'B1g1r0n', 150000);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('Generic Company', 'generic@earth.com', '+3246777245', 'G3n3r1c', 1000000);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', 'V1s10na1r',150000);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '8ydr0n', 250000);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x', 1500);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101', 400000);
 
 //CREATE RESOURCES
 insert into resources(price, name)
