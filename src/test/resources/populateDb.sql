@@ -1,18 +1,18 @@
 //CREATE COMPANIES
-insert into companies(name, email, phone, storage)
-VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', null);
-insert into companies(name, email, phone, storage)
-VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', '150000');
-insert into companies(name, email, phone, storage)
-VALUES ('Generic Company', 'generic@earth.com', '+3246777245', '1000000');
-insert into companies(name, email, phone, storage)
-VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', '150000');
-insert into companies(name, email, phone, storage)
-VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '250000');
-insert into companies(name, email, phone, storage)
-VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', '1500');
-insert into companies(name, email, phone, storage)
-VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', '400000');
+insert into companies(name, email, phone, password, storage)
+VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', 'DataH0arder', null);
+insert into companies(name, email, phone, password, storage)
+VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', 'B1g1r0n', 150000);
+insert into companies(name, email, phone, password, storage)
+VALUES ('Generic Company', 'generic@earth.com', '+3246777245', 'G3n3r1c', 1000000);
+insert into companies(name, email, phone, password, storage)
+VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', 'V1s10na1r',150000);
+insert into companies(name, email, phone, password, storage)
+VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '8ydr0n', 250000);
+insert into companies(name, email, phone, password, storage)
+VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x', 1500);
+insert into companies(name, email, phone, password, storage)
+VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101', 400000);
 
 //CREATE COLONIES
 insert into colonies(name, latitude, longitude, altitude)

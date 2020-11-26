@@ -2,6 +2,7 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 class MarsOpenApiBridge {
@@ -18,7 +19,7 @@ class MarsOpenApiBridge {
         return controller.getColonies();
     }
 
-    public JsonArray getCompanyResources(RoutingContext ctx) {
+    public JsonObject getCompanyResources(RoutingContext ctx) {
         return controller.getCompanyResources(ctx.request().getParam("companyId"));
     }
 

@@ -2,11 +2,16 @@ package be.howest.ti.mars.logic.data;
 
 
 import be.howest.ti.mars.logic.classes.Colony;
+import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.classes.Resource;
+import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -66,5 +71,55 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query.");
         }
         return res;
+    }
+
+    public Company getCompany(int companyId){
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+            PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
+            stmt.setInt(1, companyId);
+            try(ResultSet rs = stmt.executeQuery()){
+                rs.next();
+                Company company = new Company(rs.getInt("COMPANY_ID"),
+                                            rs.getString("COMPANY_NAME"),
+                                            rs.getString("PASSWORD"),
+                                            rs.getString("EMAIL"),
+                                            rs.getString("PHONE"));
+                company.addResource(convertToResource(rs));
+                while (rs.next()){
+                    company.addResource(convertToResource(rs));
+                }
+                return company;
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.INFO, "Potential empty company detected; Running Existence check.");
+            return existenceCheck(companyId);
+        }
+    }
+
+    private Resource convertToResource(ResultSet rs) throws SQLException{
+        LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
+        return new Resource(rs.getInt("RESOURCE_ID"),
+                rs.getString("RESOURCE_NAME"),
+                rs.getDouble("PRICE"),
+                rs.getDouble("WEIGHT"),
+                new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
+    }
+
+    private Company existenceCheck(int companyId){
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)){
+            stmt.setInt(1, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                rs.next();
+                return new Company(rs.getInt("ID"),
+                                    rs.getString("NAME"),
+                                    rs.getString("PASSWORD"),
+                                    rs.getString("EMAIL"),
+                                    rs.getString("PHONE"));
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.INFO, "Check ended: There are no companies with the given ID");
+            throw new IdentifierException("Faulty Company ID");
+        }
     }
 }
