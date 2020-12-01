@@ -4,6 +4,23 @@ Welcome to the Server Repository of the MarsDex. This repository contains the co
 |Version|Maintance|SonarQube|
 |---|---|---|
 |[![Generic badge](https://img.shields.io/badge/Version-Alpha-red.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|![SonarQube](https://sonar.ti.howest.be/sonar/api/project_badges/measure?project=2020.project-ii%3Amars-server-23&metric=coverage)<br>*Based on the latest push to any branch in this repo.*|
+## Features
+At the time of writing, the following features are implemented:
+### API Calls
+[All the calls found in `openapi-group-23.yaml`](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server/-/blob/master/src/main/resources/openapi-group-23.yaml) will return data. Not all data is real data directly pulled from the H2 Database:
+
+|Endpoint|Mock or Implemented?|
+|---|---|
+|GET `/api/colony`|Implemented|
+|GET `/api/colony/{colonyId}`|Implemented|
+|GET `/api/company/{companyId}`|Mock|
+|GET `/api/company/{companyId}/transport`|Mock|
+|GET `/api/company/{companyId}/resource`|Implemented|
+|PUT `/api/company/{companyId}/resource`|Mock|
+|PATCH `/api/company/{companyId}/resource`|Mock|
+|DELETE `/api/company/{companyId}/resource/{resourceId}|Mock|
+|PUT `/api/company`|Mock|
+
 ## How to start
 In order to get the server up & running, you'll need to do the following things:
 1. Clone the project to your machine.
