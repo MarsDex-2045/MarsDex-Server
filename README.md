@@ -28,6 +28,9 @@ All endpoints that have been implemented, have methods that will interact with t
 ### Domains
 All Classes are added that will be needed for the project. You can find them in the `classes` directory
 
+### H2 Database
+While we have a fully working database, the database isn't completely set in in stone. We are still finding some things that should be added or removed. We're planning to revisit the database structure in the Beta Phase.
+
 ## How to start
 In order to get the server up & running, you'll need to do the following things:
 1. Clone the project to your machine.
