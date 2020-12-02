@@ -1,68 +1,67 @@
-# Project II - Mars Server
-This is the **server side start-project** for Project II. 
+# MarsDex Server Repository (MD-SR)
+Welcome to the Server Repository of the MarsDex. This repository contains the code needed to run a local version of the MarsDex Server.
 
-You can change the whole code to the wishes of your team.
+|Version|Maintance|SonarQube|
+|---|---|---|
+|[![Generic badge](https://img.shields.io/badge/Version-Alpha-red.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|![SonarQube](https://sonar.ti.howest.be/sonar/api/project_badges/measure?project=2020.project-ii%3Amars-server-23&metric=coverage)<br>*Based on the latest push to any branch in this repo.*|
+## Features
+At the time of writing, the following features are implemented:
+### API Calls
+**There are still some calls missing in the spec sheet. These will be added in the Beta Phase**
 
-The start project provides the basic scaffolding for an openapi webserver.
+[All the calls found in `openapi-group-23.yaml`](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server/-/blob/master/src/main/resources/openapi-group-23.yaml) will return data. Not all data is real data directly pulled from the H2 Database:
 
-## Before you start:
-- Choose Zulu jdk version 11 (Configure through this through intelij)
-- Install the sonarlint plugin through intelij plugins.
-- **Assign your group number** to the following locations (change XX by your group number, 2 digits, zero-padding):
-  - `settings.gradle`: `rootProject.name = "2020.project-ii.mars-server-XX"`
-  - `gradle.properties`: `systemProp.sonar.projectName=2020.project-ii.mars-server-XX`
-  - `openapi-group-XX.yaml`: `https://project-ii.ti.howest.be/mars-XX`
-  - `WebServer.java`: `OPEN_API_SPEC = "openapi-group-XX.yaml";`
-  - `replace XX in file name openapi-group-XX.yaml`
-  - Search the string XX in all files (ctr shift f)
-    - There should only be readme entries
+|Endpoint|Mock or Implemented?|
+|---|---|
+|GET `/api/colony`|Implemented|
+|GET `/api/colony/{colonyId}`|Implemented|
+|GET `/api/company/{companyId}`|Mock|
+|GET `/api/company/{companyId}/transport`|Mock|
+|GET `/api/company/{companyId}/resource`|Implemented|
+|PUT `/api/company/{companyId}/resource`|Mock|
+|PATCH `/api/company/{companyId}/resource`|Mock|
+|DELETE `/api/company/{companyId}/resource/{resourceId}`|Mock|
+|PUT `/api/company`|Mock|
+### DB Interaction
+All endpoints that have been implemented, have methods that will interact with the database. The method that are responsible for this, are located in `MarsRepository.java`. All the statement that are used by `MarsRepository.java` are located in `H2Statements.java`.
+*Note: The scope of these statements are only limited to the `Data` folder*
+### Domains
+All Classes are added that will be needed for the project. You can find them in the `classes` directory
 
-- **Attach the TI sonarqube server to your project in intelij.**
-    - Go to Intelij settings/other settings/SonarLint General Settings
-        - Create a new connection by clicking on the plus sign.
-        - Choose a configuration name.
-        - Choose sonarcube.
-        - Enter URL: https://sonar.ti.howest.be/sonar
-        - Use token: `a71c618ef467e72256e59bbbb48a8eb441cf3629`
-        - Save configuration.
-    - Go to Intelij settings/other settings/SonarLint Project Settings
-        - Choose your newly created connection.
-        - Choose your project by clicking **search in list.**
-    - Go to Intelij settings/other settings/SonarLint General Settings
-        - Click update binding (no error messages should pop up).
-- At the bottom of your screen a sonarlint tab should be available.
-    - Code smells will be available at this location.
+### H2 Database
+While we have a fully working database, the database isn't completely set in in stone. We are still finding some things that should be added or removed. We're planning to revisit the database structure in the Beta Phase.
 
-## How to run the start project
-In Intelij choose gradle task run.
+## How to start
+In order to get the server up & running, you'll need to do the following things:
+1. Clone the project to your machine.
+2. Open the project in your IDE of choice.
+3. Make sure that the IDE uses [the Zulu 11 JDK](https://www.azul.com/downloads/zulu-community/?package=jdk) to run the server.
+3. Add a new directory `conf` to your project root and add the following JSON code as a `config.json` file:
+```json
+{
+  "http": {
+    "port": 8080
+  },
+  "db" : {
+    "url": "jdbc:h2:~/mars-db",
+    "username": "",
+    "password": "",
+    "webconsole.port": 9000
+  }
+}
+```
+3. Build the Gradle project
+4. Before running the server, make sure that the 8080 & 9000 ports are available on your machine and not used by any other services that run on `localhost`
+5. Run the sever and connect to the webclient `http://localhost:9000` and connect to the database. Don't fill in the credentials.
+6. Fill the DB with mock data with the `dbConstruction.sql` script. You can find the script in `src/test/resources/`. Copy it into the web console and execute it.
+    - :exclamation: If you're having troubles loading the data in, you might have a database that is filled. You can clean it with the `dbClean.sql` script.
 
-## What is included
-  - a very basic openapi spec
-    - localhost:8080/api/message
-  - H2 database web console
-  - The setup of a vert.x web api (WebServer.java)
-    - It's allowed to change this file.
-  
-## Local locations
- - H2 web client
-   - localhost:9000
-   - url: ~/mars-db
-   - no credentials
- - Web api
-   - localhost:8080/api/message
-   - map openapi paths to the MarsOpenApiBridge in the WebServer.java
-     - function: addRouteWithCtxFunction
-  
-## Public locations
- - H2 web client
-   - https://project-ii.ti.howest.be/db-23
-   - url: jdbc:h2:/opt/group-23/db-23
-   - username:group-23
-   - password: see leho
- - Web api
-   - https://project-ii.ti.howest.be/mars-23/api/
- - Web client
-   - https://project-ii.ti.howest.be/mars-23
- - Sonar
-   - https://sonar.ti.howest.be/sonar/dashboard?id=2020.project-ii%3Amars-server-23
-   - https://sonar.ti.howest.be/sonar/dashboard?id=2020.project-ii%3Amars-client-23
+Congrats, now you have a MarsDex Server up and running. You'll still need [The MarsDex Client](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/client) in order to interact with it through a website.
+
+## Contributing
+You've noticed something a fault in code or have a feature request? Take first a look at the issues so that you don't make a duplicate issue. 
+
+If there isn't a issue for it, send a message to Bo Robbrecht and we'll suggest it to the team or alert them of the bug.
+<br>
+<br>
+![joke](https://forthebadge.com/images/badges/not-a-bug-a-feature.svg)
