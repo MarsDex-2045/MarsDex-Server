@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Map;
+import java.util.Set;
 
 public class MarsController {
 
@@ -82,11 +83,16 @@ public class MarsController {
     }
 
 
-
-    public JsonObject makeCompany(Company company,String colonyName) {
-        Map<Integer,Boolean> res = MarsRepository.getInstance().addCompany(company,colonyName);
-        JsonObject returnBody= new JsonObject();
-        returnBody.put("company-id",company.getId()).put("succeeded",true);
+    public JsonObject makeCompany(Company company, int colonyId) {
+        int companyId = 0;
+        Map<Integer, Boolean> res = MarsRepository.getInstance().addCompany(company, colonyId);
+        Set<Integer> keySet = res.keySet();
+        JsonObject returnBody = new JsonObject();
+        for(Integer id: keySet) {
+            companyId = id;
+            break;
+        }
+        returnBody.put("company-id", companyId).put("succeeded", true);
         return returnBody;
     }
 }
