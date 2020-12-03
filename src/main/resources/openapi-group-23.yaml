@@ -342,7 +342,7 @@ paths:
                 name:
                   type: string
                 colonyId:
-                  type: int
+                  type: integer
                 password:
                   type: string
                   format: password
