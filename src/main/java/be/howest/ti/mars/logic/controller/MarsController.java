@@ -5,7 +5,6 @@ import be.howest.ti.mars.logic.data.MarsRepository;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.util.Collections;
 import java.util.Set;
 
 public class MarsController {
@@ -42,10 +41,14 @@ public class MarsController {
         return json;
     }
 
-    public Object getCompanyTransports(String idString) {
+    public JsonArray getCompanyTransports(String idString) {
         int id = Integer.parseInt(idString);
-        Set<Shipment> test = MarsRepository.getInstance().getShipments(id);
-        return Collections.emptySet();
+        Set<Shipment> shipments = MarsRepository.getInstance().getShipments(id);
+        JsonArray json = new JsonArray();
+        for (Shipment shipment:shipments) {
+            json.add(shipment.toJSON());
+        }
+        return json;
     }
 
     public JsonObject makeCompany() {

@@ -39,6 +39,17 @@ public class Shipment {
         this.status = status;
     }
 
+    public Shipment(int id, Colony sender, Calendar sendTime, Colony receiver, Set<Resource> content, Status status) {
+        this.id = id;
+        this.sender = sender;
+        this.sendTime = sendTime;
+        this.receiver = receiver;
+        this.endTime = null;
+        this.content = content;
+        this.status = status;
+    }
+
+
     public JsonObject toJSON(){
         JsonObject json = new JsonObject();
         json.put("shippingId", this.id);
@@ -49,11 +60,11 @@ public class Shipment {
         }
         json.put("resources", resources);
         json.put("sendTime", timeToJSON(this.sendTime));
-        json.put("sender", this.sender.toJSON());
+        json.put("sender", this.sender.toShortJSON());
         if(this.endTime != null){
             json.put("receiveTime", timeToJSON(this.endTime));
         }
-        json.put("receiver", this.receiver.toJSON());
+        json.put("receiver", this.receiver.toShortJSON());
         return json;
     }
 

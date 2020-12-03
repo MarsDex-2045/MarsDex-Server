@@ -56,6 +56,7 @@ create table if not exists shipments_resources(
     shipment_id int not null,
     resource_id int not null,
     weight double not null,
+    added_timestamp date not null,
     foreign key (shipment_id) references shipments(id),
     foreign key (resource_id) references resources(id)
 );
@@ -241,83 +242,83 @@ insert into shipments(sender_id, send_time, receiver_id,  status)
 VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
 
 //CONNECT SHIPMENTS & RESOURCES
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (1, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (2, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (3, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (4, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (5, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (6, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (7, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (8, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (9, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (10, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (11, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (12, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (13, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (14, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (15, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (16, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (17, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (18, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (19, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (20, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (21, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (22, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (23, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (24, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (25, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (26, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (27, 1, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (2,2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (4, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (6, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (8, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (10, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (12, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (14, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (16, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (18, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (20, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (22, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (24, 2, 200 );
-insert into shipments_resources(shipment_id, resource_id, weight)
-VALUES (26, 2, 200 );
+insert into shipments_resources(shipment_id, resource_id, weight,added_timestamp)
+VALUES (1, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (2, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (3, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (4, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (5, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (6, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (7, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (8, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (9, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (10, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (11, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (12, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (13, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (14, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (15, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (16, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (17, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (18, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (19, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (20, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (21, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (22, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (23, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (24, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (25, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (26, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (27, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (2,2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (4, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (6, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (8, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (10, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (12, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (14, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (16, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (18, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (20, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (22, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (24, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+VALUES (26, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));

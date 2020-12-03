@@ -6,14 +6,12 @@ import be.howest.ti.mars.logic.exceptions.CorruptedDateException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
-
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -165,9 +163,9 @@ public class MarsRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 Set<Shipment> res = new HashSet<>();
                 while (rs.next()) {
-                    covertToShipment(rs);
+                    res.add(covertToShipment(rs));
                 }
-                return Collections.emptySet();
+               return res;
             }
         } catch (SQLException ex) {
             LOGGER.severe(ex.getMessage());
@@ -177,28 +175,21 @@ public class MarsRepository {
         }
     }
 
-    private void covertToShipment(ResultSet rs) throws SQLException, ParseException {
+    private Shipment covertToShipment(ResultSet rs) throws SQLException, ParseException {
         int id = rs.getInt("ID");
         Colony sender = getColony(rs.getInt("SENDER_ID"));
         Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date sendDate = df.parse(rs.getString("SEND_TIME"));
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar sendDate = Calendar.getInstance();
+        sendDate.setTime(df.parse(rs.getString("SEND_TIME")));
         Status status = getStatus(rs, id);
         rs.getObject("RECEIVE_TIME");
         if (!rs.wasNull()) {
-            Date receiverDate = df.parse(rs.getString("RECEIVE_TIME"));
-            LOGGER.info(() -> String.format("%s %s %s %s %s",
-                    sender.toShortJSON().toString(),
-                    receiver.toShortJSON().toString(),
-                    sendDate.toString(),
-                    receiverDate.toString(),
-                    status.toString()));
+            Calendar receiveDate = Calendar.getInstance();
+            receiveDate.setTime(df.parse(rs.getString("RECEIVE_TIME")));
+            return new Shipment(id, sender, sendDate, receiver, receiveDate, new HashSet<>(), status);
         } else {
-            LOGGER.info(() -> String.format("%s %s %s %s",
-                    sender.toShortJSON().toString(),
-                    receiver.toShortJSON().toString(),
-                    sendDate.toString(),
-                    status.toString()));
+            return new Shipment(id, sender, sendDate, receiver, new HashSet<>(), status);
         }
     }
 
