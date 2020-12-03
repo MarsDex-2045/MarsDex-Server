@@ -29,10 +29,10 @@ class H2Statements {
     }
 
     private static String h2StatementCompanyTransport() {
-        return "SELECT S.*, R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, R.PRICE, SR.WEIGHT" +
-                "FROM MARSDEX.SHIPMENTS S" +
-                "JOIN MARSDEX.SHIPMENTS_RESOURCES SR ON S.ID = SR.SHIPMENT_ID" +
-                "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID" +
+        return "SELECT S.*, R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, R.PRICE, SR.WEIGHT " +
+                "FROM MARSDEX.SHIPMENTS S " +
+                "JOIN MARSDEX.SHIPMENTS_RESOURCES SR ON S.ID = SR.SHIPMENT_ID " +
+                "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID " +
                 "WHERE SENDER_ID = ? OR RECEIVER_ID = ?";
     }
 }

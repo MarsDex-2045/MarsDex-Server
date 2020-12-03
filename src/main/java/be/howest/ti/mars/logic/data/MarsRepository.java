@@ -155,9 +155,13 @@ public class MarsRepository {
     public Set<Shipment> getShipments(int companyId){
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
         PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT)){
-            //W.I.P.
+            stmt.setInt(1, companyId);
+            stmt.setInt(2, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                LOGGER.log(Level.INFO, rs::toString);
+            }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOGGER.log(Level.INFO, throwables.toString());
         }
         return Collections.emptySet();
     }
