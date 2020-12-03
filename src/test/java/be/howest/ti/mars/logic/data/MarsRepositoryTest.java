@@ -94,11 +94,8 @@ class MarsRepositoryTest {
     void getShipments() {
         MarsRepository data = MarsRepository.getInstance();
         Calendar date = new Calendar.Builder().setDate(2052, 2, 22).setTimeOfDay(22, 22, 0).build();
-        Resource ref1 = new Resource(1, "Painite", 71.596, 200.0, date);
-        Resource ref2 = new Resource(2, "Alexandrite", 271.192, 200.0, date);
-
-        Set <Shipment> db = MarsRepository.getInstance().getShipments(12);
-
-        assertAll(() -> assertEquals(17, db.size()));
+        Set<Shipment> db = data.getShipments(2);
+        assertEquals(18, db.size());
+        assertThrows(IdentifierException.class, () -> data.getShipments(234));
     }
 }

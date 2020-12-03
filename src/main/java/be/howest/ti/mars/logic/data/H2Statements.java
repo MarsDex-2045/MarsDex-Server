@@ -30,7 +30,7 @@ class H2Statements {
     }
 
     private static String h2StatementCompanyTransportDetails() {
-        return "SELECT S.* " +
+        return "SELECT * " +
                 "FROM MARSDEX.SHIPMENTS S " +
                 "WHERE SENDER_ID = ? OR RECEIVER_ID = ? " +
                 "ORDER BY ID";

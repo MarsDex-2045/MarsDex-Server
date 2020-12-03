@@ -156,21 +156,21 @@ public class MarsRepository {
     }
 
     public Set<Shipment> getShipments(int companyId) {
+        Set<Shipment> res = new HashSet<>();
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_DETAILS)) {
             stmt.setInt(1, companyId);
             stmt.setInt(2, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
-                Set<Shipment> res = new HashSet<>();
                 while (rs.next()) {
                     res.add(covertToShipment(rs));
                 }
-                return res;
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING, "Company ID could not be found.");
+            LOGGER.log(Level.WARNING, "");
             throw new IdentifierException("Faulty Company ID");
         }
+        return res;
     }
 
     private Shipment covertToShipment(ResultSet rs) throws SQLException {
