@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.exceptions.CorruptedDateException;
+import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
@@ -167,8 +168,12 @@ public class MarsRepository {
                 }
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING, "");
-            throw new IdentifierException("Faulty Company ID");
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
+            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+        }
+        if (res.isEmpty()) {
+            LOGGER.log(Level.INFO, "Potential empty company detected; Running Existence check.");
+            existenceCheck(companyId);
         }
         return res;
     }
