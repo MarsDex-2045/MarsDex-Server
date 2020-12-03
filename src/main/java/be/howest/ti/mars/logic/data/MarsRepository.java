@@ -165,33 +165,39 @@ public class MarsRepository {
                 while (rs.next()) {
                     res.add(covertToShipment(rs));
                 }
-               return res;
+                return res;
             }
         } catch (SQLException ex) {
             LOGGER.severe(ex.getMessage());
             throw new IdentifierException("Faulty Company ID");
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException();
         }
     }
 
-    private Shipment covertToShipment(ResultSet rs) throws SQLException, ParseException {
-        int id = rs.getInt("ID");
-        Colony sender = getColony(rs.getInt("SENDER_ID"));
-        Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar sendDate = Calendar.getInstance();
-        sendDate.setTime(df.parse(rs.getString("SEND_TIME")));
-        Status status = getStatus(rs, id);
-        rs.getObject("RECEIVE_TIME");
-        if (!rs.wasNull()) {
-            Calendar receiveDate = Calendar.getInstance();
-            receiveDate.setTime(df.parse(rs.getString("RECEIVE_TIME")));
-            return new Shipment(id, sender, sendDate, receiver, receiveDate, getShipmentResources(id), status);
-        } else {
-            return new Shipment(id, sender, sendDate, receiver, getShipmentResources(id), status);
+    private Shipment covertToShipment(ResultSet rs) throws SQLException {
+        try {
+            int id = rs.getInt("ID");
+            Colony sender = getColony(rs.getInt("SENDER_ID"));
+            Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar sendDate = Calendar.getInstance();
+            sendDate.setTime(df.parse(rs.getString("SEND_TIME")));
+            Status status = getStatus(rs, id);
+            rs.getObject("RECEIVE_TIME");
+            if (!rs.wasNull()) {
+                Calendar receiveDate = Calendar.getInstance();
+                receiveDate.setTime(df.parse(rs.getString("RECEIVE_TIME")));
+                return new Shipment(id, sender, sendDate, receiver, receiveDate, getShipmentResources(id), status);
+            } else {
+                return new Shipment(id, sender, sendDate, receiver, getShipmentResources(id), status);
+            }
+        } catch (ParseException ex) {
+            String msg = String.format("Date corrupted at row %s in table SHIPMENTS in Scheme MARSDEX", rs.getInt("ID"));
+            LOGGER.log(Level.SEVERE, msg);
+            throw new CorruptedDateException("Date data corrupted");
         }
+
     }
+
 
     private Status getStatus(ResultSet rs, int id) throws SQLException {
         switch (rs.getString("STATUS")) {
@@ -215,9 +221,9 @@ public class MarsRepository {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_RESOURCES)) {
             stmt.setInt(1, shipmentId);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 Set<Resource> resources = new HashSet<>();
-                while (rs.next()){
+                while (rs.next()) {
                     resources.add(convertToResource(rs));
                 }
                 return resources;
