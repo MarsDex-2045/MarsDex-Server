@@ -64,7 +64,7 @@ public class MarsRepository {
 
     public Set<Colony> getAllColonies() {
         Set<Colony> res = new HashSet<>();
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONIES);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -73,13 +73,13 @@ public class MarsRepository {
                 res.add(colonyInfo);
             }
         } catch (SQLException throwables) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query; Returning empty array");
+            LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
         }
         return res;
     }
 
     public Company getCompany(int companyId) {
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
             stmt.setInt(1, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -111,7 +111,7 @@ public class MarsRepository {
     }
 
     private Company existenceCheck(int companyId) {
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)) {
             stmt.setInt(1, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -129,7 +129,7 @@ public class MarsRepository {
     }
 
     public Colony getColony(int id) {
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)) {
             String companyIdColumnName = "COMPANY_ID";
             stmt.setInt(1, id);
@@ -142,7 +142,7 @@ public class MarsRepository {
                 return colony;
             }
         } catch (SQLException throwables) {
-            LOGGER.severe("No colony could be found.");
+            LOGGER.warning("No colony could be found.");
             throw new IdentifierException("Faulty Colony Id");
         }
     }
@@ -156,7 +156,7 @@ public class MarsRepository {
     }
 
     public Set<Shipment> getShipments(int companyId) {
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_DETAILS)) {
             stmt.setInt(1, companyId);
             stmt.setInt(2, companyId);
@@ -168,7 +168,7 @@ public class MarsRepository {
                 return res;
             }
         } catch (SQLException ex) {
-            LOGGER.severe(ex.getMessage());
+            LOGGER.log(Level.WARNING, "Company ID could not be found.");
             throw new IdentifierException("Faulty Company ID");
         }
     }
@@ -198,7 +198,6 @@ public class MarsRepository {
 
     }
 
-
     private Status getStatus(ResultSet rs, int id) throws SQLException {
         switch (rs.getString("STATUS")) {
             case "In Transit":
@@ -218,7 +217,7 @@ public class MarsRepository {
     }
 
     private Set<Resource> getShipmentResources(int shipmentId) throws SQLException {
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_RESOURCES)) {
             stmt.setInt(1, shipmentId);
             try (ResultSet rs = stmt.executeQuery()) {
