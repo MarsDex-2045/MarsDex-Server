@@ -2,6 +2,7 @@ package be.howest.ti.mars.logic.data;
 
 
 import be.howest.ti.mars.logic.classes.*;
+import be.howest.ti.mars.logic.exceptions.CorruptedDateException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
@@ -38,7 +39,8 @@ public class MarsRepository {
     private String password;
     private String url;
 
-    private MarsRepository() { }
+    private MarsRepository() {
+    }
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(this.url, this.username, this.password);
@@ -62,12 +64,12 @@ public class MarsRepository {
                 "-webPort", String.valueOf(console)).start();
     }
 
-    public Set<Colony> getAllColonies(){
+    public Set<Colony> getAllColonies() {
         Set<Colony> res = new HashSet<>();
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONIES);
-             ResultSet rs = stmt.executeQuery()){
-            while (rs.next()){
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
                 Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
                 Colony colonyInfo = new Colony(rs.getInt("ID"), rs.getString("NAME"), location);
                 res.add(colonyInfo);
@@ -78,19 +80,19 @@ public class MarsRepository {
         return res;
     }
 
-    public Company getCompany(int companyId){
+    public Company getCompany(int companyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-            PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
             stmt.setInt(1, companyId);
-            try(ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
                 Company company = new Company(rs.getInt("COMPANY_ID"),
-                                            rs.getString("COMPANY_NAME"),
-                                            rs.getString("PASSWORD"),
-                                            rs.getString("EMAIL"),
-                                            rs.getString("PHONE"));
+                        rs.getString("COMPANY_NAME"),
+                        rs.getString("PASSWORD"),
+                        rs.getString("EMAIL"),
+                        rs.getString("PHONE"));
                 company.addResource(convertToResource(rs));
-                while (rs.next()){
+                while (rs.next()) {
                     company.addResource(convertToResource(rs));
                 }
                 return company;
@@ -101,7 +103,7 @@ public class MarsRepository {
         }
     }
 
-    private Resource convertToResource(ResultSet rs) throws SQLException{
+    private Resource convertToResource(ResultSet rs) throws SQLException {
         LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
         return new Resource(rs.getInt("RESOURCE_ID"),
                 rs.getString("RESOURCE_NAME"),
@@ -110,17 +112,17 @@ public class MarsRepository {
                 new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
     }
 
-    private Company existenceCheck(int companyId){
+    private Company existenceCheck(int companyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-        PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)){
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)) {
             stmt.setInt(1, companyId);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
                 return new Company(rs.getInt("ID"),
-                                    rs.getString("NAME"),
-                                    rs.getString("PASSWORD"),
-                                    rs.getString("EMAIL"),
-                                    rs.getString("PHONE"));
+                        rs.getString("NAME"),
+                        rs.getString("PASSWORD"),
+                        rs.getString("EMAIL"),
+                        rs.getString("PHONE"));
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.INFO, "Check ended: There are no companies with the given ID");
@@ -128,15 +130,15 @@ public class MarsRepository {
         }
     }
 
-    public Colony getColony(int id){
-        try(Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-            PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)){
+    public Colony getColony(int id) {
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)) {
             String companyIdColumnName = "COMPANY_ID";
             stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 Colony colony = transferToColony(rs);
                 colony.addCompany(getCompany(rs.getInt(companyIdColumnName)));
-                while(rs.next()){
+                while (rs.next()) {
                     colony.addCompany(getCompany(rs.getInt(companyIdColumnName)));
                 }
                 return colony;
@@ -147,7 +149,7 @@ public class MarsRepository {
         }
     }
 
-    private Colony transferToColony(ResultSet rs) throws SQLException{
+    private Colony transferToColony(ResultSet rs) throws SQLException {
         rs.next();
         int cId = rs.getInt("COLONY_ID");
         String cName = rs.getString("COLONY_NAME");
@@ -155,35 +157,65 @@ public class MarsRepository {
         return new Colony(cId, cName, location);
     }
 
-    public Set<Shipment> getShipments(int companyId){
+    public Set<Shipment> getShipments(int companyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-        PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT)){
+             PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT)) {
             stmt.setInt(1, companyId);
             stmt.setInt(2, companyId);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 Set<Shipment> res = new HashSet<>();
-                while(rs.next()){
+                while (rs.next()) {
                     covertToShipment(rs);
                 }
                 return Collections.emptySet();
             }
         } catch (SQLException ex) {
             throw new IdentifierException("Faulty Company ID");
-        } catch (ParseException ex){
+        } catch (ParseException ex) {
             throw new IllegalArgumentException();
         }
     }
 
     private void covertToShipment(ResultSet rs) throws SQLException, ParseException {
+        int id = rs.getInt("ID");
         Colony sender = getColony(rs.getInt("SENDER_ID"));
         Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date sendDate = df.parse(rs.getString("SEND_TIME"));
-        Date receiverDate = df.parse(rs.getString("RECEIVE_TIME"));
-        LOGGER.info(() -> String.format("%s %s %s %s",
-                sender.toShortJSON().toString(),
-                receiver.toShortJSON().toString(),
-                sendDate.toString(),
-                receiverDate.toString()));
+        Status status = getStatus(rs, id);
+        rs.getObject("RECEIVE_DATE");
+        if (!rs.wasNull()) {
+            Date receiverDate = df.parse(rs.getString("RECEIVE_TIME"));
+            LOGGER.info(() -> String.format("%s %s %s %s %s",
+                    sender.toShortJSON().toString(),
+                    receiver.toShortJSON().toString(),
+                    sendDate.toString(),
+                    receiverDate.toString(),
+                    status.toString()));
+        } else {
+            LOGGER.info(() -> String.format("%s %s %s %s",
+                    sender.toShortJSON().toString(),
+                    receiver.toShortJSON().toString(),
+                    sendDate.toString(),
+                    status.toString()));
+        }
+    }
+
+    private Status getStatus(ResultSet rs, int id) throws SQLException {
+        switch (rs.getString("STATUS")) {
+            case "In Transit":
+                return Status.IN_TRANSPORT;
+            case "Payed":
+                return Status.PAYED;
+            case "Processing":
+                return Status.PROCESSING;
+            case "Delivered":
+                return Status.DELIVERED;
+            default:
+                LOGGER.log(Level.SEVERE, () ->
+                        String.format("Corrupted data discovered: Status column in row with id %s at table SHIPMENTS in schema MARSDEX",
+                                id));
+                throw new CorruptedDateException("Status enum not recognized");
+        }
     }
 }
