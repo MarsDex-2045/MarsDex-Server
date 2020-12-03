@@ -1,8 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;
@@ -11,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,5 +88,17 @@ class MarsRepositoryTest {
         assertTrue(colony.getCompanies().contains(refC1));
         assertTrue(colony.getCompanies().contains(refC2));
         assertThrows(IdentifierException.class, () -> data.getColony(22));
+    }
+
+    @Test
+    void getShipments() {
+        MarsRepository data = MarsRepository.getInstance();
+        Calendar date = new Calendar.Builder().setDate(2052, 2, 22).setTimeOfDay(22, 22, 0).build();
+        Resource ref1 = new Resource(1, "Painite", 71.596, 200.0, date);
+        Resource ref2 = new Resource(2, "Alexandrite", 271.192, 200.0, date);
+
+        Set <Shipment> db = MarsRepository.getInstance().getShipments(12);
+
+        assertAll(() -> assertEquals(17, db.size()));
     }
 }
