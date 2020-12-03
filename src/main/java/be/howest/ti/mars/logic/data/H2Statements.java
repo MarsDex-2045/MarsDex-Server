@@ -5,7 +5,8 @@ class H2Statements {
     protected static final String H2_GET_COMPANY_FULL = h2StatementCompanyFull();
     protected static final String H2_GET_COMPANY_SIMPLE = "SELECT * FROM MARSDEX.COMPANIES WHERE ID = ?";
     protected static final String H2_GET_COLONY = h2StatementColonyFull();
-    protected static final String H2_GET_TRANSPORT = h2StatementCompanyTransport();
+    protected static final String H2_GET_TRANSPORT_DETAILS = h2StatementCompanyTransportDetails();
+    protected static final String H2_GET_TRANSPORT_RESOURCES = h2StatementCompanyTransportResources();
 
     private H2Statements() {
     }
@@ -28,12 +29,17 @@ class H2Statements {
                 "WHERE C.ID = ?";
     }
 
-    private static String h2StatementCompanyTransport() {
-        return "SELECT S.*, R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, R.PRICE, SR.WEIGHT, SR.ADDED_TIMESTAMP " +
+    private static String h2StatementCompanyTransportDetails() {
+        return "SELECT S.* " +
                 "FROM MARSDEX.SHIPMENTS S " +
-                "JOIN MARSDEX.SHIPMENTS_RESOURCES SR ON S.ID = SR.SHIPMENT_ID " +
-                "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID " +
                 "WHERE SENDER_ID = ? OR RECEIVER_ID = ? " +
                 "ORDER BY ID";
+    }
+
+    private static String h2StatementCompanyTransportResources() {
+        return "SELECT R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, SR.WEIGHT, SR.ADDED_TIMESTAMP, R.PRICE " +
+                "FROM MARSDEX.SHIPMENTS_RESOURCES SR " +
+                "JOIN MARSDEX.RESOURCES R ON SR.SHIPMENT_ID = R.ID " +
+                "WHERE SR.SHIPMENT_ID = ?";
     }
 }

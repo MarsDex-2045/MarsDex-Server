@@ -157,7 +157,7 @@ public class MarsRepository {
 
     public Set<Shipment> getShipments(int companyId) {
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-             PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT)) {
+             PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_DETAILS)) {
             stmt.setInt(1, companyId);
             stmt.setInt(2, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -187,9 +187,9 @@ public class MarsRepository {
         if (!rs.wasNull()) {
             Calendar receiveDate = Calendar.getInstance();
             receiveDate.setTime(df.parse(rs.getString("RECEIVE_TIME")));
-            return new Shipment(id, sender, sendDate, receiver, receiveDate, new HashSet<>(), status);
+            return new Shipment(id, sender, sendDate, receiver, receiveDate, getShipmentResources(id), status);
         } else {
-            return new Shipment(id, sender, sendDate, receiver, new HashSet<>(), status);
+            return new Shipment(id, sender, sendDate, receiver, getShipmentResources(id), status);
         }
     }
 
@@ -208,6 +208,20 @@ public class MarsRepository {
                         String.format("Corrupted data discovered: Status column in row with id %s at table SHIPMENTS in schema MARSDEX",
                                 id));
                 throw new CorruptedDateException("Status enum not recognized");
+        }
+    }
+
+    private Set<Resource> getShipmentResources(int shipmentId) throws SQLException {
+        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+             PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_RESOURCES)) {
+            stmt.setInt(1, shipmentId);
+            try (ResultSet rs = stmt.executeQuery()){
+                Set<Resource> resources = new HashSet<>();
+                while (rs.next()){
+                    resources.add(convertToResource(rs));
+                }
+                return resources;
+            }
         }
     }
 }
