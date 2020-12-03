@@ -100,7 +100,7 @@ public class MarsRepository {
     }
 
 
-    public Map<Integer, Boolean> addCompany(Company company, String colonyName) {
+    public Map<Integer, Boolean> addCompany(Company company, int colonyId) {
         int companyId;
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
@@ -117,7 +117,7 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new IllegalArgumentException("Object is fault");
         }
-        addColonyLink(companyId, getColonyIdByName(colonyName));
+        addColonyLink(companyId,colonyId);
         Map<Integer, Boolean> res = new HashMap<>();
         res.put(companyId, true);
         return res;
@@ -134,13 +134,6 @@ public class MarsRepository {
             throw new IdentifierException("Faulty ID");
         }
     }
-
-
-    private int getColonyIdByName(String colony) {
-
-        return 3;
-    }
-
 
     private Resource convertToResource(ResultSet rs) throws SQLException {
         LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
