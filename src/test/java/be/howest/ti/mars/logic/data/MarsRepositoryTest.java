@@ -5,10 +5,7 @@ import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.RunScript;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,15 +26,24 @@ class MarsRepositoryTest {
     public static final Logger LOGGER = Logger.getLogger(MarsRepositoryTest.class.getName());
 
     @BeforeAll
-    static void setupTestSuite() throws SQLException{
+    static void setupTestSuite() throws SQLException {
         MarsRepository.configure(URL, "sa", "", 9000);
     }
 
     @BeforeEach
     void setupTest() throws IOException, SQLException {
-        try (Connection con = MarsRepository.getInstance().getConnection()){
+        try (Connection con = MarsRepository.getInstance().getConnection()) {
             executeScript("src/test/resources/dbClean.sql", con);
             executeScript("src/test/resources/dbConstruction.sql", con);
+        }
+    }
+
+    @AfterAll
+    static void closeConnection() {
+        try (Connection con = MarsRepository.getInstance().getConnection()) {
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -49,7 +55,7 @@ class MarsRepositoryTest {
     @Test
     void getAllColonies() {
         MarsRepository data = MarsRepository.getInstance();
-        Colony ref1 = new Colony(1,"Haberlandt Survey", new Location(0.00000, 0.00000, 0.000));
+        Colony ref1 = new Colony(1, "Haberlandt Survey", new Location(0.00000, 0.00000, 0.000));
         Colony ref2 = new Colony(2, "Durrance Camp", new Location(40.22451, -80.56218, 160.000));
         Colony ref3 = new Colony(3, "Ehrlich City", new Location(33.21322, -33.2132, 300.000));
         Colony ref4 = new Colony(4, "Silves Claim", new Location(22.21773, 24.33564, -200.232));
@@ -81,7 +87,7 @@ class MarsRepositoryTest {
     @Test
     void getColony() {
         MarsRepository data = MarsRepository.getInstance();
-        Colony ref = new Colony(3, "Ehrlich City", new Location(33.21322, 	-33.2132, 300.0));
+        Colony ref = new Colony(3, "Ehrlich City", new Location(33.21322, -33.2132, 300.0));
         Company refC1 = new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000);
         Company refC2 = new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000);
 

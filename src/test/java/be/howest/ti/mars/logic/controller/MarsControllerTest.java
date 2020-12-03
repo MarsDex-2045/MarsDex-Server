@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.h2.tools.RunScript;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,12 +25,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarsControllerTest {
     public static final Logger LOGGER = Logger.getLogger(MarsController.class.getName());
+    private static final String URL = "jdbc:h2:~/test";
+
+    @BeforeAll
+    static void setupTestSuite() throws SQLException{
+        MarsRepository.configure(URL, "sa", "", 9000);
+    }
 
     @BeforeEach
     void setupTest() throws IOException, SQLException {
         try (Connection con = MarsRepository.getInstance().getConnection()){
             executeScript("src/test/resources/dbClean.sql", con);
             executeScript("src/test/resources/dbConstruction.sql", con);
+        }
+    }
+
+    @AfterAll
+    static void closeConnection() {
+        try (Connection con = MarsRepository.getInstance().getConnection()) {
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
