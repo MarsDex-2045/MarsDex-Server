@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.controller;
 import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.classes.Mars;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import io.vertx.core.json.JsonArray;
@@ -42,11 +43,7 @@ class MarsControllerTest {
 
     @AfterAll
     static void closeConnection() {
-        try (Connection con = MarsRepository.getInstance().getConnection()) {
-            con.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        MarsRepository.getInstance().cleanUp();
     }
 
     private void executeScript(String filePath, Connection con) throws IOException, SQLException {

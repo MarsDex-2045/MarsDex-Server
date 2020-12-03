@@ -9,12 +9,8 @@ import org.junit.jupiter.api.*;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,11 +36,7 @@ class MarsRepositoryTest {
 
     @AfterAll
     static void closeConnection() {
-        try (Connection con = MarsRepository.getInstance().getConnection()) {
-            con.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        MarsRepository.getInstance().cleanUp();
     }
 
     private void executeScript(String filePath, Connection con) throws IOException, SQLException {
