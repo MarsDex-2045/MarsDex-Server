@@ -170,6 +170,7 @@ public class MarsRepository {
                 return Collections.emptySet();
             }
         } catch (SQLException ex) {
+            LOGGER.severe(ex.getMessage());
             throw new IdentifierException("Faulty Company ID");
         } catch (ParseException ex) {
             throw new IllegalArgumentException();
@@ -183,7 +184,7 @@ public class MarsRepository {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date sendDate = df.parse(rs.getString("SEND_TIME"));
         Status status = getStatus(rs, id);
-        rs.getObject("RECEIVE_DATE");
+        rs.getObject("RECEIVE_TIME");
         if (!rs.wasNull()) {
             Date receiverDate = df.parse(rs.getString("RECEIVE_TIME"));
             LOGGER.info(() -> String.format("%s %s %s %s %s",
