@@ -39,7 +39,7 @@ class H2Statements {
     private static String h2StatementCompanyTransportResources() {
         return "SELECT R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, SR.WEIGHT, SR.ADDED_TIMESTAMP, R.PRICE " +
                 "FROM MARSDEX.SHIPMENTS_RESOURCES SR " +
-                "JOIN MARSDEX.RESOURCES R ON SR.SHIPMENT_ID = R.ID " +
+                "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID " +
                 "WHERE SR.SHIPMENT_ID = ?";
     }
 }
