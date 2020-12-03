@@ -1,10 +1,7 @@
 package be.howest.ti.mars.logic.data;
 
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Location;
-import be.howest.ti.mars.logic.classes.Resource;
+import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
@@ -12,6 +9,7 @@ import org.h2.tools.Server;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -152,5 +150,9 @@ public class MarsRepository {
         String cName = rs.getString("COLONY_NAME");
         Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
         return new Colony(cId, cName, location);
+    }
+
+    public Set<Shipment> getShipments(int companyId){
+        return Collections.emptySet();
     }
 }
