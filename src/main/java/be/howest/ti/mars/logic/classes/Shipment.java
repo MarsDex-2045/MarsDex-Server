@@ -63,6 +63,8 @@ public class Shipment {
         json.put("sender", this.sender.toShortJSON());
         if(this.endTime != null){
             json.put("receiveTime", timeToJSON(this.endTime));
+        } else{
+            json.putNull("receiveTime");
         }
         json.put("receiver", this.receiver.toShortJSON());
         return json;
