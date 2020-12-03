@@ -41,12 +41,12 @@ class MarsOpenApiBridge {
     public JsonObject makeCompany(RoutingContext ctx) {
         JsonObject body = ctx.getBodyAsJson();
         String name = body.getString("name");
-        String colony = body.getString("colony");
+        int colonyIdInt = body.getInteger("colonyId");
         String email = body.getString("email");
         String password = body.getString("password");
         String phone = body.getString("phone");
         Company company = new Company(0,name,password,email,phone);
-        return controller.makeCompany(company,colony);
+        return controller.makeCompany(company,colonyIdInt);
     }
 
     public Boolean editCompanyResources(RoutingContext ctx) {
