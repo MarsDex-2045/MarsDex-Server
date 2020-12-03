@@ -341,8 +341,8 @@ paths:
                   format: email
                 name:
                   type: string
-                colony:
-                  type: string
+                colonyId:
+                  type: int
                 password:
                   type: string
                   format: password
