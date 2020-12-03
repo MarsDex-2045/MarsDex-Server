@@ -93,4 +93,14 @@ class MarsRepositoryTest {
         assertThrows(IdentifierException.class, () -> data.getColony(22));
     }
 
+/*
+    @Test
+    void addCompany() {
+        MarsRepository data = MarsRepository.getInstance();
+        Company refC1 = new Company(500, "toegevoegd", "V1s10na1r", "testgbvp@mars.com", "+552434221", 150000);
+        data.addCompany(refC1,3);
+        assertEquals(refC1,data.getCompany(500));
+
+    }
+*/
 }

@@ -18,6 +18,10 @@ public class Colony {
         this.companies  = new HashSet<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addCompany(Company company){
         this.companies.add(company);
     }
