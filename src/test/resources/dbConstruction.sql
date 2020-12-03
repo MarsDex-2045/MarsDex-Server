@@ -188,32 +188,32 @@ VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In 
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'In Transit');
+VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  null, 'Payed');
+VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'Payed');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'Processing');
+VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'Processing');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'In Transit');
+VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'In Transit');
 
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'In Transit');
+VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  null, 'Payed');
+VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'Payed');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'Processing');
+VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'Processing');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
@@ -226,57 +226,19 @@ VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'In 
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'In Transit');
+VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  null, 'Payed');
+VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'Payed');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'Processing');
+VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'Processing');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'In Transit');
 insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
 VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
-
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  null, 'Payed');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 6,  null, 'Processing');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (5, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
-
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'Payed');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 5,  null, 'Processing');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,  null, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (6, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  null, 'In Transit');
 
 //CONNECT SHIPMENTS & RESOURCES
 insert into shipments_resources(shipment_id, resource_id, weight)

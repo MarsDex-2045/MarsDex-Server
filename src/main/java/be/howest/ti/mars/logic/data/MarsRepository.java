@@ -7,9 +7,12 @@ import org.h2.tools.Server;
 
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -158,11 +161,29 @@ public class MarsRepository {
             stmt.setInt(1, companyId);
             stmt.setInt(2, companyId);
             try (ResultSet rs = stmt.executeQuery()){
-                LOGGER.log(Level.INFO, rs::toString);
+                Set<Shipment> res = new HashSet<>();
+                while(rs.next()){
+                    covertToShipment(rs);
+                }
+                return Collections.emptySet();
             }
-        } catch (SQLException throwables) {
-            LOGGER.log(Level.INFO, throwables.toString());
+        } catch (SQLException ex) {
+            throw new IdentifierException("Faulty Company ID");
+        } catch (ParseException ex){
+            throw new IllegalArgumentException();
         }
-        return Collections.emptySet();
+    }
+
+    private void covertToShipment(ResultSet rs) throws SQLException, ParseException {
+        Colony sender = getColony(rs.getInt("SENDER_ID"));
+        Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sendDate = df.parse(rs.getString("SEND_TIME"));
+        Date receiverDate = df.parse(rs.getString("RECEIVE_TIME"));
+        LOGGER.info(() -> String.format("%s %s %s %s",
+                sender.toShortJSON().toString(),
+                receiver.toShortJSON().toString(),
+                sendDate.toString(),
+                receiverDate.toString()));
     }
 }

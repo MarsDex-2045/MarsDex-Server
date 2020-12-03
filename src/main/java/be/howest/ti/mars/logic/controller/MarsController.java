@@ -1,8 +1,12 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.classes.Shipment;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class MarsController {
 
@@ -40,7 +44,8 @@ public class MarsController {
 
     public Object getCompanyTransports(String idString) {
         int id = Integer.parseInt(idString);
-        return MarsRepository.getInstance().getShipments(id);
+        Set<Shipment> test = MarsRepository.getInstance().getShipments(id);
+        return Collections.emptySet();
     }
 
     public JsonObject makeCompany() {

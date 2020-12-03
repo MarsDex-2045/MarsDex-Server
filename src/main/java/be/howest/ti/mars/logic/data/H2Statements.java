@@ -33,6 +33,7 @@ class H2Statements {
                 "FROM MARSDEX.SHIPMENTS S " +
                 "JOIN MARSDEX.SHIPMENTS_RESOURCES SR ON S.ID = SR.SHIPMENT_ID " +
                 "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID " +
-                "WHERE SENDER_ID = ? OR RECEIVER_ID = ?";
+                "WHERE SENDER_ID = ? OR RECEIVER_ID = ? " +
+                "ORDER BY STATUS";
     }
 }
