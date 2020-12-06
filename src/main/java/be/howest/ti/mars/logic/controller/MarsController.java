@@ -1,12 +1,11 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.classes.Shipment;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.Set;
 
 public class MarsController {
 
@@ -42,42 +41,14 @@ public class MarsController {
         return json;
     }
 
-    public Object getCompanyTransports(String id) {
-        JsonArray transports = new JsonArray();
-        for (int i = 1; i < 10; i++) {
-            JsonObject json = new JsonObject();
-            json.put("shippingId", id);
-            json.put("status", "Payed");
-            JsonArray resources = new JsonArray();
-            for (int j = 1; j < 5; j++) {
-                JsonObject resource = new JsonObject();
-                resource.put("name", "Silver V" + 1);
-                resource.put("weight", 200.45 + j);
-                resource.put("added", LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue() + "-" + LocalDate.now().getDayOfMonth());
-                resource.put("price", 20.221 + 1);
-                resources.add(resource);
-            }
-            json.put("resources", resources);
-            JsonObject sendTime = new JsonObject();
-            sendTime.put("date", LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue() + "-" + LocalDate.now().getDayOfMonth());
-            sendTime.put("time", LocalTime.now().getHour() + ":" + LocalTime.now().getMinute());
-            json.put("sendTime", sendTime);
-            JsonArray colonies = getColonies();
-            json.put("sender", colonies.getValue(0));
-            LocalDateTime receiveData = LocalDateTime.of(2052, 11, 5, 22, 22);
-            if(i % 2 == 0){
-                json.putNull("receiveTime");
-            }
-            else{
-                JsonObject receiveTime = new JsonObject();
-                receiveTime.put("date", receiveData.getYear() + "-" + receiveData.getMonthValue() + "-" + receiveData.getDayOfMonth());
-                receiveTime.put("time", receiveData.getHour() + ":" + receiveData.getMinute());
-                json.put("receiveTime", receiveTime);
-            }
-            json.put("receiver", colonies.getValue(2));
-            transports.add(json);
+    public JsonArray getCompanyTransports(String idString) {
+        int id = Integer.parseInt(idString);
+        Set<Shipment> shipments = MarsRepository.getInstance().getShipments(id);
+        JsonArray json = new JsonArray();
+        for (Shipment shipment:shipments) {
+            json.add(shipment.toJSON());
         }
-        return transports;
+        return json;
     }
 
     public JsonObject makeCompany() {

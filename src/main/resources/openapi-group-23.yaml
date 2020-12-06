@@ -170,7 +170,7 @@ paths:
                       $ref: '#/components/schemas/Colony'
                     recieveTime:
                       $ref: '#/components/schemas/Time'
-                    reciever:
+                    receiver:
                       $ref: '#/components/schemas/Colony'
         '404':
           description: "Not able to find the given company"

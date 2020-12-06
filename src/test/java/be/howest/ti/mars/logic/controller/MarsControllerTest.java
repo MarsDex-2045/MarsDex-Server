@@ -1,14 +1,13 @@
 package be.howest.ti.mars.logic.controller;
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.h2.tools.RunScript;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +24,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarsControllerTest {
     public static final Logger LOGGER = Logger.getLogger(MarsController.class.getName());
+    private static final String URL = "jdbc:h2:~/test";
+
+    @BeforeAll
+    static void setupTestSuite() throws SQLException{
+        MarsRepository.configure(URL, "sa", "", 9000);
+    }
 
     @BeforeEach
     void setupTest() throws IOException, SQLException {
@@ -31,6 +37,11 @@ class MarsControllerTest {
             executeScript("src/test/resources/dbClean.sql", con);
             executeScript("src/test/resources/dbConstruction.sql", con);
         }
+    }
+
+    @AfterAll
+    static void closeConnection() {
+        MarsRepository.getInstance().cleanUp();
     }
 
     private void executeScript(String filePath, Connection con) throws IOException, SQLException {
@@ -73,7 +84,7 @@ class MarsControllerTest {
         ref.addCompany(new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000));
         ref.addCompany(new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000));
 
-        JsonObject json = data.getColony(3).toJSON();
+        JsonObject json = new MarsController().getColonyById("3");
 
         assertEquals(3, json.getInteger("id"));
         assertEquals("Ehrlich City", json.getString("name"));
@@ -93,5 +104,29 @@ class MarsControllerTest {
         assertTrue(json.containsKey("resources"));
         assertEquals(8, resources.size());
         assertThrows(IdentifierException.class, () -> data.getCompany(22));
+    }
+
+    @Test
+    void getCompanyTransports() {
+        Calendar date = new Calendar.Builder().setDate(2052, 3, 22).build();
+        Resource ref1 = new Resource(1, "Painite", 71.596, 200.0 , date);
+        Resource ref2 = new Resource(2, "Alexandrite", 271.192, 200.0, date);
+
+        JsonArray json = new MarsController().getCompanyTransports("2");
+
+        LOGGER.log(Level.INFO, json.toString());
+        assertAll(() -> {
+            assertEquals(18, json.size());
+            JsonObject transport = json.getJsonObject(1);
+            assertTrue(transport.containsKey("resources"));
+            assertTrue(transport.containsKey("shippingId"));
+            assertTrue(transport.containsKey("status"));
+            assertTrue(transport.containsKey("sendTime"));
+            assertTrue(transport.getJsonObject("sendTime").containsKey("date"));
+            assertTrue(transport.getJsonObject("sendTime").containsKey("time"));
+            assertTrue(transport.containsKey("sender"));
+            assertTrue(transport.containsKey("receiveTime"));
+            assertTrue(transport.containsKey("receiver"));
+        });
     }
 }
