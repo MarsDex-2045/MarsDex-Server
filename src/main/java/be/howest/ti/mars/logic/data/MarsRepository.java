@@ -2,7 +2,7 @@ package be.howest.ti.mars.logic.data;
 
 
 import be.howest.ti.mars.logic.classes.*;
-import be.howest.ti.mars.logic.exceptions.CorruptedDateException;
+import be.howest.ti.mars.logic.exceptions.CorruptedDataException;
 import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
@@ -198,7 +198,7 @@ public class MarsRepository {
         } catch (ParseException ex) {
             String msg = String.format("Date corrupted at row %s in table SHIPMENTS in Scheme MARSDEX", rs.getInt("ID"));
             LOGGER.log(Level.SEVERE, msg);
-            throw new CorruptedDateException("Date data corrupted");
+            throw new CorruptedDataException("Date data corrupted");
         }
 
     }
@@ -217,7 +217,7 @@ public class MarsRepository {
                 LOGGER.log(Level.SEVERE, () ->
                         String.format("Corrupted data discovered: Status column in row with id %s at table SHIPMENTS in schema MARSDEX",
                                 id));
-                throw new CorruptedDateException("Status enum not recognized");
+                throw new CorruptedDataException("Status enum not recognized");
         }
     }
 

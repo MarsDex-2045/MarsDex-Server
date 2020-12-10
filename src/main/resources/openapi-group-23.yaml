@@ -243,6 +243,14 @@ paths:
       responses:
         '201':
           description: Resource has been created and added
+          content:
+            application/json:
+              schema:
+                properties:
+                  processed:
+                    type: boolean
+                example:
+                  processed: true
         '404':
           description: Company couldn't be found
         '409':

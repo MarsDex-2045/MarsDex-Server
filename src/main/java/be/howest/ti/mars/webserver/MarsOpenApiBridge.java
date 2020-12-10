@@ -45,7 +45,8 @@ class MarsOpenApiBridge {
         return true;
     }
 
-    public boolean addResourceToCompany(RoutingContext ctx) {
-        return true;
+    public JsonObject addResourceToCompany(RoutingContext ctx) {
+        controller.addResource(ctx.getBodyAsJson());
+        return new JsonObject();
     }
 }

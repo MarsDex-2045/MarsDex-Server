@@ -57,4 +57,8 @@ public class MarsController {
         json.put("id", 2);
         return json;
     }
+
+    public JsonObject addResource(JsonObject resource) {
+        return new JsonObject();
+    }
 }
