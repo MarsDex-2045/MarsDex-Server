@@ -236,6 +236,13 @@ public class MarsRepository {
     }
 
     public void insertResource(Resource resource) {
-        throw new UnsupportedOperationException();
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE)){
+            stmt.setDouble(1, resource.getPrice());
+            stmt.setString(2, resource.getName());
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
+            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+        }
     }
 }

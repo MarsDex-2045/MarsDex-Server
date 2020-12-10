@@ -7,6 +7,7 @@ class H2Statements {
     protected static final String H2_GET_COLONY = h2StatementColonyFull();
     protected static final String H2_GET_TRANSPORT_DETAILS = h2StatementCompanyTransportDetails();
     protected static final String H2_GET_TRANSPORT_RESOURCES = h2StatementCompanyTransportResources();
+    protected static final String H2_INSERT_RESOURCE = "INSERT INTO MARSDEX.RESOURCES(price, name) VALUES (?, ?);";
 
     private H2Statements() {
     }

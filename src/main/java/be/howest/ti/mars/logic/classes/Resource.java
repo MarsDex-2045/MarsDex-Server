@@ -27,6 +27,18 @@ public class Resource {
         return weight;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Calendar getAddDate() {
+        return addDate;
+    }
+
     public JsonObject toJSON() {
         JsonObject json = new JsonObject();
         json.put("name", this.name);
