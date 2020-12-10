@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.exceptions.CorruptedDataException;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
@@ -237,6 +238,10 @@ public class MarsRepository {
 
     public boolean insertResourceOfCompany(Resource resource, int companyId) {
         existenceCheck(companyId);
+        if(resourceCheck(resource.getName(), companyId)){
+            throw new DuplicationException("This resource already exists. Please edit the resource instead.");
+        }
+
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setDouble(1, resource.getPrice());
@@ -266,6 +271,20 @@ public class MarsRepository {
             stmt.setString(4, df.format(resource.getAddDate().getTime()));
             stmt.executeUpdate();
             return true;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+        }
+    }
+
+    public boolean resourceCheck(String resourceName, int companyId) {
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_COMPANY)){
+            stmt.setString(1, resourceName);
+            stmt.setInt(2, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                return rs.next();
+            }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
             throw new H2RuntimeException("SQL Error: " + ex.getMessage());

@@ -74,6 +74,7 @@ public class MarsController {
         if(priceDecimals > 3 || weightDecimals > 3){
             throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
         }
+
         Resource newResource = new Resource(-1, name, price, weight, date);
         JsonObject json = new JsonObject();
         json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
