@@ -5,7 +5,6 @@ import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
-import io.swagger.v3.core.util.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +18,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,15 +96,14 @@ class MarsControllerTest {
 
     @Test
     void getCompanyResources() {
-        MarsRepository data = MarsRepository.getInstance();
+        MarsController controller = new MarsController();
 
-        JsonObject json = data.getCompany(2).allResourcesToJSONObject();
-        JsonArray resources = json.getJsonArray("resources");
+        JsonObject resources = controller.getCompanyResources("2");
 
-        assertEquals(2, json.getInteger("id"));
-        assertTrue(json.containsKey("resources"));
-        assertEquals(8, resources.size());
-        assertThrows(IdentifierException.class, () -> data.getCompany(22));
+        assertEquals(2, resources.getInteger("id"));
+        assertTrue(resources.containsKey("resources"));
+        assertEquals(8, resources.getJsonArray("resources").size());
+        assertThrows(IdentifierException.class, () -> controller.getCompanyResources("22"));
     }
 
     @Test

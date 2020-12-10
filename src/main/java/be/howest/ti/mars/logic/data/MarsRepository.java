@@ -169,7 +169,7 @@ public class MarsRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
-            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+            throw new H2RuntimeException(ex.getMessage());
         }
         if (res.isEmpty()) {
             LOGGER.log(Level.INFO, "Potential empty company detected; Running Existence check.");
@@ -253,7 +253,7 @@ public class MarsRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "The given company couldn't be found.");
-            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+            throw new H2RuntimeException( ex.getMessage());
         }
     }
 
@@ -268,7 +268,7 @@ public class MarsRepository {
             return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
-            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+            throw new H2RuntimeException(ex.getMessage());
         }
     }
 
@@ -282,7 +282,7 @@ public class MarsRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
-            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+            throw new H2RuntimeException(ex.getMessage());
         }
     }
 }
