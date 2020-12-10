@@ -264,11 +264,11 @@ public class MarsRepository {
     private boolean linkResourceCompany(int resourceId, int companyId, Resource resource) {
         try(Connection con = MarsRepository.getInstance().getConnection();
         PreparedStatement stmt = con.prepareStatement(H2_INSERT_COMPANIES_RESOURCES)){
-            LocalDate date = new Timestamp(resource.getAddDate().getTime().getTime()).toLocalDateTime().toLocalDate();
+            Date date = new Date(resource.getAddDate().getTime().getTime());
             stmt.setInt(1, companyId);
             stmt.setInt(2, resourceId);
             stmt.setDouble(3, resource.getWeight());
-            stmt.setDate(4, Date.valueOf(date));
+            stmt.setDate(4, date);
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {

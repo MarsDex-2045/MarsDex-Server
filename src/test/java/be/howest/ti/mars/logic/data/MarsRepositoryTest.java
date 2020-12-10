@@ -105,7 +105,7 @@ class MarsRepositoryTest {
 
     @Test
     void insertResourceOfCompany() {
-        Calendar date = new Calendar.Builder().setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()).build();
+        Calendar date = new Calendar.Builder().setDate(2052, 2, 12).build();
         Resource nr = new Resource(235, "Cobalt", 23.664, 2223.390, date);
         JsonObject nrJson =  nr.toJSON();
         MarsRepository data = MarsRepository.getInstance();
