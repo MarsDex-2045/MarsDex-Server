@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -238,15 +237,16 @@ public class MarsRepository {
 
     public void insertResourceOfCompany(Resource resource, int companyId) {
         try (Connection con = MarsRepository.getInstance().getConnection();
-             PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE)) {
+             PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setDouble(1, resource.getPrice());
             stmt.setString(2, resource.getName());
             stmt.executeUpdate();
-            try(ResultSet id = stmt.getGeneratedKeys()){
-                if (id.next()){
-                    linkResourceCompany(id.getInt(1), companyId, resource);
+            try(ResultSet result = stmt.getGeneratedKeys()){
+                if (result.next()){
+                    linkResourceCompany(result.getInt(1), companyId, resource);
                 } else {
-                    throw new SQLException();
+                    LOGGER.severe("Failed getting the auto-id from new insert");
+                    throw new SQLException("Failed retrieving the generated ID");
                 }
             }
         } catch (SQLException ex) {
