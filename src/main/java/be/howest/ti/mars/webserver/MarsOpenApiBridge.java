@@ -46,7 +46,6 @@ class MarsOpenApiBridge {
     }
 
     public JsonObject addResourceToCompany(RoutingContext ctx) {
-        controller.addResource(ctx.getBodyAsJson(), ctx.request().getParam(COMPANY_ID_PARAMETER));
-        return new JsonObject();
+        return controller.addResource(ctx.getBodyAsJson(), ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 }

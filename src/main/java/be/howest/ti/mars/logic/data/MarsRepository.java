@@ -235,7 +235,7 @@ public class MarsRepository {
         }
     }
 
-    public void insertResourceOfCompany(Resource resource, int companyId) {
+    public boolean insertResourceOfCompany(Resource resource, int companyId) {
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setDouble(1, resource.getPrice());
@@ -243,7 +243,7 @@ public class MarsRepository {
             stmt.executeUpdate();
             try(ResultSet result = stmt.getGeneratedKeys()){
                 if (result.next()){
-                    linkResourceCompany(result.getInt(1), companyId, resource);
+                    return linkResourceCompany(result.getInt(1), companyId, resource);
                 } else {
                     LOGGER.severe("Failed getting the auto-id from new insert");
                     throw new SQLException("Failed retrieving the generated ID");
@@ -255,14 +255,16 @@ public class MarsRepository {
         }
     }
 
-    private void linkResourceCompany(int resourceId, int companyId, Resource resource) {
+    private boolean linkResourceCompany(int resourceId, int companyId, Resource resource) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try(Connection con = MarsRepository.getInstance().getConnection();
         PreparedStatement stmt = con.prepareStatement(H2_INSERT_COMPANIES_RESOURCES)){
-            LOGGER.log(Level.INFO, () -> String.format("%s %s %s %s", resourceId, companyId, resource.toJSON().toString(), LocalDate.now().toString()));
             stmt.setInt(1, companyId);
             stmt.setInt(2, resourceId);
             stmt.setDouble(3, resource.getWeight());
-            stmt.setString(4, LocalDate.now().toString());
+            stmt.setString(4, df.format(resource.getAddDate().getTime()));
+            stmt.executeUpdate();
+            return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
             throw new H2RuntimeException("SQL Error: " + ex.getMessage());
