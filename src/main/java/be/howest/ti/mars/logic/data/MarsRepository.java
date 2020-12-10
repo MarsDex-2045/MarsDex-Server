@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -235,22 +236,36 @@ public class MarsRepository {
         }
     }
 
-    public void insertResource(Resource resource) {
+    public void insertResourceOfCompany(Resource resource, int companyId) {
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE)) {
             stmt.setDouble(1, resource.getPrice());
             stmt.setString(2, resource.getName());
             stmt.executeUpdate();
             try(ResultSet id = stmt.getGeneratedKeys()){
-                linkToCompany(id.getInt(1));
+                if (id.next()){
+                    linkResourceCompany(id.getInt(1), companyId, resource);
+                } else {
+                    throw new SQLException();
+                }
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
             throw new H2RuntimeException("SQL Error: " + ex.getMessage());
         }
     }
 
-    private void linkToCompany(int id) {
-        throw new UnsupportedOperationException();
+    private void linkResourceCompany(int resourceId, int companyId, Resource resource) {
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_INSERT_COMPANIES_RESOURCES)){
+            LOGGER.log(Level.INFO, () -> String.format("%s %s %s %s", resourceId, companyId, resource.toJSON().toString(), LocalDate.now().toString()));
+            stmt.setInt(1, companyId);
+            stmt.setInt(2, resourceId);
+            stmt.setDouble(3, resource.getWeight());
+            stmt.setString(4, LocalDate.now().toString());
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            throw new H2RuntimeException("SQL Error: " + ex.getMessage());
+        }
     }
 }

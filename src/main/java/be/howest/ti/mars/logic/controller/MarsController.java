@@ -61,14 +61,14 @@ public class MarsController {
         return json;
     }
 
-    public JsonObject addResource(JsonObject resource) {
+    public JsonObject addResource(JsonObject resource, String companyId) {
         Double price = resource.getDouble("price");
         Double weight = resource.getDouble("weight");
         String name = resource.getString("name");
         Calendar date = new Calendar.Builder().setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()).build();
 
         Resource newResource = new Resource(-1, name, price, weight, date);
-        MarsRepository.getInstance().insertResource(newResource);
+        MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId));
         return new JsonObject();
     }
 }
