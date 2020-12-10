@@ -2,7 +2,10 @@ package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import io.swagger.v3.core.util.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.StringUtils;
@@ -109,7 +112,6 @@ class MarsControllerTest {
 
     @Test
     void getCompanyTransports() {
-
         JsonArray json = new MarsController().getCompanyTransports("2");
 
         LOGGER.log(Level.INFO, json.toString());
@@ -126,5 +128,25 @@ class MarsControllerTest {
             assertTrue(transport.containsKey("receiveTime"));
             assertTrue(transport.containsKey("receiver"));
         });
+    }
+
+    @Test
+    void addResource() {
+        JsonObject input = new JsonObject();
+        input.put("name", "Gritium").put("weight", 203.243662).put("price", 124.976382);
+        MarsController controller = new MarsController();
+
+        assertAll(() ->{
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("weight", 203.234);
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("price", 234.223);
+        });
+
+        controller.addResource(input, "4");
+
+        JsonObject ref = MarsRepository.getInstance().getCompany(4).allResourcesToJSONObject();
+
+        assertThrows(DuplicationException.class, () -> controller.addResource(input, "4"));
     }
 }
