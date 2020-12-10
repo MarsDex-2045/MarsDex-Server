@@ -262,13 +262,13 @@ public class MarsRepository {
     }
 
     private boolean linkResourceCompany(int resourceId, int companyId, Resource resource) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try(Connection con = MarsRepository.getInstance().getConnection();
         PreparedStatement stmt = con.prepareStatement(H2_INSERT_COMPANIES_RESOURCES)){
+            LocalDate date = new Timestamp(resource.getAddDate().getTime().getTime()).toLocalDateTime().toLocalDate();
             stmt.setInt(1, companyId);
             stmt.setInt(2, resourceId);
             stmt.setDouble(3, resource.getWeight());
-            stmt.setString(4, df.format(resource.getAddDate().getTime()));
+            stmt.setDate(4, Date.valueOf(date));
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -277,7 +277,7 @@ public class MarsRepository {
         }
     }
 
-    public boolean resourceCheck(String resourceName, int companyId) {
+    private boolean resourceCheck(String resourceName, int companyId) {
         try(Connection con = MarsRepository.getInstance().getConnection();
         PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_COMPANY)){
             stmt.setString(1, resourceName);

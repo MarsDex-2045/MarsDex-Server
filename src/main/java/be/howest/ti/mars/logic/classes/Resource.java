@@ -1,6 +1,9 @@
 package be.howest.ti.mars.logic.classes;
 
 import io.vertx.core.json.JsonObject;
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -49,9 +52,10 @@ public class Resource {
     }
 
     protected static String calendarToDateFormat(Calendar calendar){
-        return calendar.get(Calendar.YEAR) + "-" +
-                calendar.get(Calendar.MONTH) + "-" +
-                calendar.get(Calendar.DAY_OF_MONTH);
+        LocalDate date = new Timestamp(calendar.getTime().getTime()).toLocalDateTime().toLocalDate();
+        return date.getYear() + "-" +
+                date.getMonthValue() + "-" +
+                date.getDayOfMonth();
     }
 
     @Override
