@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,9 +109,6 @@ class MarsControllerTest {
 
     @Test
     void getCompanyTransports() {
-        Calendar date = new Calendar.Builder().setDate(2052, 3, 22).build();
-        Resource ref1 = new Resource(1, "Painite", 71.596, 200.0 , date);
-        Resource ref2 = new Resource(2, "Alexandrite", 271.192, 200.0, date);
 
         JsonArray json = new MarsController().getCompanyTransports("2");
 

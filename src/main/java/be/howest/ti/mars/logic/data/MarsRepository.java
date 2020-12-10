@@ -13,7 +13,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -104,12 +104,11 @@ public class MarsRepository {
     }
 
     private Resource convertToResource(ResultSet rs) throws SQLException {
-        LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
         return new Resource(rs.getInt("RESOURCE_ID"),
                 rs.getString("RESOURCE_NAME"),
                 rs.getDouble("PRICE"),
                 rs.getDouble("WEIGHT"),
-                new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
+                LocalDate.now());
     }
 
     private Company existenceCheck(int companyId) {
@@ -185,13 +184,11 @@ public class MarsRepository {
             Colony sender = getColony(rs.getInt("SENDER_ID"));
             Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Calendar sendDate = Calendar.getInstance();
-            sendDate.setTime(df.parse(rs.getString("SEND_TIME")));
+            LocalDateTime sendDate = new Timestamp(df.parse(rs.getString("SEND_TIME")).getTime()).toLocalDateTime();
             Status status = getStatus(rs, id);
             rs.getObject("RECEIVE_TIME");
             if (!rs.wasNull()) {
-                Calendar receiveDate = Calendar.getInstance();
-                receiveDate.setTime(df.parse(rs.getString("RECEIVE_TIME")));
+                LocalDateTime receiveDate = new Timestamp(df.parse(rs.getString("RECEIVE_TIME")).getTime()).toLocalDateTime();
                 return new Shipment(id, sender, sendDate, receiver, receiveDate, getShipmentResources(id), status);
             } else {
                 return new Shipment(id, sender, sendDate, receiver, getShipmentResources(id), status);
@@ -201,7 +198,6 @@ public class MarsRepository {
             LOGGER.log(Level.SEVERE, msg);
             throw new CorruptedDataException("Date data corrupted");
         }
-
     }
 
     private Status getStatus(ResultSet rs, int id) throws SQLException {
@@ -264,11 +260,10 @@ public class MarsRepository {
     private boolean linkResourceCompany(int resourceId, int companyId, Resource resource) {
         try(Connection con = MarsRepository.getInstance().getConnection();
         PreparedStatement stmt = con.prepareStatement(H2_INSERT_COMPANIES_RESOURCES)){
-            Date date = new Date(resource.getAddDate().getTime().getTime());
             stmt.setInt(1, companyId);
             stmt.setInt(2, resourceId);
             stmt.setDouble(3, resource.getWeight());
-            stmt.setDate(4, date);
+            stmt.setDate(4, Date.valueOf(resource.getAddDate()));
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {

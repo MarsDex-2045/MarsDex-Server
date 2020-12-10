@@ -9,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Set;
 
 public class MarsController {
@@ -67,7 +66,6 @@ public class MarsController {
         Double price = resource.getDouble("price");
         Double weight = resource.getDouble("weight");
         String name = resource.getString("name");
-        Calendar date = new Calendar.Builder().setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()).build();
 
         int priceDecimals = new BigDecimal(String.valueOf(price)).scale();
         int weightDecimals = new BigDecimal(String.valueOf(weight)).scale();
@@ -75,7 +73,7 @@ public class MarsController {
             throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
         }
 
-        Resource newResource = new Resource(-1, name, price, weight, date);
+        Resource newResource = new Resource(-1, name, price, weight, LocalDate.now());
         JsonObject json = new JsonObject();
         json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
         return json;
