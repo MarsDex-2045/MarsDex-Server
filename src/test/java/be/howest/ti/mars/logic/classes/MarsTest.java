@@ -19,9 +19,9 @@ class MarsTest {
     @Test
     void getShipments() {
         Mars mars = generateMars();
-        Set<Shipment> shipments = Set.of(generateShipments()[0], generateShipments()[2]);
 
-        assertEquals(shipments, mars.getShipments());
+        assertTrue(mars.getShipments().contains(generateShipments()[0]));
+        assertTrue(mars.getShipments().contains(generateShipments()[2]));
     }
 
     @Test

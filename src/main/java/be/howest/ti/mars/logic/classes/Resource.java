@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.classes;
 import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Resource {
@@ -44,7 +45,7 @@ public class Resource {
         JsonObject json = new JsonObject();
         json.put("name", this.name);
         json.put("price", this.price);
-        json.put("added", this.addDate);
+        json.put("added", this.addDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         json.put("weight", this.weight);
         return json;
     }

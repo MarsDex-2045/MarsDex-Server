@@ -26,7 +26,7 @@ class ShipmentTest {
         assertTrue(json.getJsonArray("resources").contains(resource2.toJSON()));
         assertTrue(json.getJsonArray("resources").contains(resource3.toJSON()));
         assertEquals("2052-10-12", json.getJsonObject("sendTime").getString("date"));
-        assertEquals("2:2", json.getJsonObject("sendTime").getString("time"));
+        assertEquals("02:02", json.getJsonObject("sendTime").getString("time"));
         assertEquals(generateColonies()[0].toShortJSON(), json.getJsonObject("sender"));
         assertEquals(generateColonies()[2].toShortJSON(), json.getJsonObject("receiver"));
         assertEquals("2052-11-12", json.getJsonObject("receiveTime").getString("date"));
