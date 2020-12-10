@@ -236,13 +236,21 @@ public class MarsRepository {
     }
 
     public void insertResource(Resource resource) {
-        try(Connection con = MarsRepository.getInstance().getConnection();
-        PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE)){
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE)) {
             stmt.setDouble(1, resource.getPrice());
             stmt.setString(2, resource.getName());
+            stmt.executeUpdate();
+            try(ResultSet id = stmt.getGeneratedKeys()){
+                linkToCompany(id.getInt(1));
+            }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
             throw new H2RuntimeException("SQL Error: " + ex.getMessage());
         }
+    }
+
+    private void linkToCompany(int id) {
+        throw new UnsupportedOperationException();
     }
 }
