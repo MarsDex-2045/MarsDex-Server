@@ -234,4 +234,8 @@ public class MarsRepository {
             }
         }
     }
+
+    public void insertResource(Resource resource) {
+        throw new UnsupportedOperationException();
+    }
 }

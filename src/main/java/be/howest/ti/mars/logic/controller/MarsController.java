@@ -1,10 +1,13 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.classes.Shipment;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Set;
 
 public class MarsController {
@@ -59,6 +62,13 @@ public class MarsController {
     }
 
     public JsonObject addResource(JsonObject resource) {
+        Double price = resource.getDouble("price");
+        Double weight = resource.getDouble("weight");
+        String name = resource.getString("name");
+        Calendar date = new Calendar.Builder().setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()).build();
+
+        Resource newResource = new Resource(-1, name, price, weight, date);
+        MarsRepository.getInstance().insertResource(newResource);
         return new JsonObject();
     }
 }
