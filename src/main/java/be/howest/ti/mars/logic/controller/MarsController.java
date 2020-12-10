@@ -67,6 +67,7 @@ public class MarsController {
         String name = resource.getString("name");
         Calendar date = new Calendar.Builder().setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()).build();
 
+
         Resource newResource = new Resource(-1, name, price, weight, date);
         JsonObject json = new JsonObject();
         json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));

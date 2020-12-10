@@ -236,6 +236,7 @@ public class MarsRepository {
     }
 
     public boolean insertResourceOfCompany(Resource resource, int companyId) {
+        existenceCheck(companyId);
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setDouble(1, resource.getPrice());
@@ -250,7 +251,7 @@ public class MarsRepository {
                 }
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            LOGGER.log(Level.SEVERE, "The given company couldn't be found.");
             throw new H2RuntimeException("SQL Error: " + ex.getMessage());
         }
     }
