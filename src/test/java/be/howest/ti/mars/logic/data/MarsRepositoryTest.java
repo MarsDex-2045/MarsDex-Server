@@ -1,7 +1,10 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.classes.*;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.*;
 
@@ -9,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.logging.Level;
@@ -97,5 +101,20 @@ class MarsRepositoryTest {
         Set<Shipment> db = data.getShipments(2);
         assertEquals(18, db.size());
         assertThrows(IdentifierException.class, () -> data.getShipments(234));
+    }
+
+    @Test
+    void insertResourceOfCompany() {
+        Resource nr = new Resource(235, "Cobalt", 23.664, 2223.390, LocalDate.now());
+        JsonObject nrJson =  nr.toJSON();
+        MarsRepository data = MarsRepository.getInstance();
+
+        data.insertResourceOfCompany(nr, 4);
+        JsonArray resources = data.getCompany(4).allResourcesToJSONObject().getJsonArray("resources");
+
+        assertThrows(DuplicationException.class, () -> data.insertResourceOfCompany(nr, 4));
+        assertThrows(IdentifierException.class, () -> data.insertResourceOfCompany(nr, 234));
+
+        assertTrue(resources.contains(nr.toJSON()));
     }
 }

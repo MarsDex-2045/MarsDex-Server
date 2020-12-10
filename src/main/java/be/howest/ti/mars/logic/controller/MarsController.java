@@ -1,10 +1,14 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.classes.Shipment;
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 
 public class MarsController {
@@ -55,6 +59,23 @@ public class MarsController {
         JsonObject json = new JsonObject();
         json.put("processed", true);
         json.put("id", 2);
+        return json;
+    }
+
+    public JsonObject addResource(JsonObject resource, String companyId) {
+        Double price = resource.getDouble("price");
+        Double weight = resource.getDouble("weight");
+        String name = resource.getString("name");
+
+        int priceDecimals = new BigDecimal(String.valueOf(price)).scale();
+        int weightDecimals = new BigDecimal(String.valueOf(weight)).scale();
+        if(priceDecimals > 3 || weightDecimals > 3){
+            throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
+        }
+
+        Resource newResource = new Resource(-1, name, price, weight, LocalDate.now());
+        JsonObject json = new JsonObject();
+        json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
         return json;
     }
 }

@@ -39,7 +39,7 @@ class ResourceTest {
         LOGGER.log(Level.INFO, json.toString());
         assertEquals("Panite", json.getString("name"));
         assertEquals(200.234, json.getDouble("price"));
-        assertEquals("2052-11-13", json.getString("added"));
+        assertEquals("2052-10-12", json.getString("added"));
         assertEquals(200.234, json.getDouble("price"));
     }
 

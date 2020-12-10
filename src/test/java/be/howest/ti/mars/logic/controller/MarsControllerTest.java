@@ -2,6 +2,8 @@ package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,7 +18,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,26 +96,20 @@ class MarsControllerTest {
 
     @Test
     void getCompanyResources() {
-        MarsRepository data = MarsRepository.getInstance();
+        MarsController controller = new MarsController();
 
-        JsonObject json = data.getCompany(2).allResourcesToJSONObject();
-        JsonArray resources = json.getJsonArray("resources");
+        JsonObject resources = controller.getCompanyResources("2");
 
-        assertEquals(2, json.getInteger("id"));
-        assertTrue(json.containsKey("resources"));
-        assertEquals(8, resources.size());
-        assertThrows(IdentifierException.class, () -> data.getCompany(22));
+        assertEquals(2, resources.getInteger("id"));
+        assertTrue(resources.containsKey("resources"));
+        assertEquals(8, resources.getJsonArray("resources").size());
+        assertThrows(IdentifierException.class, () -> controller.getCompanyResources("22"));
     }
 
     @Test
     void getCompanyTransports() {
-        Calendar date = new Calendar.Builder().setDate(2052, 3, 22).build();
-        Resource ref1 = new Resource(1, "Painite", 71.596, 200.0 , date);
-        Resource ref2 = new Resource(2, "Alexandrite", 271.192, 200.0, date);
-
         JsonArray json = new MarsController().getCompanyTransports("2");
 
-        LOGGER.log(Level.INFO, json.toString());
         assertAll(() -> {
             assertEquals(18, json.size());
             JsonObject transport = json.getJsonObject(1);
@@ -128,5 +123,25 @@ class MarsControllerTest {
             assertTrue(transport.containsKey("receiveTime"));
             assertTrue(transport.containsKey("receiver"));
         });
+    }
+
+    @Test
+    void addResource() {
+        JsonObject input = new JsonObject();
+        input.put("name", "Gritium").put("weight", 203.243662).put("price", 124.976382);
+        MarsController controller = new MarsController();
+
+        assertAll(() ->{
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("weight", 203.234);
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("price", 234.223);
+        });
+
+        controller.addResource(input, "4");
+
+        JsonObject ref = MarsRepository.getInstance().getCompany(4).allResourcesToJSONObject();
+
+        assertThrows(DuplicationException.class, () -> controller.addResource(input, "4"));
     }
 }

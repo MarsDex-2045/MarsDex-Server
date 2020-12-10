@@ -1,7 +1,7 @@
 package be.howest.ti.mars.logic.classes;
 
-import be.howest.ti.mars.logic.data.MarsRepository;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,13 +9,15 @@ import java.util.Set;
 class TestData {
     protected final static Company company1 = new Company(1, "MarsDex", "B1gIr0n", "marsdex@mars.com", "+32472639356");
     protected final static Company company2 = new Company(2, "104th Discovery Battalion", "Expl0rer", "104thDB@mars.com", "+32472622356");
-    protected final static Calendar dateData1 = new Calendar.Builder().setDate(2052, 10, 12).setTimeOfDay(2, 2, 2).build();
-    protected final static Calendar dateData2 = new Calendar.Builder().setDate(2052, 11, 12).setTimeOfDay(10, 22, 22).build();
-    protected final static Resource resource1 = new Resource(1, "Panite", 20.552, 2.55, dateData1);
-    protected final static Resource resource2 = new Resource(2, "Berylium", 20.552, 2.55, dateData1);
-    protected final static Resource resource3 = new Resource(3, "Void Opals", 20.552, 2.55, dateData1);
-    protected final static Resource resource4 = new Resource(4, "Low Temperature Diamonds", 20.552, 2.55, dateData1);
-    protected final static Resource resource5 = new Resource(5, "Cobalt", 20.552, 2.55, dateData1);
+    protected final static LocalDateTime LDT1 = LocalDateTime.of(2052, 10, 12, 2, 2, 2);
+    protected final static LocalDateTime LDT2 = LocalDateTime.of(2052, 11, 12, 10, 22, 22);
+    protected final static LocalDate LD1 = LocalDate.of(2052, 10, 12);
+    protected final static LocalDate LD2 = LocalDate.of(2052, 11, 12);
+    protected final static Resource resource1 = new Resource(1, "Panite", 20.552, 2.55, LD1);
+    protected final static Resource resource2 = new Resource(2, "Berylium", 20.552, 2.55, LD1);
+    protected final static Resource resource3 = new Resource(3, "Void Opals", 20.552, 2.55, LD1);
+    protected final static Resource resource4 = new Resource(4, "Low Temperature Diamonds", 20.552, 2.55, LD1);
+    protected final static Resource resource5 = new Resource(5, "Cobalt", 20.552, 2.55, LD1);
     protected final static Location location1 = new Location(15.666, 144.444,2645.333);
     protected final static Location location2 = new Location(17.666, 144.444,2645.333);
     protected final static Location location2c = new Location(17.666, 144.444,2645.333);
@@ -32,9 +34,9 @@ class TestData {
         Resource[] res = new Resource[3];
         Calendar date1 = new Calendar.Builder().setDate(2052, 11, 13).build();
         Calendar date2 = new Calendar.Builder().setDate(2052, 11, 28).build();
-        res[0] = new Resource(1, "Panite", 200.234, 2500, date1);
-        res[1] = new Resource(2, "Baurite", 145.666, 243, date2);
-        res[2] = new Resource(1, "Panite", 200.234, 2500, date1);
+        res[0] = new Resource(1, "Panite", 200.234, 2500, LD1);
+        res[1] = new Resource(2, "Baurite", 145.666, 243, LD2);
+        res[2] = new Resource(1, "Panite", 200.234, 2500, LD1);
         return res;
     }
 
@@ -83,8 +85,8 @@ class TestData {
         resources.add(resource1);
         resources.add(resource2);
         resources.add(resource3);
-        res[0] = new Shipment(1, generateColonies()[0], dateData1, generateColonies()[2], dateData2, resources, Status.DELIVERED);
-        res[1] = new Shipment(1, generateColonies()[0], dateData1, generateColonies()[2], dateData2, resources, Status.DELIVERED);
+        res[0] = new Shipment(1, generateColonies()[0], LDT1, generateColonies()[2], LDT2, resources, Status.DELIVERED);
+        res[1] = new Shipment(1, generateColonies()[0], LDT1, generateColonies()[2], LDT2, resources, Status.DELIVERED);
         res[2] = new Shipment(2, generateColonies()[0], generateColonies()[2], resources);
         return res;
     }

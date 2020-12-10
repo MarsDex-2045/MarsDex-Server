@@ -7,6 +7,9 @@ class H2Statements {
     protected static final String H2_GET_COLONY = h2StatementColonyFull();
     protected static final String H2_GET_TRANSPORT_DETAILS = h2StatementCompanyTransportDetails();
     protected static final String H2_GET_TRANSPORT_RESOURCES = h2StatementCompanyTransportResources();
+    protected static final String H2_INSERT_RESOURCE = "INSERT INTO MARSDEX.RESOURCES(price, name) VALUES (?, ?);";
+    protected static final String H2_INSERT_COMPANIES_RESOURCES = "INSERT INTO MARSDEX.COMPANIES_RESOURCES(company_id, resource_id, weight, added_timestamp) VALUES (?, ?, ?, ?);";
+    protected static final String H2_GET_RESOURCE_COMPANY = h2StatementResourceFromCompany();
 
     private H2Statements() {
     }
@@ -41,5 +44,12 @@ class H2Statements {
                 "FROM MARSDEX.SHIPMENTS_RESOURCES SR " +
                 "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID " +
                 "WHERE SR.SHIPMENT_ID = ?";
+    }
+
+    private static String h2StatementResourceFromCompany() {
+        return "SELECT R.*, CR.WEIGHT " +
+                "FROM MARSDEX.RESOURCES R " +
+                "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID " +
+                "WHERE R.NAME=? AND CR.COMPANY_ID = ?";
     }
 }
