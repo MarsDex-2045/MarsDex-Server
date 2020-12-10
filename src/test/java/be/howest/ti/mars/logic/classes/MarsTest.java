@@ -20,8 +20,7 @@ class MarsTest {
     void getShipments() {
         Mars mars = generateMars();
 
-        assertTrue(mars.getShipments().contains(generateShipments()[0]));
-        assertTrue(mars.getShipments().contains(generateShipments()[2]));
+        assertEquals(2, mars.getShipments().size());
     }
 
     @Test

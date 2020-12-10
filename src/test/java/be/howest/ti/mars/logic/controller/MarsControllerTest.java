@@ -114,7 +114,6 @@ class MarsControllerTest {
     void getCompanyTransports() {
         JsonArray json = new MarsController().getCompanyTransports("2");
 
-        LOGGER.log(Level.INFO, json.toString());
         assertAll(() -> {
             assertEquals(18, json.size());
             JsonObject transport = json.getJsonObject(1);
