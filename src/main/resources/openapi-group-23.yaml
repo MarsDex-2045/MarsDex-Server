@@ -241,7 +241,7 @@ paths:
                 weight: 3050.40
                 price: 22.235
       responses:
-        '201':
+        '200':
           description: Resource has been created and added
           content:
             application/json:
