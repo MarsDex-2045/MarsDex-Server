@@ -144,11 +144,12 @@ public class MarsRepository {
     }
 
     private Resource convertToResource(ResultSet rs) throws SQLException {
-            return new Resource(rs.getInt("RESOURCE_ID"),
-                    rs.getString("RESOURCE_NAME"),
-                    rs.getDouble("PRICE"),
-                    rs.getDouble("WEIGHT"),
-                    LocalDate.now());
+        return new Resource(rs.getInt("RESOURCE_ID"),
+                rs.getString("RESOURCE_NAME"),
+                rs.getDouble("PRICE"),
+                rs.getDouble("WEIGHT"),
+                rs.getDate("ADDED_TIMESTAMP").toLocalDate());
+
     }
 
     private Company existenceCheck(int companyId) {
