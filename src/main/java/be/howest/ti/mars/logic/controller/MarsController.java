@@ -1,12 +1,10 @@
 package be.howest.ti.mars.logic.controller;
 
-<<<<<<< src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
-import be.howest.ti.mars.logic.classes.Company;
-=======
+
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.classes.Shipment;
->>>>>>> src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
+
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
@@ -14,12 +12,11 @@ import io.vertx.core.json.JsonObject;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-<<<<<<< src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Map;
-=======
->>>>>>> src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
+
 import java.util.Set;
 
 public class MarsController {
@@ -55,8 +52,7 @@ public class MarsController {
         json.put("phoneNumber", "+3265788999");
         return json;
     }
-
-<<<<<<< src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
+/*
     public Object getCompanyTransports(String id) {
         JsonArray transports = new JsonArray();
         for (int i = 1; i < 10; i++) {
@@ -90,24 +86,26 @@ public class MarsController {
             }
             json.put("receiver", colonies.getValue(2));
             transports.add(json);
-=======
-  
-  public JsonArray getCompanyTransports(String idString) {
+        }
+        return transports;
+    }
+*/
+    public JsonArray getCompanyTransports(String idString) {
         int id = Integer.parseInt(idString);
         Set<Shipment> shipments = MarsRepository.getInstance().getShipments(id);
         JsonArray json = new JsonArray();
-        for (Shipment shipment:shipments) {
+        for (Shipment shipment : shipments) {
             json.add(shipment.toJSON());
- src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
         }
         return json;
     }
+
     public JsonObject makeCompany(Company company, int colonyId) {
         int companyId = 0;
         Map<Integer, Boolean> res = MarsRepository.getInstance().addCompany(company, colonyId);
         Set<Integer> keySet = res.keySet();
         JsonObject returnBody = new JsonObject();
-        for(Integer id: keySet) {
+        for (Integer id : keySet) {
             companyId = id;
             break;
         }
@@ -122,7 +120,7 @@ public class MarsController {
 
         int priceDecimals = new BigDecimal(String.valueOf(price)).scale();
         int weightDecimals = new BigDecimal(String.valueOf(weight)).scale();
-        if(priceDecimals > 3 || weightDecimals > 3){
+        if (priceDecimals > 3 || weightDecimals > 3) {
             throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
         }
 
