@@ -1,14 +1,15 @@
 package be.howest.ti.mars.logic.controller;
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.h2.tools.RunScript;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarsControllerTest {
     public static final Logger LOGGER = Logger.getLogger(MarsController.class.getName());
+    private static final String URL = "jdbc:h2:~/test";
+
+    @BeforeAll
+    static void setupTestSuite() throws SQLException{
+        MarsRepository.configure(URL, "sa", "", 9000);
+    }
 
     @BeforeEach
     void setupTest() throws IOException, SQLException {
@@ -31,6 +38,11 @@ class MarsControllerTest {
             executeScript("src/test/resources/dbClean.sql", con);
             executeScript("src/test/resources/dbConstruction.sql", con);
         }
+    }
+
+    @AfterAll
+    static void closeConnection() {
+        MarsRepository.getInstance().cleanUp();
     }
 
     private void executeScript(String filePath, Connection con) throws IOException, SQLException {
@@ -73,7 +85,7 @@ class MarsControllerTest {
         ref.addCompany(new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000));
         ref.addCompany(new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000));
 
-        JsonObject json = data.getColony(3).toJSON();
+        JsonObject json = new MarsController().getColonyById("3");
 
         assertEquals(3, json.getInteger("id"));
         assertEquals("Ehrlich City", json.getString("name"));
@@ -84,14 +96,52 @@ class MarsControllerTest {
 
     @Test
     void getCompanyResources() {
-        MarsRepository data = MarsRepository.getInstance();
+        MarsController controller = new MarsController();
 
-        JsonObject json = data.getCompany(2).allResourcesToJSONObject();
-        JsonArray resources = json.getJsonArray("resources");
+        JsonObject resources = controller.getCompanyResources("2");
 
-        assertEquals(2, json.getInteger("id"));
-        assertTrue(json.containsKey("resources"));
-        assertEquals(8, resources.size());
-        assertThrows(IdentifierException.class, () -> data.getCompany(22));
+        assertEquals(2, resources.getInteger("id"));
+        assertTrue(resources.containsKey("resources"));
+        assertEquals(8, resources.getJsonArray("resources").size());
+        assertThrows(IdentifierException.class, () -> controller.getCompanyResources("22"));
+    }
+
+    @Test
+    void getCompanyTransports() {
+        JsonArray json = new MarsController().getCompanyTransports("2");
+
+        assertAll(() -> {
+            assertEquals(18, json.size());
+            JsonObject transport = json.getJsonObject(1);
+            assertTrue(transport.containsKey("resources"));
+            assertTrue(transport.containsKey("shippingId"));
+            assertTrue(transport.containsKey("status"));
+            assertTrue(transport.containsKey("sendTime"));
+            assertTrue(transport.getJsonObject("sendTime").containsKey("date"));
+            assertTrue(transport.getJsonObject("sendTime").containsKey("time"));
+            assertTrue(transport.containsKey("sender"));
+            assertTrue(transport.containsKey("receiveTime"));
+            assertTrue(transport.containsKey("receiver"));
+        });
+    }
+
+    @Test
+    void addResource() {
+        JsonObject input = new JsonObject();
+        input.put("name", "Gritium").put("weight", 203.243662).put("price", 124.976382);
+        MarsController controller = new MarsController();
+
+        assertAll(() ->{
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("weight", 203.234);
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("price", 234.223);
+        });
+
+        controller.addResource(input, "4");
+
+        JsonObject ref = MarsRepository.getInstance().getCompany(4).allResourcesToJSONObject();
+
+        assertThrows(DuplicationException.class, () -> controller.addResource(input, "4"));
     }
 }

@@ -1,6 +1,8 @@
 package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -201,13 +203,18 @@ public class WebServer extends AbstractVerticle {
         try{
             throw ctx.failure();
         } catch (IdentifierException ex){
-            if(ex.getMessage().contains("Company")){
+            if(ex.getMessage().contains("Company")){ //NOSONAR
                 replyWithFailure(ctx, 404, "Not found", ex.getMessage());
             }
             else{
-                replyWithFailure(ctx, 404, "No found", ex.getMessage());
+                replyWithFailure(ctx, 404, "Not found", ex.getMessage());
             }
-        } catch (Throwable throwable) { //NOSONAR
+        } catch (FormatException ex) {
+            replyWithFailure(ctx, 413, "Wrong Format", ex.getMessage());
+        } catch (DuplicationException ex){
+            replyWithFailure(ctx, 409, "No Duplication Allowed", ex.getMessage());
+        }
+        catch (Throwable throwable) { //NOSONAR
             LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
             replyWithFailure(ctx, 500, "Internal Server Error", null);
         }

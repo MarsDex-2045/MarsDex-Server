@@ -53,7 +53,7 @@ class MarsOpenApiBridge {
         return true;
     }
 
-    public boolean addResourceToCompany(RoutingContext ctx) {
-        return true;
+    public JsonObject addResourceToCompany(RoutingContext ctx) {
+        return controller.addResource(ctx.getBodyAsJson(), ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 }

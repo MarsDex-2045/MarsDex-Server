@@ -170,7 +170,7 @@ paths:
                       $ref: '#/components/schemas/Colony'
                     recieveTime:
                       $ref: '#/components/schemas/Time'
-                    reciever:
+                    receiver:
                       $ref: '#/components/schemas/Colony'
         '404':
           description: "Not able to find the given company"
@@ -241,8 +241,16 @@ paths:
                 weight: 3050.40
                 price: 22.235
       responses:
-        '201':
+        '200':
           description: Resource has been created and added
+          content:
+            application/json:
+              schema:
+                properties:
+                  processed:
+                    type: boolean
+                example:
+                  processed: true
         '404':
           description: Company couldn't be found
         '409':

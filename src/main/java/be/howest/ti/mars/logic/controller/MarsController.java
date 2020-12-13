@@ -1,14 +1,25 @@
 package be.howest.ti.mars.logic.controller;
 
+<<<<<<< src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
 import be.howest.ti.mars.logic.classes.Company;
+=======
+import be.howest.ti.mars.logic.classes.Company;
+import be.howest.ti.mars.logic.classes.Resource;
+import be.howest.ti.mars.logic.classes.Shipment;
+>>>>>>> src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+<<<<<<< src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Map;
+=======
+>>>>>>> src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
 import java.util.Set;
 
 public class MarsController {
@@ -45,6 +56,7 @@ public class MarsController {
         return json;
     }
 
+<<<<<<< src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
     public Object getCompanyTransports(String id) {
         JsonArray transports = new JsonArray();
         for (int i = 1; i < 10; i++) {
@@ -78,11 +90,18 @@ public class MarsController {
             }
             json.put("receiver", colonies.getValue(2));
             transports.add(json);
+=======
+  
+  public JsonArray getCompanyTransports(String idString) {
+        int id = Integer.parseInt(idString);
+        Set<Shipment> shipments = MarsRepository.getInstance().getShipments(id);
+        JsonArray json = new JsonArray();
+        for (Shipment shipment:shipments) {
+            json.add(shipment.toJSON());
+ src/main/java/be/howest/ti/mars/logic/controller/MarsController.java
         }
-        return transports;
+        return json;
     }
-
-
     public JsonObject makeCompany(Company company, int colonyId) {
         int companyId = 0;
         Map<Integer, Boolean> res = MarsRepository.getInstance().addCompany(company, colonyId);
@@ -94,5 +113,22 @@ public class MarsController {
         }
         returnBody.put("company-id", companyId).put("succeeded", true);
         return returnBody;
+    }
+
+    public JsonObject addResource(JsonObject resource, String companyId) {
+        Double price = resource.getDouble("price");
+        Double weight = resource.getDouble("weight");
+        String name = resource.getString("name");
+
+        int priceDecimals = new BigDecimal(String.valueOf(price)).scale();
+        int weightDecimals = new BigDecimal(String.valueOf(weight)).scale();
+        if(priceDecimals > 3 || weightDecimals > 3){
+            throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
+        }
+
+        Resource newResource = new Resource(-1, name, price, weight, LocalDate.now());
+        JsonObject json = new JsonObject();
+        json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
+        return json;
     }
 }

@@ -1,17 +1,26 @@
 package be.howest.ti.mars.logic.data;
 
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Location;
-import be.howest.ti.mars.logic.classes.Resource;
+import be.howest.ti.mars.logic.classes.*;
+import be.howest.ti.mars.logic.exceptions.CorruptedDataException;
+import be.howest.ti.mars.logic.exceptions.DuplicationException;
+import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.Server;
 
-
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+<<<<<<< src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
 import java.util.*;
+=======
+import java.util.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+>>>>>>> src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,7 +71,7 @@ public class MarsRepository {
 
     public Set<Colony> getAllColonies() {
         Set<Colony> res = new HashSet<>();
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONIES);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -71,13 +80,17 @@ public class MarsRepository {
                 res.add(colonyInfo);
             }
         } catch (SQLException throwables) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing H2 Query; Returning empty array");
+            LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
         }
         return res;
     }
 
     public Company getCompany(int companyId) {
+<<<<<<< src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+=======
+        try (Connection con = MarsRepository.getInstance().getConnection();
+>>>>>>> src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
              PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_FULL)) {
             stmt.setInt(1, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -99,6 +112,7 @@ public class MarsRepository {
         }
     }
 
+<<<<<<< src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
 
     public Map<Integer, Boolean> addCompany(Company company, int colonyId) {
         int companyId;
@@ -137,15 +151,22 @@ public class MarsRepository {
 
     private Resource convertToResource(ResultSet rs) throws SQLException {
         LocalDate date = rs.getDate("ADDED_TIMESTAMP").toLocalDate();
+=======
+    private Resource convertToResource(ResultSet rs) throws SQLException {
+>>>>>>> src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
         return new Resource(rs.getInt("RESOURCE_ID"),
                 rs.getString("RESOURCE_NAME"),
                 rs.getDouble("PRICE"),
                 rs.getDouble("WEIGHT"),
-                new Calendar.Builder().setDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth()).build());
+                LocalDate.now());
     }
 
     private Company existenceCheck(int companyId) {
+<<<<<<< src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+=======
+        try (Connection con = MarsRepository.getInstance().getConnection();
+>>>>>>> src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
              PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)) {
             stmt.setInt(1, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -163,7 +184,11 @@ public class MarsRepository {
     }
 
     public Colony getColony(int id) {
+<<<<<<< src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
         try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+=======
+        try (Connection con = MarsRepository.getInstance().getConnection();
+>>>>>>> src/main/java/be/howest/ti/mars/logic/data/MarsRepository.java
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)) {
             String companyIdColumnName = "COMPANY_ID";
             stmt.setInt(1, id);
@@ -176,7 +201,7 @@ public class MarsRepository {
                 return colony;
             }
         } catch (SQLException throwables) {
-            LOGGER.severe("No colony could be found.");
+            LOGGER.warning("No colony could be found.");
             throw new IdentifierException("Faulty Colony Id");
         }
     }
@@ -187,5 +212,135 @@ public class MarsRepository {
         String cName = rs.getString("COLONY_NAME");
         Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
         return new Colony(cId, cName, location);
+    }
+
+    public Set<Shipment> getShipments(int companyId) {
+        Set<Shipment> res = new HashSet<>();
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_DETAILS)) {
+            stmt.setInt(1, companyId);
+            stmt.setInt(2, companyId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    res.add(covertToShipment(rs));
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
+            throw new H2RuntimeException(ex.getMessage());
+        }
+        if (res.isEmpty()) {
+            LOGGER.log(Level.INFO, "Potential empty company detected; Running Existence check.");
+            existenceCheck(companyId);
+        }
+        return res;
+    }
+
+    private Shipment covertToShipment(ResultSet rs) throws SQLException {
+        try {
+            int id = rs.getInt("ID");
+            Colony sender = getColony(rs.getInt("SENDER_ID"));
+            Colony receiver = getColony(rs.getInt("RECEIVER_ID"));
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime sendDate = new Timestamp(df.parse(rs.getString("SEND_TIME")).getTime()).toLocalDateTime();
+            Status status = getStatus(rs, id);
+            rs.getObject("RECEIVE_TIME");
+            if (!rs.wasNull()) {
+                LocalDateTime receiveDate = new Timestamp(df.parse(rs.getString("RECEIVE_TIME")).getTime()).toLocalDateTime();
+                return new Shipment(id, sender, sendDate, receiver, receiveDate, getShipmentResources(id), status);
+            } else {
+                return new Shipment(id, sender, sendDate, receiver, getShipmentResources(id), status);
+            }
+        } catch (ParseException ex) {
+            String msg = String.format("Date corrupted at row %s in table SHIPMENTS in Scheme MARSDEX", rs.getInt("ID"));
+            LOGGER.log(Level.SEVERE, msg);
+            throw new CorruptedDataException("Date data corrupted");
+        }
+    }
+
+    private Status getStatus(ResultSet rs, int id) throws SQLException {
+        switch (rs.getString("STATUS")) {
+            case "In Transit":
+                return Status.IN_TRANSPORT;
+            case "Payed":
+                return Status.PAYED;
+            case "Processing":
+                return Status.PROCESSING;
+            case "Delivered":
+                return Status.DELIVERED;
+            default:
+                LOGGER.log(Level.SEVERE, () ->
+                        String.format("Corrupted data discovered: Status column in row with id %s at table SHIPMENTS in schema MARSDEX",
+                                id));
+                throw new CorruptedDataException("Status enum not recognized");
+        }
+    }
+
+    private Set<Resource> getShipmentResources(int shipmentId) throws SQLException {
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_GET_TRANSPORT_RESOURCES)) {
+            stmt.setInt(1, shipmentId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                Set<Resource> resources = new HashSet<>();
+                while (rs.next()) {
+                    resources.add(convertToResource(rs));
+                }
+                return resources;
+            }
+        }
+    }
+
+    public boolean insertResourceOfCompany(Resource resource, int companyId) {
+        existenceCheck(companyId);
+        if(resourceCheck(resource.getName(), companyId)){
+            throw new DuplicationException("This resource already exists. Please edit the resource instead.");
+        }
+
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setDouble(1, resource.getPrice());
+            stmt.setString(2, resource.getName());
+            stmt.executeUpdate();
+            try(ResultSet result = stmt.getGeneratedKeys()){
+                if (result.next()){
+                    return linkResourceCompany(result.getInt(1), companyId, resource);
+                } else {
+                    LOGGER.severe("Failed getting the auto-id from new insert");
+                    throw new SQLException("Failed retrieving the generated ID");
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "The given company couldn't be found.");
+            throw new H2RuntimeException( ex.getMessage());
+        }
+    }
+
+    private boolean linkResourceCompany(int resourceId, int companyId, Resource resource) {
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_INSERT_COMPANIES_RESOURCES)){
+            stmt.setInt(1, companyId);
+            stmt.setInt(2, resourceId);
+            stmt.setDouble(3, resource.getWeight());
+            stmt.setDate(4, Date.valueOf(resource.getAddDate()));
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    private boolean resourceCheck(String resourceName, int companyId) {
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_COMPANY)){
+            stmt.setString(1, resourceName);
+            stmt.setInt(2, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                return rs.next();
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            throw new H2RuntimeException(ex.getMessage());
+        }
     }
 }

@@ -7,6 +7,11 @@ class H2Statements {
     protected static final String H2_INSERT_COMPANY = "INSERT INTO MARSDEX.COMPANIES (name,email,phone,password) VALUES (?,?,?,?)";
     protected static final String H2_INSERT_COLONYLINK = "INSERT INTO MARSDEX.COLONIES_COMPANIES VALUES (?,?)";
     protected static final String H2_GET_COLONY = h2StatementColonyFull();
+    protected static final String H2_GET_TRANSPORT_DETAILS = h2StatementCompanyTransportDetails();
+    protected static final String H2_GET_TRANSPORT_RESOURCES = h2StatementCompanyTransportResources();
+    protected static final String H2_INSERT_RESOURCE = "INSERT INTO MARSDEX.RESOURCES(price, name) VALUES (?, ?);";
+    protected static final String H2_INSERT_COMPANIES_RESOURCES = "INSERT INTO MARSDEX.COMPANIES_RESOURCES(company_id, resource_id, weight, added_timestamp) VALUES (?, ?, ?, ?);";
+    protected static final String H2_GET_RESOURCE_COMPANY = h2StatementResourceFromCompany();
 
     private H2Statements() {
     }
@@ -20,8 +25,6 @@ class H2Statements {
                 "WHERE CN.ID = ?";
     }
 
-
-
     private static String h2StatementCompanyFull(){
         return "SELECT C.ID AS COMPANY_ID, C.NAME AS COMPANY_NAME, C.PASSWORD, C.EMAIL, C.PHONE, " +
                 "R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, R.PRICE, CR.WEIGHT, CR.ADDED_TIMESTAMP " +
@@ -29,5 +32,26 @@ class H2Statements {
                 "JOIN MARSDEX.COMPANIES_RESOURCES CR ON C.ID = CR.COMPANY_ID " +
                 "JOIN MARSDEX.RESOURCES R ON CR.RESOURCE_ID = R.ID " +
                 "WHERE C.ID = ?";
+    }
+
+    private static String h2StatementCompanyTransportDetails() {
+        return "SELECT * " +
+                "FROM MARSDEX.SHIPMENTS S " +
+                "WHERE SENDER_ID = ? OR RECEIVER_ID = ? " +
+                "ORDER BY ID";
+    }
+
+    private static String h2StatementCompanyTransportResources() {
+        return "SELECT R.ID AS RESOURCE_ID, R.NAME AS RESOURCE_NAME, SR.WEIGHT, SR.ADDED_TIMESTAMP, R.PRICE " +
+                "FROM MARSDEX.SHIPMENTS_RESOURCES SR " +
+                "JOIN MARSDEX.RESOURCES R ON SR.RESOURCE_ID = R.ID " +
+                "WHERE SR.SHIPMENT_ID = ?";
+    }
+
+    private static String h2StatementResourceFromCompany() {
+        return "SELECT R.*, CR.WEIGHT " +
+                "FROM MARSDEX.RESOURCES R " +
+                "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID " +
+                "WHERE R.NAME=? AND CR.COMPANY_ID = ?";
     }
 }
