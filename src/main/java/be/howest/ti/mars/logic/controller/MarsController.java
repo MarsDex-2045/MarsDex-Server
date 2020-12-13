@@ -107,7 +107,6 @@ public class MarsController {
         JsonObject returnBody = new JsonObject();
         for (Integer id : keySet) {
             companyId = id;
-            break;
         }
         returnBody.put("company-id", companyId).put("succeeded", true);
         return returnBody;
