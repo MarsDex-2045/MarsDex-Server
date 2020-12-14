@@ -2,21 +2,13 @@ package be.howest.ti.mars.logic.data;
 
 
 import be.howest.ti.mars.logic.classes.*;
-import be.howest.ti.mars.logic.exceptions.CorruptedDataException;
-import be.howest.ti.mars.logic.exceptions.DuplicationException;
-import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
-import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import be.howest.ti.mars.logic.exceptions.*;
 import org.h2.tools.Server;
 
 import java.sql.*;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
-
-import java.util.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -109,27 +101,28 @@ public class MarsRepository {
     }
 
 
-    public Map<Integer, Boolean> addCompany(Company company, int colonyId) {
-        int companyId;
-        try (Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+    public Company addCompany(Company company, int colonyId) {
+        try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, company.getName());
-            prep.setString(2, company.getPassword());
-            prep.setString(3, company.getEmail());
-            prep.setString(4, company.getPhone());
+            prep.setString(2, company.getEmail());
+            prep.setString(3, company.getPhone());
+            prep.setString(4, company.getPassword());
             prep.executeUpdate();
             try (ResultSet autoId = prep.getGeneratedKeys()) {
-                autoId.next();
-                companyId = (autoId.getInt(1));
+                if(autoId.next()){
+                    addColonyLink(autoId.getInt(1), colonyId);
+                    return MarsRepository.getInstance().getCompany(autoId.getInt(1));
+                }
+                else{
+                    LOGGER.severe("Failed getting the auto-id from new insert");
+                    throw new SQLException("Failed retrieving the generated ID");
+                }
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new IllegalArgumentException("Object is fault");
+            throw new RequestBodyException("Malformed body exception");
         }
-        addColonyLink(companyId, colonyId);
-        Map<Integer, Boolean> res = new HashMap<>();
-        res.put(companyId, true);
-        return res;
     }
 
     private void addColonyLink(int companyId, int colonyId) {
@@ -154,9 +147,7 @@ public class MarsRepository {
     }
 
     private Company existenceCheck(int companyId) {
-
         try (Connection con = MarsRepository.getInstance().getConnection();
-
              PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_SIMPLE)) {
             stmt.setInt(1, companyId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -174,9 +165,7 @@ public class MarsRepository {
     }
 
     public Colony getColony(int id) {
-
         try (Connection con = MarsRepository.getInstance().getConnection();
-
              PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY)) {
             String companyIdColumnName = "COMPANY_ID";
             stmt.setInt(1, id);
@@ -290,7 +279,6 @@ public class MarsRepository {
         if (resourceCheck(resource.getName(), companyId)) {
             throw new DuplicationException("This resource already exists. Please edit the resource instead.");
         }
-
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_INSERT_RESOURCE, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setDouble(1, resource.getPrice());

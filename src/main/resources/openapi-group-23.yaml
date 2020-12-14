@@ -358,10 +358,10 @@ paths:
                   type: string
               example:
                 - name: "MarsDex"
-                  colony: "Bova Point"
+                  colonyId: 3
                   email: MarsDex@mars.com
                   password: ILoveIron
-                  phone: "000064"
+                  phone: "+32456234512"
       responses:
         '201':
           description: "Created Company"
@@ -374,6 +374,8 @@ paths:
                     type: boolean
                   id:
                     type: integer
+        '400':
+          description: "Body syntax error"
         '409':
           description: "The e-mail's already in use"
         '500':

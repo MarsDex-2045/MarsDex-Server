@@ -11,7 +11,6 @@ import io.vertx.core.json.JsonObject;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Set;
 
 public class MarsController {
@@ -58,14 +57,9 @@ public class MarsController {
     }
 
     public JsonObject makeCompany(Company company, int colonyId) {
-        int companyId = 0;
-        Map<Integer, Boolean> res = MarsRepository.getInstance().addCompany(company, colonyId);
-        Set<Integer> keySet = res.keySet();
+        Company res = MarsRepository.getInstance().addCompany(company, colonyId);
         JsonObject returnBody = new JsonObject();
-        for (Integer id : keySet) {
-            companyId = id;
-        }
-        returnBody.put("company-id", companyId).put("succeeded", true);
+        returnBody.put("id", res.getId()).put("processed", true);
         return returnBody;
     }
 

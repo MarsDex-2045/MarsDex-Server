@@ -45,7 +45,7 @@ class MarsOpenApiBridge {
         String email = body.getString("email");
         String password = body.getString("password");
         String phone = body.getString("phone");
-        Company company = new Company(0,name,password,email,phone);
+        Company company = new Company(-1,name,password,email,phone);
         return controller.makeCompany(company,colonyIdInt);
     }
 

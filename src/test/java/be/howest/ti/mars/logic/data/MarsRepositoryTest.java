@@ -127,4 +127,8 @@ class MarsRepositoryTest {
         assertEquals(ref, result);
         assertThrows(IdentifierException.class, () -> MarsRepository.getInstance().getColonyOfCompany(234));
     }
+
+    @Test
+    void addCompany() {
+    }
 }
