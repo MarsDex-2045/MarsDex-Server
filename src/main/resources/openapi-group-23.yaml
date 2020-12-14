@@ -236,6 +236,10 @@ paths:
                 price:
                   type: number
                   format: float
+              required:
+                - name
+                - weight
+                - price
             example:
               - name: Platinum
                 weight: 3050.40
@@ -292,6 +296,10 @@ paths:
                 - name: Platinum
                   weight: 3050.40
                   price: 22.235
+              required:
+                - name
+                - weight
+                - price
       responses:
         '200':
           description: Resource has been altered
@@ -356,6 +364,12 @@ paths:
                   format: password
                 phone:
                   type: string
+              required:
+                - email
+                - name
+                - colonyId
+                - password
+                - phone
               example:
                 - name: "MarsDex"
                   colonyId: 3

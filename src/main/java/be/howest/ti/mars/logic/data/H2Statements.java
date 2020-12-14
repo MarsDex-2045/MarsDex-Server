@@ -13,6 +13,7 @@ class H2Statements {
     protected static final String H2_INSERT_COMPANIES_RESOURCES = "INSERT INTO MARSDEX.COMPANIES_RESOURCES(company_id, resource_id, weight, added_timestamp) VALUES (?, ?, ?, ?);";
     protected static final String H2_GET_RESOURCE_COMPANY = h2StatementResourceFromCompany();
     protected static final String H2_GET_COLONY_OF_COMPANY = h2StatementColonyFromCompany();
+    protected static final String H2_DELETE_COMPANY = "DELETE FROM MARSDEX.COMPANIES WHERE ID = ?";
 
     private H2Statements() {
     }

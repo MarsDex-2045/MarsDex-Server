@@ -102,6 +102,7 @@ public class MarsRepository {
 
 
     public Company addCompany(Company company, int colonyId) {
+        int companyId = 0;
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY, Statement.RETURN_GENERATED_KEYS)) {
             prep.setString(1, company.getName());
@@ -111,8 +112,9 @@ public class MarsRepository {
             prep.executeUpdate();
             try (ResultSet autoId = prep.getGeneratedKeys()) {
                 if(autoId.next()){
-                    addColonyLink(autoId.getInt(1), colonyId);
-                    return MarsRepository.getInstance().getCompany(autoId.getInt(1));
+                    companyId = autoId.getInt(1);
+                    addColonyLink(companyId, colonyId);
+                    return MarsRepository.getInstance().getCompany(companyId);
                 }
                 else{
                     LOGGER.severe("Failed getting the auto-id from new insert");
@@ -124,7 +126,21 @@ public class MarsRepository {
                 throw new DuplicationException("This email is already associated with an account.");
             }
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new RequestBodyException("Malformed body exception");
+            throw new RequestBodyException(GENERIC_SQL_ERROR);
+        } catch (IdentifierException ex){
+            deleteCompany(companyId);
+            throw ex;
+        }
+    }
+
+    private void deleteCompany(int companyId){
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_DELETE_COMPANY)){
+            stmt.setInt(1, companyId);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.severe("Unable to delete dangling company");
+            throw new H2RuntimeException("Internal server error");
         }
     }
 
@@ -136,7 +152,7 @@ public class MarsRepository {
             prep.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new IdentifierException("Faulty ID");
+            throw new IdentifierException("Faulty Colony ID");
         }
     }
 
