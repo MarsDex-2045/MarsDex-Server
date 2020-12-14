@@ -162,4 +162,15 @@ class MarsControllerTest {
             assertEquals(refCompany.toJSON().getString("phoneNumber"), json.getString("phoneNumber"));
         });
     }
+
+    @Test
+    void makeCompany() {
+        MarsController controller = new MarsController();
+        Company refCompany = new Company(-1, "Yamazaki Landing", "Ar1sAkA", "yamazaki@mars.com", "+336722115");
+
+        JsonObject response = controller.makeCompany(refCompany, 2);
+
+        assertTrue(response.getBoolean("processed"));
+        assertEquals(8, response.getInteger("id"));
+    }
 }
