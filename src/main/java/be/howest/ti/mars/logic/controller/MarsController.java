@@ -85,8 +85,9 @@ public class MarsController {
         Double weight = requestBody.getDouble("weight");
         int id = Integer.parseInt(companyId);
 
-        MarsRepository.getInstance().updateResourceOfCompany(name, weight, id);
+        JsonObject json = new JsonObject();
+        json.put("updated", MarsRepository.getInstance().updateResourceOfCompany(name, weight, id));
 
-        return new JsonObject();
+        return json;
     }
 }

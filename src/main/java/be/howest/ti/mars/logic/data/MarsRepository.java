@@ -365,18 +365,22 @@ public class MarsRepository {
     }
 
     public boolean updateResourceOfCompany(String name, Double weight, int companyId){
-        existenceCheck(companyId);
-        Resource selectedResource = getResourceByName(name, companyId);
         try(Connection con = MarsRepository.getInstance().getConnection();
         PreparedStatement stmt = con.prepareStatement(H2_UPDATE_RESOURCE)){
-            throw new UnsupportedOperationException();
+            existenceCheck(companyId);
+            Resource selectedResource = getResourceByName(name, companyId);
+            stmt.setDouble(1, weight);
+            stmt.setInt(2, companyId);
+            stmt.setInt(3, selectedResource.getId());
+            stmt.executeUpdate();
+            return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
     }
 
-    private Resource getResourceByName(String name, int companyId){
+    private Resource getResourceByName(String name, int companyId) throws SQLException {
         try(Connection con = MarsRepository.getInstance().getConnection();
             PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)){
             stmt.setString(1, name.toLowerCase(Locale.ROOT));
@@ -393,9 +397,6 @@ public class MarsRepository {
                     throw new IdentifierException("No resources exists with this name.");
                 }
             }
-        } catch (SQLException ex) {
-            LOGGER.warning(GENERIC_SQL_ERROR);
-            throw new H2RuntimeException(ex.getMessage());
         }
     }
 }
