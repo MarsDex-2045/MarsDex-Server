@@ -364,16 +364,30 @@ public class MarsRepository {
         }
     }
 
-    public boolean updateResourceOfCompany(String name, Double weight, int companyId) {
+    public boolean updateResourceOfCompany(String name, Double weight, int companyId){
         existenceCheck(companyId);
+        Resource selectedResource = getResourceByName(name, companyId);
         try(Connection con = MarsRepository.getInstance().getConnection();
-        PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)){
+        PreparedStatement stmt = con.prepareStatement(H2_UPDATE_RESOURCE)){
+            throw new UnsupportedOperationException();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    private Resource getResourceByName(String name, int companyId){
+        try(Connection con = MarsRepository.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)){
             stmt.setString(1, name.toLowerCase(Locale.ROOT));
             stmt.setInt(2, companyId);
             try(ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
-                    LOGGER.info(String.format("Resource Found! ID: %s", rs.getInt("ID")));
-                    return true;
+                    return new Resource(rs.getInt("ID"),
+                                        rs.getString("NAME"),
+                                        rs.getDouble("PRICE"),
+                                        rs.getDouble("WEIGHT"),
+                                        rs.getDate("ADDED_TIMESTAMP").toLocalDate());
                 } else {
                     LOGGER.warning("The resource name is faulty");
                     throw new IdentifierException("No resources exists with this name.");
