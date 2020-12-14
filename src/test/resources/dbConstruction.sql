@@ -166,125 +166,169 @@ insert into colonies_companies(colony_id, company_id)
 VALUES (8, 11);
 
 //GIVE COMPANY RESOURCES
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 1, 2500.000, '2050-11-1');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 2, 350000.000, '2050-2-22');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 3, 2500.000, '2050-2-16');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 4, 12451.000, '2050-4-20');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 5, 67850.000, '2050-4-20');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 6, 445251.241, '2050-4-21');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 7, 42531.000, '2050-4-22');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (2, 8, 5216.535, '2050-4-23');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (3, 1, 2500.000, '2050-11-12');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (3, 2, 350.000, '2050-2-24');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (3, 3, 2520.000, '2050-2-20');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (3, 4, 123411.000, '2050-4-21');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (3, 5, 65560.000, '2050-4-20');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (4, 1, 223.000, '2050-11-30');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (4, 2, 35000.000, '2050-6-22');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 1, 250.000, '2050-11-1');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 2, 35000.000, '2050-2-22');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 3, 200.000, '2050-2-16');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 4, 1251.000, '2050-4-20');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 5, 6780.000, '2050-4-20');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 6, 44251.241, '2050-4-21');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 7, 4251.000, '2050-4-22');
-INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (5, 8, 5000.535, '2050-4-23');
-VALUES (6, 1, 25.000, '2050-11-1');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (6, 2, 3500.000, '2050-2-22');
-INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (6, 3, 20.000, '2050-2-16');
-insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (7, 9, 12.300, '2049-3-12');
-insert into companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (8, 10, 6000.234, '2051-3-12');
-insert into companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (9, 11, 234.221, '2050-7-11');
-insert into companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (10, 12, 221.123, '2030-9-22');
-insert into companies_resources(company_id, resource_id, weight, added_timestamp)
-VALUES (11, 5, 3524.221, '2033-11-1');
+    //Company 2
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 1, 2500.000, '2050-11-1');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 2, 350000.000, '2050-2-22');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 3, 2500.000, '2050-2-16');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 4, 12451.000, '2050-4-20');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 5, 67850.000, '2050-4-20');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 6, 445251.241, '2050-4-21');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 7, 42531.000, '2050-4-22');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (2, 8, 5216.535, '2050-4-23');
+
+    //COMPANY 3
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (3, 1, 2500.000, '2050-11-12');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (3, 2, 350.000, '2050-2-24');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (3, 3, 2520.000, '2050-2-20');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (3, 4, 123411.000, '2050-4-21');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (3, 5, 65560.000, '2050-4-20');
+
+    //COMPANY 4
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (4, 1, 223.000, '2050-11-30');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (4, 2, 350.000, '2050-6-22');
+
+    //COMPANY 5
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 1, 250.000, '2050-11-1');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 2, 35000.000, '2050-2-22');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 3, 200.000, '2050-2-16');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 4, 1251.000, '2050-4-20');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 5, 6780.000, '2050-4-20');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 6, 44251.241, '2050-4-21');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 7, 4251.000, '2050-4-22');
+    INSERT INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (5, 8, 5000.535, '2050-4-23');
+
+    //COMPANY 6
+    VALUES (6, 1, 25.000, '2050-11-1');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (6, 2, 3500.000, '2050-2-22');
+    INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (6, 3, 20.000, '2050-2-16');
+
+    //COMPANY 7
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 9, 12.300, '2049-3-12');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 14, 12.300, '2049-3-12');
+
+    //COMPANY 8
+    insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (8, 10, 6000.234, '2051-3-12');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 15, 12.300, '2049-3-12');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 6, 12.300, '2049-3-12');
+
+
+    //COMPANY 9
+    insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (9, 11, 234.221, '2050-7-11');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 16, 12.300, '2049-3-12');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 7, 70.221, '2049-3-12');
+
+
+    //COMPANY 10
+    insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (10, 12, 221.123, '2030-9-22');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 17, 44.215, '2049-3-12');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 8, 50.221, '2049-3-12');
+
+
+    //COMPANY 11
+    insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (11, 13, 124.221, '2033-11-1');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 5, 50.22, '2049-3-12');
+    insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+    VALUES (7, 9, 12.300, '2049-3-12');
+
 
 //SHIPMENTS
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'Payed');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'Processing');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'In Transit');
+    //COMPANY 2
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'Payed');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'Processing');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (2, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'In Transit');
 
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,'Payed');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'Processing');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'In Transit');
+    //Company 3
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,'Payed');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'Processing');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4,'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (3, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 4, 'In Transit');
 
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'Payed');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'Processing');
-insert into shipments(sender_id, send_time, receiver_id,  status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id, status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'In Transit');
-insert into shipments(sender_id, send_time, receiver_id,  status)
-VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
+    //Company 5
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, receive_time, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2,  parsedatetime('2052-02-23 22:22', 'yyyy-MM-dd hh:mm'), 'Delivered');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'Payed');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'Processing');
+    insert into shipments(sender_id, send_time, receiver_id,  status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id, status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 2, 'In Transit');
+    insert into shipments(sender_id, send_time, receiver_id,  status)
+    VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
 
 //CONNECT SHIPMENTS & RESOURCES
 insert into shipments_resources(shipment_id, resource_id, weight,added_timestamp)
