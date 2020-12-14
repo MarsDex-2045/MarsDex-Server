@@ -34,6 +34,7 @@ To make this class useful, please complete it with the topics seen in the module
 public class MarsRepository {
     private static final MarsRepository INSTANCE = new MarsRepository();
     private static final Logger LOGGER = Logger.getLogger(MarsRepository.class.getName());
+    private static final String GENERIC_SQL_ERROR = "Something went wrong with executing the query";
     private Server dbWebConsole;
     private String username;
     private String password;
@@ -145,15 +146,22 @@ public class MarsRepository {
         } catch (SQLException throwables) {
             LOGGER.warning("No colony could be found.");
             throw new IdentifierException("Faulty Colony Id");
+        } catch (IdentifierException ex){
+            throw new IdentifierException("Faulty company ID");
         }
     }
 
-    private Colony transferToColony(ResultSet rs) throws SQLException {
-        rs.next();
-        int cId = rs.getInt("COLONY_ID");
-        String cName = rs.getString("COLONY_NAME");
-        Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
-        return new Colony(cId, cName, location);
+    private Colony transferToColony(ResultSet rs) {
+        try{
+            rs.next();
+            int cId = rs.getInt("COLONY_ID");
+            String cName = rs.getString("COLONY_NAME");
+            Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
+            return new Colony(cId, cName, location);
+        } catch (SQLException ex){
+            LOGGER.log(Level.WARNING, "The result set was empty, aborting...");
+            throw new IdentifierException("Empty result set; Possible faulty colony ID.") ;
+        }
     }
 
     public Set<Shipment> getShipments(int companyId) {
@@ -168,7 +176,7 @@ public class MarsRepository {
                 }
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
         if (res.isEmpty()) {
@@ -267,7 +275,7 @@ public class MarsRepository {
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
     }
@@ -281,8 +289,25 @@ public class MarsRepository {
                 return rs.next();
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    public Colony getColonyOfCompany(int companyId){
+        try (Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY_OF_COMPANY)){
+            stmt.setInt(1, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                return transferToColony(rs);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        } catch (IdentifierException ex){
+            existenceCheck(companyId);
+            LOGGER.log(Level.SEVERE, String.format("Company with ID %s doesn't have a colony; Possible corrupted data entry, Please check manually", companyId));
+            throw new CorruptedDataException(String.format("Faulty entry in table COLONIES_COMPANIES: Company with id %s doesn't have a colony.", companyId));
         }
     }
 }
