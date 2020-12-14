@@ -81,6 +81,12 @@ public class MarsController {
     }
 
     public JsonObject editResourceFromCompany(JsonObject requestBody, String companyId) {
-        throw new UnsupportedOperationException();
+        String name = requestBody.getString("name");
+        Double weight = requestBody.getDouble("weight");
+        int id = Integer.parseInt(companyId);
+
+        MarsRepository.getInstance().updateResourceOfCompany(name, weight, id);
+
+        return new JsonObject();
     }
 }
