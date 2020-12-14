@@ -289,17 +289,12 @@ paths:
                 weight:
                   type: number
                   format: float
-                price:
-                  type: number
-                  format: float
               example:
                 - name: Platinum
                   weight: 3050.40
-                  price: 22.235
               required:
                 - name
                 - weight
-                - price
       responses:
         '200':
           description: Resource has been altered

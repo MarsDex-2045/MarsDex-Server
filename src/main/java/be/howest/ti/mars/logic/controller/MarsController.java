@@ -79,4 +79,8 @@ public class MarsController {
         json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
         return json;
     }
+
+    public JsonObject editResourceFromCompany(JsonObject requestBody, String companyId) {
+        throw new UnsupportedOperationException();
+    }
 }
