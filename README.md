@@ -15,10 +15,10 @@ At the time of writing, the following features are implemented:
 |---|---|
 |GET `/api/colony`|Implemented|
 |GET `/api/colony/{colonyId}`|Implemented|
-|GET `/api/company/{companyId}`|Mock|
-|GET `/api/company/{companyId}/transport`|Mock|
+|GET `/api/company/{companyId}`|Implemented|
+|GET `/api/company/{companyId}/transport`|Implemented|
 |GET `/api/company/{companyId}/resource`|Implemented|
-|PUT `/api/company/{companyId}/resource`|Mock|
+|PUT `/api/company/{companyId}/resource`|Implemented|
 |PATCH `/api/company/{companyId}/resource`|Mock|
 |DELETE `/api/company/{companyId}/resource/{resourceId}`|Mock|
 |PUT `/api/company`|Mock|

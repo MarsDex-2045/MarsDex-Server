@@ -63,6 +63,10 @@ public class Colony {
                 name.equals(colony.name);
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, location, name);

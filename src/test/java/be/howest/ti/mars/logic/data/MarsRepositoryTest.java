@@ -117,4 +117,14 @@ class MarsRepositoryTest {
 
         assertTrue(resources.contains(nr.toJSON()));
     }
+
+    @Test
+    void getColonyOfCompany() {
+        Colony ref = MarsRepository.getInstance().getColony(2);
+
+        Colony result = MarsRepository.getInstance().getColonyOfCompany(2);
+
+        assertEquals(ref, result);
+        assertThrows(IdentifierException.class, () -> MarsRepository.getInstance().getColonyOfCompany(234));
+    }
 }
