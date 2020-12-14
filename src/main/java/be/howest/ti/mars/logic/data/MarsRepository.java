@@ -34,6 +34,7 @@ To make this class useful, please complete it with the topics seen in the module
 public class MarsRepository {
     private static final MarsRepository INSTANCE = new MarsRepository();
     private static final Logger LOGGER = Logger.getLogger(MarsRepository.class.getName());
+    private static final String GENERIC_SQL_ERROR = "Something went wrong with executing the query";
     private Server dbWebConsole;
     private String username;
     private String password;
@@ -175,7 +176,7 @@ public class MarsRepository {
                 }
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the script");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
         if (res.isEmpty()) {
@@ -274,7 +275,7 @@ public class MarsRepository {
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
     }
@@ -288,7 +289,7 @@ public class MarsRepository {
                 return rs.next();
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
     }
@@ -301,7 +302,7 @@ public class MarsRepository {
                 return transferToColony(rs);
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         } catch (IdentifierException ex){
             existenceCheck(companyId);
