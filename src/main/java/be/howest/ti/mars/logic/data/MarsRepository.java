@@ -285,4 +285,17 @@ public class MarsRepository {
             throw new H2RuntimeException(ex.getMessage());
         }
     }
+
+    public Colony getColonyOfCompany(int companyId){
+        try (Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY_OF_COMPANY)){
+            stmt.setInt(1, companyId);
+            try (ResultSet rs = stmt.executeQuery()){
+                return transferToColony(rs);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
 }

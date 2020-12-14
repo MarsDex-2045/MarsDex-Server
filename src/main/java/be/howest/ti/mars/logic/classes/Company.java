@@ -81,6 +81,10 @@ public class Company {
                 phone.equals(company.phone);
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, name, password, email, phone);

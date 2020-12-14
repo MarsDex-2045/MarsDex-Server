@@ -1,5 +1,7 @@
 package be.howest.ti.mars.logic.controller;
 
+import be.howest.ti.mars.logic.classes.Colony;
+import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.classes.Shipment;
 import be.howest.ti.mars.logic.data.MarsRepository;
@@ -37,7 +39,11 @@ public class MarsController {
 
     public Object getCompanyById(String idString) {
         int id = Integer.parseInt(idString);
-        return MarsRepository.getInstance().getCompany(id).toJSON();
+        Company company = MarsRepository.getInstance().getCompany(id);
+        Colony colony = MarsRepository.getInstance().getColony(company.getId());
+        JsonObject res = company.toJSON();
+        res.put("colony", colony.getName());
+        return res;
     }
 
     public JsonArray getCompanyTransports(String idString) {
