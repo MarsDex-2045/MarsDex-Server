@@ -380,7 +380,7 @@ public class MarsRepository {
         }
     }
 
-    private Resource getResourceByName(String name, int companyId) throws SQLException {
+    public Resource getResourceByName(String name, int companyId) throws SQLException {
         try(Connection con = MarsRepository.getInstance().getConnection();
             PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)){
             stmt.setString(1, name.toLowerCase(Locale.ROOT));
