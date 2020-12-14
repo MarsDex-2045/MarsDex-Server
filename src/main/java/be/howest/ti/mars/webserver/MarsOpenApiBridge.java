@@ -9,6 +9,7 @@ class MarsOpenApiBridge {
     private final MarsController controller;
     private static final String COMPANY_ID_PARAMETER = "companyId";
     private static final String COLONY_ID_PARAMETER = "colonyId";
+    private static final String RESOURCE_ID_PARAMETER = "resourceId";
 
     MarsOpenApiBridge() {
         this.controller = new MarsController();
@@ -47,5 +48,9 @@ class MarsOpenApiBridge {
 
     public JsonObject addResourceToCompany(RoutingContext ctx) {
         return controller.addResource(ctx.getBodyAsJson(), ctx.request().getParam(COMPANY_ID_PARAMETER));
+    }
+
+    public Object deleteResourceOfCompany(RoutingContext ctx) {
+        return controller.deleteResource(ctx.request().getParam(RESOURCE_ID_PARAMETER));
     }
 }
