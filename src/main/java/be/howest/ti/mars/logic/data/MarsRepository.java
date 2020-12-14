@@ -120,6 +120,9 @@ public class MarsRepository {
                 }
             }
         } catch (SQLException ex) {
+            if(ex.getMessage().contains("Unique index or primary key violation")){
+                throw new DuplicationException("This email is already associated with an account.");
+            }
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new RequestBodyException("Malformed body exception");
         }
