@@ -173,4 +173,19 @@ class MarsControllerTest {
         assertTrue(response.getBoolean("processed"));
         assertEquals(12, response.getInteger("id"));
     }
+
+    @Test
+    void editResourceFromCompany() {
+        MarsController controller = new MarsController();
+        JsonObject json = new JsonObject();
+        json.put("name", "Painites").put("weight", 235.223451);
+        assertThrows(FormatException.class, () -> controller.editResourceFromCompany(json, "2"));
+        json.put("weight", 253.223);
+        assertThrows(IdentifierException.class, () -> controller.editResourceFromCompany(json, "2"));
+        json.put("name", "Painite");
+
+        JsonObject res = controller.editResourceFromCompany(json, "2");
+
+        assertTrue(res.getBoolean("updated"));
+    }
 }

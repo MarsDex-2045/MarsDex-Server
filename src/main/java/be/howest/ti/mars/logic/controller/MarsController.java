@@ -79,4 +79,20 @@ public class MarsController {
         json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
         return json;
     }
+
+    public JsonObject editResourceFromCompany(JsonObject requestBody, String companyId) {
+        String name = requestBody.getString("name");
+        Double weight = requestBody.getDouble("weight");
+        int id = Integer.parseInt(companyId);
+
+        int weightDecimals = new BigDecimal(String.valueOf(weight)).scale();
+        if (weightDecimals > 3) {
+            throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
+        }
+
+        JsonObject json = new JsonObject();
+        json.put("updated", MarsRepository.getInstance().updateResourceOfCompany(name, weight, id));
+
+        return json;
+    }
 }

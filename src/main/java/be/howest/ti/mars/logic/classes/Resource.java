@@ -41,6 +41,10 @@ public class Resource {
         return addDate;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public JsonObject toJSON() {
         JsonObject json = new JsonObject();
         json.put("name", this.name);

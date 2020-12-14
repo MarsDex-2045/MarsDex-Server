@@ -289,20 +289,23 @@ paths:
                 weight:
                   type: number
                   format: float
-                price:
-                  type: number
-                  format: float
               example:
                 - name: Platinum
                   weight: 3050.40
-                  price: 22.235
               required:
                 - name
                 - weight
-                - price
       responses:
         '200':
           description: Resource has been altered
+          content:
+            application/json:
+              schema:
+                properties:
+                  updated:
+                    type: boolean
+                example:
+                  updated: true
         '404':
           description: Resource or Company could not be found
         '413':

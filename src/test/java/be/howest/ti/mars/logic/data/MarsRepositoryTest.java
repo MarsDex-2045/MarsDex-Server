@@ -145,4 +145,19 @@ class MarsRepositoryTest {
             assertEquals("+3245677829", result.getPhone());
         });
     }
+
+    @Test
+    void updateResourceOfCompany() throws SQLException {
+        MarsRepository data = MarsRepository.getInstance();
+
+        data.updateResourceOfCompany("Painite", 123.456, 2);
+        Resource result = data.getResourceByName("Painite", 2);
+
+        assertThrows(IdentifierException.class, () -> data.updateResourceOfCompany("Painite", 123.456, 26));
+        assertThrows(IdentifierException.class, () -> data.updateResourceOfCompany("Painites", 123.456, 2));
+        assertAll(() -> {
+            assertEquals("Painite", result.getName());
+            assertEquals(123.456, result.getWeight());
+        });
+    }
 }

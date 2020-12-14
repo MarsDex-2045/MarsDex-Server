@@ -49,8 +49,9 @@ class MarsOpenApiBridge {
         return controller.makeCompany(company,colonyIdInt);
     }
 
-    public Boolean editCompanyResources(RoutingContext ctx) {
-        return true;
+    public JsonObject editCompanyResources(RoutingContext ctx) {
+        JsonObject body = ctx.getBodyAsJson();
+        return controller.editResourceFromCompany(body, ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 
     public JsonObject addResourceToCompany(RoutingContext ctx) {
