@@ -70,7 +70,14 @@ insert into colonies(name, latitude, longitude, altitude)
 VALUES ('Ehrlich City', 33.21322, -33.2132, 300.000);
 insert into colonies(name, latitude, longitude, altitude)
 VALUES ('Silves Claim', 22.21773, 24.33564, -200.232);
-
+insert into colonies(name, latitude, longitude, altitude)
+VALUES ('SPF-LF1', 233.21675, 2.22145, -10.234);
+insert into colonies(name, latitude, longitude, altitude)
+VALUES ('Galouye Relay', 25.33786, 70.22511, 200.232);
+insert into colonies(name, latitude, longitude, altitude)
+VALUES ('Red Jasmine', -22.22121, 65.99809, 10.231);
+insert into colonies(name, latitude, longitude, altitude)
+VALUES ('Wang City', 12.23556, 77.21334, 30.334);
 
 //CREATE COMPANIES
 insert into COMPANIES(name, email, phone, password, storage)
@@ -87,6 +94,14 @@ insert into COMPANIES(name, email, phone, password, storage)
 VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x', 1500);
 insert into COMPANIES(name, email, phone, password, storage)
 VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101', 400000);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('Delta Squadron', 'deltasquad@mars.com', '+6673241524', 'D0wnUnder', 300);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('Strategic Homeland Division', 'shd@mars.com', '+8853240987', 'Extrem1s_Mal1s_Extrema_Remed1a', 200321);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('SSL Interstellar PLC', 'sslinter@mars.com', '+0253664587', 'Beh1ndTh3V10D', 203776);
+insert into COMPANIES(name, email, phone, password, storage)
+VALUES ('G.O.M. Collective', 'gom@mars.com', '+3222156287', 'Z3lano', 1002102);
 
 //CREATE RESOURCES
 insert into resources(price, name)
@@ -113,6 +128,18 @@ insert into resources(price, name)
 VALUES (24.998, 'Goslarite');
 insert into resources(price, name)
 VALUES (234.223,'Lithium Hydroxide');
+insert into resources(price, name)
+VALUES (69.098, 'Hafnium 178');
+insert into resources(price, name)
+VALUES (5.651, 'Indium');
+insert into resources(price, name)
+VALUES (2.865, 'Uraninite');
+insert into resources(price, name)
+VALUES (52.077, 'Taaffeite');
+insert into resources(price, name)
+VALUES (172.629, 'Serendibite');
+insert into resources(price, name)
+VALUES (1.997, 'Rutile');
 
 //ASSIGN COLONIES TO COMPANIES
 insert into colonies_companies(colony_id, company_id)
@@ -129,6 +156,14 @@ insert into colonies_companies(colony_id, company_id)
 VALUES (4, 6);
 insert into colonies_companies(colony_id, company_id)
 VALUES (4, 7);
+insert into colonies_companies(colony_id, company_id)
+VALUES (5, 8);
+insert into colonies_companies(colony_id, company_id)
+VALUES (6, 9);
+insert into colonies_companies (colony_id, company_id)
+values (7, 10);
+insert into colonies_companies(colony_id, company_id)
+VALUES (8, 11);
 
 //GIVE COMPANY RESOURCES
 INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
@@ -182,6 +217,16 @@ INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestam
 VALUES (6, 2, 3500.000, '2050-2-22');
 INSERT INTO  companies_resources(company_id, resource_id, weight, added_timestamp)
 VALUES (6, 3, 20.000, '2050-2-16');
+insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
+VALUES (7, 9, 12.300, '2049-3-12');
+insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+VALUES (8, 10, 6000.234, '2051-3-12');
+insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+VALUES (9, 11, 234.221, '2050-7-11');
+insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+VALUES (10, 12, 221.123, '2030-9-22');
+insert into companies_resources(company_id, resource_id, weight, added_timestamp)
+VALUES (11, 5, 3524.221, '2033-11-1');
 
 //SHIPMENTS
 insert into shipments(sender_id, send_time, receiver_id, status)
