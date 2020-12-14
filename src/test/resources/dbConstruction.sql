@@ -13,7 +13,7 @@ create table if not exists colonies(
 CREATE TABLE IF NOT EXISTS COMPANIES(
     id int primary key auto_increment not null,
     name nvarchar(70) not null,
-    email nvarchar(100) not null,
+    email nvarchar(100) not null unique,
     phone nvarchar(20) not null,
     password nvarchar(100) not null,
     storage int

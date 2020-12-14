@@ -15,7 +15,27 @@ public class Company {
     private final Set<Resource> resources;
     private final Deque<Notification> notifications;
 
-    public Company(int id, String name, String password, String email, String phone) {
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Company(int id, String name, String password, String email,String phone) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -37,30 +57,30 @@ public class Company {
         this.storage = storage;
     }
 
-    public boolean checkPassword(String givenPassword){
+    public boolean checkPassword(String givenPassword) {
         return givenPassword.equals(this.password);
     }
 
-    public void addResource(Resource resource){
+    public void addResource(Resource resource) {
         this.resources.add(resource);
     }
 
-    public JsonObject allResourcesToJSONObject(){
+    public JsonObject allResourcesToJSONObject() {
         JsonObject json = new JsonObject();
         json.put("id", this.id);
         json.put("resources", allResourcesToJSONArray());
         return json;
     }
 
-    protected JsonArray allResourcesToJSONArray(){
+    protected JsonArray allResourcesToJSONArray() {
         JsonArray resourcesList = new JsonArray();
-        for (Resource resource : this.resources){
+        for (Resource resource : this.resources) {
             resourcesList.add(resource.toJSON());
         }
         return resourcesList;
     }
 
-    public JsonObject toJSON(){
+    public JsonObject toJSON() {
         JsonObject json = new JsonObject();
         json.put("id", this.id)
                 .put("name", this.name)
@@ -81,9 +101,6 @@ public class Company {
                 phone.equals(company.phone);
     }
 
-    public int getId() {
-        return id;
-    }
 
     @Override
     public int hashCode() {

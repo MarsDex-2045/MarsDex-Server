@@ -21,7 +21,7 @@ At the time of writing, the following features are implemented:
 |PUT `/api/company/{companyId}/resource`|Implemented|
 |PATCH `/api/company/{companyId}/resource`|Mock|
 |DELETE `/api/company/{companyId}/resource/{resourceId}`|Mock|
-|PUT `/api/company`|Mock|
+|PUT `/api/company`|Implemented|
 ### DB Interaction
 All endpoints that have been implemented, have methods that will interact with the database. The method that are responsible for this, are located in `MarsRepository.java`. All the statement that are used by `MarsRepository.java` are located in `H2Statements.java`.
 *Note: The scope of these statements are only limited to the `Data` folder*

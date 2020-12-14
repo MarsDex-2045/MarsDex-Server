@@ -4,6 +4,8 @@ class H2Statements {
     protected static final String H2_GET_COLONIES = "SELECT * FROM MARSDEX.COLONIES";
     protected static final String H2_GET_COMPANY_FULL = h2StatementCompanyFull();
     protected static final String H2_GET_COMPANY_SIMPLE = "SELECT * FROM MARSDEX.COMPANIES WHERE ID = ?";
+    protected static final String H2_INSERT_COMPANY = "INSERT INTO MARSDEX.COMPANIES (name,email,phone,password) VALUES (?,?,?,?)";
+    protected static final String H2_INSERT_COLONYLINK = "INSERT INTO MARSDEX.COLONIES_COMPANIES VALUES (?,?)";
     protected static final String H2_GET_COLONY = h2StatementColonyFull();
     protected static final String H2_GET_TRANSPORT_DETAILS = h2StatementCompanyTransportDetails();
     protected static final String H2_GET_TRANSPORT_RESOURCES = h2StatementCompanyTransportResources();
@@ -11,6 +13,7 @@ class H2Statements {
     protected static final String H2_INSERT_COMPANIES_RESOURCES = "INSERT INTO MARSDEX.COMPANIES_RESOURCES(company_id, resource_id, weight, added_timestamp) VALUES (?, ?, ?, ?);";
     protected static final String H2_GET_RESOURCE_COMPANY = h2StatementResourceFromCompany();
     protected static final String H2_GET_COLONY_OF_COMPANY = h2StatementColonyFromCompany();
+    protected static final String H2_DELETE_COMPANY = "DELETE FROM MARSDEX.COMPANIES WHERE ID = ?";
 
     private H2Statements() {
     }
