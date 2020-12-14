@@ -80,7 +80,12 @@ public class MarsController {
         return json;
     }
 
-    public Object deleteResource(String idString) {
+    public Object deleteResource(String resourceIdString, String companyIdString) {
+        int resourceId = Integer.parseInt(resourceIdString);
+        int companyId = Integer.parseInt(companyIdString);
+
+        MarsRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
+
         throw new UnsupportedOperationException();
     }
 }

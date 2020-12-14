@@ -362,5 +362,9 @@ public class MarsRepository {
             throw new CorruptedDataException(String.format("Faulty entry in table COLONIES_COMPANIES: Company with id %s doesn't have a colony.", companyId));
         }
     }
+
+    public void deleteResourceFromCompany(int resourceId, int companyId) {
+        throw new UnsupportedOperationException();
+    }
 }
 

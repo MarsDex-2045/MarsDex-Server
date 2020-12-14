@@ -42,7 +42,7 @@ class MarsOpenApiBridge {
     public JsonObject makeCompany(RoutingContext ctx) {
         JsonObject body = ctx.getBodyAsJson();
         String name = body.getString("name");
-        int colonyIdInt = body.getInteger("colonyId");
+        int colonyIdInt = body.getInteger(COLONY_ID_PARAMETER);
         String email = body.getString("email");
         String password = body.getString("password");
         String phone = body.getString("phone");
@@ -59,6 +59,6 @@ class MarsOpenApiBridge {
     }
 
     public Object deleteResourceOfCompany(RoutingContext ctx) {
-        return controller.deleteResource(ctx.request().getParam(RESOURCE_ID_PARAMETER));
+        return controller.deleteResource(ctx.request().getParam(RESOURCE_ID_PARAMETER), ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
 }
