@@ -101,9 +101,6 @@ public class Company {
                 phone.equals(company.phone);
     }
 
-    public int getId() {
-        return id;
-    }
 
     @Override
     public int hashCode() {
