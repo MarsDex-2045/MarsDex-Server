@@ -18,6 +18,10 @@ public class Colony {
         this.companies  = new HashSet<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addCompany(Company company){
         this.companies.add(company);
     }
@@ -57,10 +61,6 @@ public class Colony {
         return id == colony.id &&
                 location.equals(colony.location) &&
                 name.equals(colony.name);
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override

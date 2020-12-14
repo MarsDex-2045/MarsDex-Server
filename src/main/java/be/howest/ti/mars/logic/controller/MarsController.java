@@ -50,17 +50,17 @@ public class MarsController {
         int id = Integer.parseInt(idString);
         Set<Shipment> shipments = MarsRepository.getInstance().getShipments(id);
         JsonArray json = new JsonArray();
-        for (Shipment shipment:shipments) {
+        for (Shipment shipment : shipments) {
             json.add(shipment.toJSON());
         }
         return json;
     }
 
-    public JsonObject makeCompany() {
-        JsonObject json = new JsonObject();
-        json.put("processed", true);
-        json.put("id", 2);
-        return json;
+    public JsonObject makeCompany(Company company, int colonyId) {
+        Company res = MarsRepository.getInstance().addCompany(company, colonyId);
+        JsonObject returnBody = new JsonObject();
+        returnBody.put("id", res.getId()).put("processed", true);
+        return returnBody;
     }
 
     public JsonObject addResource(JsonObject resource, String companyId) {
@@ -70,7 +70,7 @@ public class MarsController {
 
         int priceDecimals = new BigDecimal(String.valueOf(price)).scale();
         int weightDecimals = new BigDecimal(String.valueOf(weight)).scale();
-        if(priceDecimals > 3 || weightDecimals > 3){
+        if (priceDecimals > 3 || weightDecimals > 3) {
             throw new FormatException("Too many decimals; Only 3 or less decimals are accepted");
         }
 
