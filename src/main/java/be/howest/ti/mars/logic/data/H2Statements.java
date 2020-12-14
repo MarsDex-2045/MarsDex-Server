@@ -55,9 +55,9 @@ class H2Statements {
     }
 
     private static String h2StatementColonyFromCompany() {
-        return "SELECT C.*" +
+        return "SELECT C.ID AS COLONY_ID, C.NAME AS COLONY_NAME, C.*" +
                 "FROM MARSDEX.COLONIES C " +
-                "JOIN MARSDEX.COLONIES_COMPANIES CC ON C.ID = CC.COLONY " +
+                "JOIN MARSDEX.COLONIES_COMPANIES CC ON C.ID = CC.COLONY_ID " +
                 "WHERE CC.COMPANY_ID = ?";
     }
 }

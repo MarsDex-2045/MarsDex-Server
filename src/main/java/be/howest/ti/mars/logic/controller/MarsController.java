@@ -40,7 +40,7 @@ public class MarsController {
     public Object getCompanyById(String idString) {
         int id = Integer.parseInt(idString);
         Company company = MarsRepository.getInstance().getCompany(id);
-        Colony colony = MarsRepository.getInstance().getColony(company.getId());
+        Colony colony = MarsRepository.getInstance().getColonyOfCompany(company.getId());
         JsonObject res = company.toJSON();
         res.put("colony", colony.getName());
         return res;

@@ -145,15 +145,22 @@ public class MarsRepository {
         } catch (SQLException throwables) {
             LOGGER.warning("No colony could be found.");
             throw new IdentifierException("Faulty Colony Id");
+        } catch (IdentifierException ex){
+            throw new IdentifierException("Faulty company ID");
         }
     }
 
-    private Colony transferToColony(ResultSet rs) throws SQLException {
-        rs.next();
-        int cId = rs.getInt("COLONY_ID");
-        String cName = rs.getString("COLONY_NAME");
-        Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
-        return new Colony(cId, cName, location);
+    private Colony transferToColony(ResultSet rs) {
+        try{
+            rs.next();
+            int cId = rs.getInt("COLONY_ID");
+            String cName = rs.getString("COLONY_NAME");
+            Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
+            return new Colony(cId, cName, location);
+        } catch (SQLException ex){
+            LOGGER.log(Level.WARNING, "The result set was empty, aborting...");
+            throw new IdentifierException("Empty result set; Possible faulty colony ID.") ;
+        }
     }
 
     public Set<Shipment> getShipments(int companyId) {
@@ -296,6 +303,10 @@ public class MarsRepository {
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Something went wrong with executing the query");
             throw new H2RuntimeException(ex.getMessage());
+        } catch (IdentifierException ex){
+            existenceCheck(companyId);
+            LOGGER.log(Level.SEVERE, String.format("Company with ID %s doesn't have a colony; Possible corrupted data entry, Please check manually", companyId));
+            throw new CorruptedDataException(String.format("Faulty entry in table COLONIES_COMPANIES: Company with id %s doesn't have a colony.", companyId));
         }
     }
 }
