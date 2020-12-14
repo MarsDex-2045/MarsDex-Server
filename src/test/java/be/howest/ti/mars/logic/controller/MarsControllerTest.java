@@ -144,4 +144,22 @@ class MarsControllerTest {
 
         assertThrows(DuplicationException.class, () -> controller.addResource(input, "4"));
     }
+
+    @Test
+    void testGetCompanyById() {
+        MarsController controller = new MarsController();
+        Company refCompany = MarsRepository.getInstance().getCompany(2);
+        Colony refColony = MarsRepository.getInstance().getColony(2);
+
+        JsonObject json = controller.getCompanyById("2");
+
+        assertEquals(refColony.getName(), json.getString("colony"));
+        assertAll(() ->{
+            assertEquals(refColony.getName(), json.getString("colony"));
+            assertEquals(refCompany.toJSON().getString("name"), json.getString("name"));
+            assertEquals(refCompany.toJSON().getInteger("id"), json.getInteger("id"));
+            assertEquals(refCompany.toJSON().getString("email"), json.getString("email"));
+            assertEquals(refCompany.toJSON().getString("phoneNumber"), json.getString("phoneNumber"));
+        });
+    }
 }
