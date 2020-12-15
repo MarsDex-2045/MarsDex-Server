@@ -333,8 +333,16 @@ paths:
           schema:
             type: integer
       responses:
-        '203':
+        '200':
           description: Resource has been deleted
+          content:
+            application/json:
+              schema:
+                properties:
+                  deleted:
+                    type: boolean
+                example:
+                  deleted: true
         '404':
           description: Resource or Company could not be found
         '500':

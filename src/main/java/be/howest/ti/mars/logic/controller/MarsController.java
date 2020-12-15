@@ -102,6 +102,6 @@ public class MarsController {
 
         MarsRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
 
-        throw new UnsupportedOperationException();
+        return new JsonObject().put("deleted", true);
     }
 }
