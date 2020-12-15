@@ -237,36 +237,36 @@ VALUES (8, 11);
     insert into companies_resources(company_id, resource_id, weight, added_timestamp)
     VALUES (8, 10, 6000.234, '2051-3-12');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 15, 12.300, '2049-3-12');
+    VALUES (8, 15, 12.300, '2049-3-12');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 6, 12.300, '2049-3-12');
+    VALUES (8, 6, 12.300, '2049-3-12');
 
 
     //COMPANY 9
     insert into companies_resources(company_id, resource_id, weight, added_timestamp)
     VALUES (9, 11, 234.221, '2050-7-11');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 16, 12.300, '2049-3-12');
+    VALUES (9, 16, 12.300, '2049-3-12');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 7, 70.221, '2049-3-12');
+    VALUES (9, 7, 70.221, '2049-3-12');
 
 
     //COMPANY 10
     insert into companies_resources(company_id, resource_id, weight, added_timestamp)
     VALUES (10, 12, 221.123, '2030-9-22');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 17, 44.215, '2049-3-12');
+    VALUES (10, 17, 44.215, '2049-3-12');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 8, 50.221, '2049-3-12');
+    VALUES (10, 8, 50.221, '2049-3-12');
 
 
     //COMPANY 11
     insert into companies_resources(company_id, resource_id, weight, added_timestamp)
     VALUES (11, 13, 124.221, '2033-11-1');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 5, 50.22, '2049-3-12');
+    VALUES (11, 5, 50.22, '2049-3-12');
     insert INTO companies_resources(company_id, resource_id, weight, added_timestamp)
-    VALUES (7, 9, 12.300, '2049-3-12');
+    VALUES (11, 9, 12.300, '2049-3-12');
 
 
 //SHIPMENTS
