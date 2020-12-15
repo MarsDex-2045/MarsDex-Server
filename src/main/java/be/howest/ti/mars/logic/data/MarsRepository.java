@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -360,6 +361,42 @@ public class MarsRepository {
             existenceCheck(companyId);
             LOGGER.log(Level.SEVERE, String.format("Company with ID %s doesn't have a colony; Possible corrupted data entry, Please check manually", companyId));
             throw new CorruptedDataException(String.format("Faulty entry in table COLONIES_COMPANIES: Company with id %s doesn't have a colony.", companyId));
+        }
+    }
+
+    public boolean updateResourceOfCompany(String name, Double weight, int companyId){
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_UPDATE_RESOURCE)){
+            existenceCheck(companyId);
+            Resource selectedResource = getResourceByName(name, companyId);
+            stmt.setDouble(1, weight);
+            stmt.setInt(2, companyId);
+            stmt.setInt(3, selectedResource.getId());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    public Resource getResourceByName(String name, int companyId) throws SQLException {
+        try(Connection con = MarsRepository.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)){
+            stmt.setString(1, name.toLowerCase(Locale.ROOT));
+            stmt.setInt(2, companyId);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    return new Resource(rs.getInt("ID"),
+                                        rs.getString("NAME"),
+                                        rs.getDouble("PRICE"),
+                                        rs.getDouble("WEIGHT"),
+                                        rs.getDate("ADDED_TIMESTAMP").toLocalDate());
+                } else {
+                    LOGGER.warning("The resource name is faulty");
+                    throw new IdentifierException("No resources exists with this name.");
+                }
+            }
         }
     }
 

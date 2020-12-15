@@ -14,6 +14,8 @@ class H2Statements {
     protected static final String H2_GET_RESOURCE_COMPANY = h2StatementResourceFromCompany();
     protected static final String H2_GET_COLONY_OF_COMPANY = h2StatementColonyFromCompany();
     protected static final String H2_DELETE_COMPANY = "DELETE FROM MARSDEX.COMPANIES WHERE ID = ?";
+    protected static final String H2_GET_RESOURCE_BY_NAME = h2StatementCompanyResourceByName();
+    protected static final String H2_UPDATE_RESOURCE = "UPDATE MARSDEX.COMPANIES_RESOURCES SET WEIGHT = ? WHERE COMPANY_ID = ? AND RESOURCE_ID = ?;";
 
     private H2Statements() {
     }
@@ -62,5 +64,12 @@ class H2Statements {
                 "FROM MARSDEX.COLONIES C " +
                 "JOIN MARSDEX.COLONIES_COMPANIES CC ON C.ID = CC.COLONY_ID " +
                 "WHERE CC.COMPANY_ID = ?";
+    }
+
+    private static String h2StatementCompanyResourceByName() {
+        return "SELECT * " +
+                "FROM MARSDEX.RESOURCES R " +
+                "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID " +
+                "WHERE LOWER(R.NAME) = ? AND CR.COMPANY_ID = ? ";
     }
 }

@@ -57,7 +57,7 @@ class MarsRepositoryTest {
 
         Set<Colony> colonies = data.getAllColonies();
 
-        assertEquals(colonies.size(), 4);
+        assertEquals(8,colonies.size());
         assertTrue(colonies.contains(ref1));
         assertTrue(colonies.contains(ref2));
         assertTrue(colonies.contains(ref3));
@@ -143,6 +143,21 @@ class MarsRepositoryTest {
             assertEquals("B1gSt0rage", result.getPassword());
             assertEquals("walzstorage@mars.com", result.getEmail());
             assertEquals("+3245677829", result.getPhone());
+        });
+    }
+
+    @Test
+    void updateResourceOfCompany() throws SQLException {
+        MarsRepository data = MarsRepository.getInstance();
+
+        data.updateResourceOfCompany("Painite", 123.456, 2);
+        Resource result = data.getResourceByName("Painite", 2);
+
+        assertThrows(IdentifierException.class, () -> data.updateResourceOfCompany("Painite", 123.456, 26));
+        assertThrows(IdentifierException.class, () -> data.updateResourceOfCompany("Painites", 123.456, 2));
+        assertAll(() -> {
+            assertEquals("Painite", result.getName());
+            assertEquals(123.456, result.getWeight());
         });
     }
 }
