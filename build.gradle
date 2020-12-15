@@ -59,6 +59,9 @@ dependencies {
     compile "io.vertx:vertx-config:$vertxVersion"
     compile "io.vertx:vertx-codegen:$vertxVersion"
     compile "com.h2database:h2:$h2version"
+    compile group: 'nl.martijndwars', name: 'web-push', version: '5.1.1'
+// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.67'
 }
 
 mainClassName = 'io.vertx.core.Launcher'
