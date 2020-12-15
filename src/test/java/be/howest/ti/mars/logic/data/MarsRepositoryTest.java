@@ -160,4 +160,22 @@ class MarsRepositoryTest {
             assertEquals(123.456, result.getWeight());
         });
     }
+
+    @Test
+    void deleteResourceFromCompany() {
+        MarsRepository data = MarsRepository.getInstance();
+        Resource ref1 = new Resource(2, "Alexandite", 271.192, 35000.0, LocalDate.parse("2050-02-22"));
+        Resource ref2 = new Resource(13, "Hafnium 178", 69.098, 124.221, LocalDate.parse("2033-11-01"));
+
+        data.deleteResourceFromCompany(2,5);
+        data.deleteResourceFromCompany(13, 11);
+        Company company5 = data.getCompany(5);
+        Company company11 = data.getCompany(11);
+
+        assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(2, 5));
+        assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(1234, 7));
+        assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(5, 1234));
+        assertFalse(company5.allResourcesToJSONObject().getJsonArray("resources").contains(ref1.toJSON()));
+        assertFalse(company11.allResourcesToJSONObject().getJsonArray("resources").contains(ref2.toJSON()));
+    }
 }
