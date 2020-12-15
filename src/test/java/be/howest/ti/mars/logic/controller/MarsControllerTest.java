@@ -83,8 +83,8 @@ class MarsControllerTest {
     @Test
     void getColonyById() {
         Colony ref = new Colony(3, "Ehrlich City", new Location(33.21322, 	-33.2132, 300.0));
-        ref.addCompany(new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000));
-        ref.addCompany(new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000));
+        ref.addCompany(new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221"));
+        ref.addCompany(new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234"));
 
         JsonObject json = new MarsController().getColonyById("3");
 

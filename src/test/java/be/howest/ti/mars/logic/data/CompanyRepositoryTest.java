@@ -48,8 +48,8 @@ class CompanyRepositoryTest {
     @Test
     void getCompany() {
         CompanyRepository data = CompanyRepository.getInstance();
-        Company ref1 = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567", 150000);
-        Company ref2 = new Company(1, "MarsDex", "DataH0arder", "marsdex@mars.com", "+6623145878", 0);
+        Company ref1 = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567");
+        Company ref2 = new Company(1, "MarsDex", "DataH0arder", "marsdex@mars.com", "+6623145878");
 
 
         Company maMiCo = data.getCompany(2);

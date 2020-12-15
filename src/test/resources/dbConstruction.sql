@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS COMPANIES(
     name nvarchar(70) not null,
     email nvarchar(100) not null unique,
     phone nvarchar(20) not null,
-    password nvarchar(100) not null,
-    storage int
+    password nvarchar(100) not null
 );
 
 CREATE TABLE IF NOT EXISTS resources (
@@ -80,28 +79,28 @@ insert into colonies(name, latitude, longitude, altitude)
 VALUES ('Wang City', -28.45090, 57.46124, 30.334);
 
 //CREATE COMPANIES
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', 'DataH0arder', null);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', 'B1g1r0n', 150000);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('Generic Company', 'generic@earth.com', '+3246777245', 'G3n3r1c', 1000000);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', 'V1s10na1r',150000);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '8ydr0n', 250000);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x', 1500);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101', 400000);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('Delta Squadron', 'deltasquad@mars.com', '+6673241524', 'D0wnUnder', 300);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('Strategic Homeland Division', 'shd@mars.com', '+8853240987', 'Extrem1s_Mal1s_Extrema_Remed1a', 200321);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('SSL Interstellar PLC', 'sslinter@mars.com', '+0253664587', 'Beh1ndTh3V10D', 203776);
-insert into COMPANIES(name, email, phone, password, storage)
-VALUES ('G.O.M. Collective', 'gom@mars.com', '+3222156287', 'Z3lano', 1002102);
+insert into COMPANIES(name, email, phone, password)
+VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', 'DataH0arder');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', 'B1g1r0n');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('Generic Company', 'generic@earth.com', '+3246777245', 'G3n3r1c');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', 'V1s10na1r');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '8ydr0n');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('Delta Squadron', 'deltasquad@mars.com', '+6673241524', 'D0wnUnder');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('Strategic Homeland Division', 'shd@mars.com', '+8853240987', 'Extrem1s_Mal1s_Extrema_Remed1a');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('SSL Interstellar PLC', 'sslinter@mars.com', '+0253664587', 'Beh1ndTh3V10D');
+insert into COMPANIES(name, email, phone, password)
+VALUES ('G.O.M. Collective', 'gom@mars.com', '+3222156287', 'Z3lano');
 
 //CREATE RESOURCES
 insert into resources(price, name)
@@ -142,28 +141,36 @@ insert into resources(price, name)
 VALUES (1.997, 'Rutile');
 
 //ASSIGN COLONIES TO COMPANIES
-insert into colonies_companies(colony_id, company_id)
-VALUES (1, 1);
-insert into colonies_companies(colony_id, company_id)
-VALUES (2, 2);
-insert into colonies_companies(colony_id, company_id)
-VALUES (2, 3);
-insert into colonies_companies(colony_id, company_id)
-VALUES (3, 4);
-insert into colonies_companies(colony_id, company_id)
-VALUES (3, 5);
-insert into colonies_companies(colony_id, company_id)
-VALUES (4, 6);
-insert into colonies_companies(colony_id, company_id)
-VALUES (4, 7);
-insert into colonies_companies(colony_id, company_id)
-VALUES (5, 8);
-insert into colonies_companies(colony_id, company_id)
-VALUES (6, 9);
-insert into colonies_companies (colony_id, company_id)
-values (7, 10);
-insert into colonies_companies(colony_id, company_id)
-VALUES (8, 11);
+    //COLONY 1
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (1, 1);
+    //COLONY 2
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (2, 2);
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (2, 3);
+    //COLONY 3
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (3, 4);
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (3, 5);
+    //COLONY 4
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (4, 6);
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (4, 7);
+    //COLONY 5
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (5, 8);
+    //COLONY 6
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (6, 9);
+    //COLONY 7
+    insert into colonies_companies (colony_id, company_id)
+    values (7, 10);
+    //COLONY 8
+    insert into colonies_companies(colony_id, company_id)
+    VALUES (8, 11);
 
 //GIVE COMPANY RESOURCES
     //Company 2
@@ -331,83 +338,86 @@ VALUES (8, 11);
     VALUES (4, parsedatetime('2052-02-22 22:22', 'yyyy-MM-dd hh:mm'), 3, 'In Transit');
 
 //CONNECT SHIPMENTS & RESOURCES
-insert into shipments_resources(shipment_id, resource_id, weight,added_timestamp)
-VALUES (1, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (2, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (3, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (4, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (5, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (6, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (7, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (8, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (9, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (10, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (11, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (12, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (13, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (14, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (15, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (16, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (17, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (18, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (19, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (20, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (21, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (22, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (23, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (24, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (25, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (26, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (27, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (2,2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (4, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (6, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (8, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (10, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (12, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (14, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (16, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (18, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (20, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (22, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (24, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
-insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
-VALUES (26, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    // COMPANY 1
+    insert into shipments_resources(shipment_id, resource_id, weight,added_timestamp)
+    VALUES (1, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (2, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (3, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (4, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (5, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (6, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (7, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (8, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (9, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (10, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (11, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (12, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (13, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (14, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (15, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (16, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (17, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (18, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (19, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (20, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (21, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (22, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (23, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (24, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (25, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (26, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (27, 1, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+
+    // Company 2
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (2,2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (4, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (6, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (8, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (10, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (12, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (14, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (16, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (18, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (20, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (22, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (24, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
+    insert into shipments_resources(shipment_id, resource_id, weight, added_timestamp)
+    VALUES (26, 2, 200, parsedatetime('2052-03-22 22:22', 'yyyy-MM-dd hh:mm'));
