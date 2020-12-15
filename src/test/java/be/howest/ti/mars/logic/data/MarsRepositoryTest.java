@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +48,7 @@ class MarsRepositoryTest {
 
     @Test
     void getAllColonies() {
-        MarsRepository data = MarsRepository.getInstance();
+        ColonyRepository data = ColonyRepository.getInstance();
         Colony ref1 = new Colony(1, "Haberlandt Survey", new Location(-22.42744, 162.18224, 0.000));
         Colony ref2 = new Colony(2, "Durrance Camp", new Location(-80.60405, 80.04179, 160.000));
         Colony ref3 = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
@@ -66,7 +65,7 @@ class MarsRepositoryTest {
 
     @Test
     void getCompany() {
-        MarsRepository data = MarsRepository.getInstance();
+        CompanyRepository data = CompanyRepository.getInstance();
         Company ref1 = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567", 150000);
         Company ref2 = new Company(1, "MarsDex", "DataH0arder", "marsdex@mars.com", "+6623145878", 0);
 
@@ -81,7 +80,7 @@ class MarsRepositoryTest {
 
     @Test
     void getColony() {
-        MarsRepository data = MarsRepository.getInstance();
+        ColonyRepository data = ColonyRepository.getInstance();
         Colony ref = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
         Company refC1 = new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000);
         Company refC2 = new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000);
@@ -96,9 +95,10 @@ class MarsRepositoryTest {
 
     @Test
     void getShipments() {
-        MarsRepository data = MarsRepository.getInstance();
-        Calendar date = new Calendar.Builder().setDate(2052, 2, 22).setTimeOfDay(22, 22, 0).build();
+        ShipmentRepository data = ShipmentRepository.getInstance();
+
         Set<Shipment> db = data.getShipments(2);
+
         assertEquals(18, db.size());
         assertThrows(IdentifierException.class, () -> data.getShipments(234));
     }
@@ -106,11 +106,10 @@ class MarsRepositoryTest {
     @Test
     void insertResourceOfCompany() {
         Resource nr = new Resource(19, "Cobalt", 23.664, 2223.390, LocalDate.now());
-        JsonObject nrJson =  nr.toJSON();
-        MarsRepository data = MarsRepository.getInstance();
+        ResourceRepository data = ResourceRepository.getInstance();
 
         data.insertResourceOfCompany(nr, 4);
-        JsonArray resources = data.getCompany(4).allResourcesToJSONObject().getJsonArray("resources");
+        JsonArray resources = CompanyRepository.getInstance().getCompany(4).allResourcesToJSONObject().getJsonArray("resources");
 
         assertThrows(DuplicationException.class, () -> data.insertResourceOfCompany(nr, 4));
         assertThrows(IdentifierException.class, () -> data.insertResourceOfCompany(nr, 234));
@@ -120,23 +119,25 @@ class MarsRepositoryTest {
 
     @Test
     void getColonyOfCompany() {
-        Colony ref = MarsRepository.getInstance().getColony(2);
+        ColonyRepository data = ColonyRepository.getInstance();
+        Colony ref = data.getColony(2);
 
-        Colony result = MarsRepository.getInstance().getColonyOfCompany(2);
+        Colony result = data.getColonyOfCompany(2);
 
         assertEquals(ref, result);
-        assertThrows(IdentifierException.class, () -> MarsRepository.getInstance().getColonyOfCompany(234));
+        assertThrows(IdentifierException.class, () -> data.getColonyOfCompany(234));
     }
 
     @Test
     void addCompany() {
+        CompanyRepository data = CompanyRepository.getInstance();
         Company newCompany1 = new Company(-1, "Walz Depot", "B1gSt0rage", "walzstorage@mars.com", "+3245677829");
         Company newCompany2 = new Company(-1, "Powell High", "F1yH1gh.Icarus", "powell@mars.com", "+32451662744");
 
-        Company result = MarsRepository.getInstance().addCompany(newCompany1, 2);
+        Company result = data.addCompany(newCompany1, 2);
 
-        assertThrows(DuplicationException.class, () -> MarsRepository.getInstance().addCompany(newCompany1, 2));
-        assertThrows(IdentifierException.class, () -> MarsRepository.getInstance().addCompany(newCompany2, 234));
+        assertThrows(DuplicationException.class, () -> data.addCompany(newCompany1, 2));
+        assertThrows(IdentifierException.class, () -> data.addCompany(newCompany2, 234));
 
         assertAll(() ->{
             assertEquals("Walz Depot", result.getName());
@@ -148,7 +149,7 @@ class MarsRepositoryTest {
 
     @Test
     void updateResourceOfCompany() throws SQLException {
-        MarsRepository data = MarsRepository.getInstance();
+        ResourceRepository data = ResourceRepository.getInstance();
 
         data.updateResourceOfCompany("Painite", 123.456, 2);
         Resource result = data.getResourceByName("Painite", 2);
@@ -163,14 +164,14 @@ class MarsRepositoryTest {
 
     @Test
     void deleteResourceFromCompany() {
-        MarsRepository data = MarsRepository.getInstance();
+        ResourceRepository data = ResourceRepository.getInstance();
         Resource ref1 = new Resource(2, "Alexandite", 271.192, 35000.0, LocalDate.parse("2050-02-22"));
         Resource ref2 = new Resource(13, "Hafnium 178", 69.098, 124.221, LocalDate.parse("2033-11-01"));
 
         data.deleteResourceFromCompany(2,5);
         data.deleteResourceFromCompany(13, 11);
-        Company company5 = data.getCompany(5);
-        Company company11 = data.getCompany(11);
+        Company company5 = CompanyRepository.getInstance().getCompany(5);
+        Company company11 = CompanyRepository.getInstance().getCompany(11);
 
         assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(2, 5));
         assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(1234, 7));
