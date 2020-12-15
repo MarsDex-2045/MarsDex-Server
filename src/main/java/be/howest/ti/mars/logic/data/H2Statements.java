@@ -16,9 +16,9 @@ class H2Statements {
     protected static final String H2_DELETE_COMPANY = "DELETE FROM MARSDEX.COMPANIES WHERE ID = ?";
     protected static final String H2_GET_RESOURCE_BY_NAME = h2StatementCompanyResourceByName();
     protected static final String H2_UPDATE_RESOURCE = "UPDATE MARSDEX.COMPANIES_RESOURCES SET WEIGHT = ? WHERE COMPANY_ID = ? AND RESOURCE_ID = ?;";
-    protected static final String H2_OCCURENCE_OF_RESOURCE = h2StatementOccurrenceResource();
-
-
+    protected static final String H2_OCCURRENCE_OF_RESOURCE = h2StatementOccurrenceResource();
+    protected static final String H2_DELETE_RESOURCE_ENTRY = "DELETE FROM MARSDEX.COMPANIES_RESOURCES CR WHERE CR.COMPANY_ID = ? AND CR.RESOURCE_ID = ?;";
+    protected static final String H2_DELETE_RESOURCE = "DELETE FROM MARSDEX.RESOURCES R WHERE R.ID = ?";
 
     private H2Statements() {
     }

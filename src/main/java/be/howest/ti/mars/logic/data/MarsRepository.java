@@ -402,7 +402,7 @@ public class MarsRepository {
 
     public void deleteResourceFromCompany(int resourceId, int companyId) {
         try(Connection con = MarsRepository.getInstance().getConnection();
-        PreparedStatement stmt = con.prepareStatement(H2_OCCURENCE_OF_RESOURCE)){
+        PreparedStatement stmt = con.prepareStatement(H2_OCCURRENCE_OF_RESOURCE)){
             stmt.setInt(1, resourceId);
             try(ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
@@ -420,11 +420,30 @@ public class MarsRepository {
     }
 
     private void removeResourceAndReferences(int resourceId, int companyId) {
-        LOGGER.log(Level.SEVERE, "Dependency Detected; Removing Entry.");
+        try(Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement entryStmt = con.prepareStatement(H2_DELETE_RESOURCE_ENTRY);
+             PreparedStatement resourceStmt = con.prepareStatement(H2_DELETE_RESOURCE)){
+            entryStmt.setInt(1, companyId);
+            entryStmt.setInt(2, resourceId);
+            resourceStmt.setInt(1, resourceId);
+            entryStmt.executeUpdate();
+            resourceStmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
     }
 
     private void removeResourceEntry(int resourceId, int companyId) {
-        LOGGER.log(Level.SEVERE, "Independence detected; Removing resource & entries");
+        try(Connection con = MarsRepository.getInstance().getConnection();
+            PreparedStatement stmt = con.prepareStatement(H2_DELETE_RESOURCE_ENTRY)){
+            stmt.setInt(1, companyId);
+            stmt.setInt(2, resourceId);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
     }
 }
 
