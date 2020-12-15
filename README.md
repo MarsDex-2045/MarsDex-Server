@@ -1,9 +1,9 @@
 # MarsDex Server Repository (MD-SR)
 Welcome to the Server Repository of the MarsDex. This repository contains the code needed to run a local version of the MarsDex Server.
 
-|Version|Maintance|SonarQube|
-|---|---|---|
-|[![Generic badge](https://img.shields.io/badge/Version-Alpha-red.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|![SonarQube](https://sonar.ti.howest.be/sonar/api/project_badges/measure?project=2020.project-ii%3Amars-server-23&metric=coverage)<br>*Based on the latest push to any branch in this repo.*|
+|Version|Maintance|
+|---|---|
+|[![Generic badge](https://img.shields.io/badge/Version-Live-blue.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|
 ## Features
 At the time of writing, the following features are implemented:
 ### API Calls
@@ -19,8 +19,8 @@ At the time of writing, the following features are implemented:
 |GET `/api/company/{companyId}/transport`|Implemented|
 |GET `/api/company/{companyId}/resource`|Implemented|
 |PUT `/api/company/{companyId}/resource`|Implemented|
-|PATCH `/api/company/{companyId}/resource`|Mock|
-|DELETE `/api/company/{companyId}/resource/{resourceId}`|Mock|
+|PATCH `/api/company/{companyId}/resource`|Implemented|
+|DELETE `/api/company/{companyId}/resource/{resourceId}`|Implemented|
 |PUT `/api/company`|Implemented|
 ### DB Interaction
 All endpoints that have been implemented, have methods that will interact with the database. The method that are responsible for this, are located in `MarsRepository.java`. All the statement that are used by `MarsRepository.java` are located in `H2Statements.java`.
@@ -61,7 +61,7 @@ Congrats, now you have a MarsDex Server up and running. You'll still need [The M
 ## Contributing
 You've noticed something a fault in code or have a feature request? Take first a look at the issues so that you don't make a duplicate issue. 
 
-If there isn't a issue for it, send a message to Bo Robbrecht and we'll suggest it to the team or alert them of the bug.
+If there isn't an issue for it, send a message to Bo Robbrecht, and we'll suggest it to the team or alert them of the bug.
 <br>
 <br>
 ![joke](https://forthebadge.com/images/badges/not-a-bug-a-feature.svg)
