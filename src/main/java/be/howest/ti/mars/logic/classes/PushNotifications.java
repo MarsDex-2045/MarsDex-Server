@@ -11,8 +11,7 @@ import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.concurrent.ExecutionException;
 
-
-public class PushNotifications{
+public class PushNotifications {
     private static final String PUBLIC_KEY = "BA0gv_6WGAyW2Y7uv8z8TAN9vwOlFw_B4caUDZmQhuO3oN1ZI8ehRJ8RqXPgIik1ix0RSc86tIhnBw4T7FopmtU";
     private static final String PRIVATE_KEY = "3o1Ubths59P4Q6xxpVY8DVI8RWMAydPqUI0rZJx8mvk";
     public static void main(String[] args) throws GeneralSecurityException, InterruptedException, ExecutionException, JoseException, IOException {
