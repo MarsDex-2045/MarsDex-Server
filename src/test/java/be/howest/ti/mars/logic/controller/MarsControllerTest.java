@@ -171,7 +171,7 @@ class MarsControllerTest {
         JsonObject response = controller.makeCompany(refCompany, 2);
 
         assertTrue(response.getBoolean("processed"));
-        assertEquals(8, response.getInteger("id"));
+        assertEquals(12, response.getInteger("id"));
     }
 
     @Test

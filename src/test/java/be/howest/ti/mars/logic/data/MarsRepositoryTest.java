@@ -57,7 +57,7 @@ class MarsRepositoryTest {
 
         Set<Colony> colonies = data.getAllColonies();
 
-        assertEquals(colonies.size(), 4);
+        assertEquals(8,colonies.size());
         assertTrue(colonies.contains(ref1));
         assertTrue(colonies.contains(ref2));
         assertTrue(colonies.contains(ref3));
