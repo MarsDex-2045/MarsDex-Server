@@ -12,8 +12,8 @@ import java.security.Security;
 import java.util.concurrent.ExecutionException;
 
 public class PushNotifications {
-    private static final String PUBLIC_KEY = "BA0gv_6WGAyW2Y7uv8z8TAN9vwOlFw_B4caUDZmQhuO3oN1ZI8ehRJ8RqXPgIik1ix0RSc86tIhnBw4T7FopmtU";
-    private static final String PRIVATE_KEY = "3o1Ubths59P4Q6xxpVY8DVI8RWMAydPqUI0rZJx8mvk";
+    private static final String PUBLIC_KEY = "BGSu_Gue562rAoCKZQXIxZZyKD33DLnCFACu1MbbEPX4Qzb9nXolkySECmyD3QoxphYdwl0mAszB63fImgBEKD8";
+    private static final String PRIVATE_KEY = "otSt-ZEA7baIlyO0Af4QotzbZ1a5cdgLZ98e3_40okg";
     public static void main(String[] args) throws GeneralSecurityException, InterruptedException, ExecutionException, JoseException, IOException {
         Security.addProvider(new BouncyCastleProvider());
         PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
