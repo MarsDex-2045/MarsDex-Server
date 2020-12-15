@@ -10,8 +10,6 @@ import static be.howest.ti.mars.logic.classes.TestData.generateLocations;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LocationTest {
-    private static final Logger LOGGER = Logger.getLogger(LocationTest.class.getName());
-
     @Test
     void getLongitude() {
         Location[] locations = generateLocations();
@@ -54,7 +52,6 @@ class LocationTest {
         Location[] locations = generateLocations();
         JsonObject json = locations[0].toJson();
 
-        LOGGER.log(Level.INFO, json.toString());
         assertEquals(15.666, json.getDouble("longitude"));
         assertEquals(144.444, json.getDouble("latitude"));
         assertEquals(2645.333, json.getDouble("altitude"));

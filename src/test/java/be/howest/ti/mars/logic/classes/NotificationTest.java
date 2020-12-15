@@ -10,9 +10,6 @@ import static be.howest.ti.mars.logic.classes.TestData.generateNotifications;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationTest {
-    private static final Logger LOGGER = Logger.getLogger(NotificationTest.class.getName());
-
-
     @Test
     void testEquals() {
         Notification[] notifications = generateNotifications();
@@ -33,7 +30,6 @@ class NotificationTest {
 
         JsonObject res = notifications[1].toJSON();
 
-        LOGGER.log(Level.INFO, res.toString());
         assertEquals("Test Message",res.getString("heading"));
         assertEquals("Test Message", res.getString("message"));
     }
