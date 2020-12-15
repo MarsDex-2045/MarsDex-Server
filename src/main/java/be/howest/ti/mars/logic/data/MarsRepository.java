@@ -401,7 +401,30 @@ public class MarsRepository {
     }
 
     public void deleteResourceFromCompany(int resourceId, int companyId) {
-        throw new UnsupportedOperationException();
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_OCCURENCE_OF_RESOURCE)){
+            stmt.setInt(1, resourceId);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    if(rs.getInt(1) > 1){
+                        removeResourceEntry(resourceId, companyId);
+                    } else {
+                        removeResourceAndReferences(resourceId, companyId);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    private void removeResourceAndReferences(int resourceId, int companyId) {
+        LOGGER.log(Level.SEVERE, "Dependency Detected; Removing Entry.");
+    }
+
+    private void removeResourceEntry(int resourceId, int companyId) {
+        LOGGER.log(Level.SEVERE, "Independence detected; Removing resource & entries");
     }
 }
 
