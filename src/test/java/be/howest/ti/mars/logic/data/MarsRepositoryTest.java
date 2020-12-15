@@ -50,9 +50,9 @@ class MarsRepositoryTest {
     @Test
     void getAllColonies() {
         MarsRepository data = MarsRepository.getInstance();
-        Colony ref1 = new Colony(1, "Haberlandt Survey", new Location(0.00000, 0.00000, 0.000));
-        Colony ref2 = new Colony(2, "Durrance Camp", new Location(40.22451, -80.56218, 160.000));
-        Colony ref3 = new Colony(3, "Ehrlich City", new Location(33.21322, -33.2132, 300.000));
+        Colony ref1 = new Colony(1, "Haberlandt Survey", new Location(-22.42744, 162.18224, 0.000));
+        Colony ref2 = new Colony(2, "Durrance Camp", new Location(-80.60405, 80.04179, 160.000));
+        Colony ref3 = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
         Colony ref4 = new Colony(4, "Silves Claim", new Location(22.21773, 24.33564, -200.232));
 
         Set<Colony> colonies = data.getAllColonies();
@@ -82,7 +82,7 @@ class MarsRepositoryTest {
     @Test
     void getColony() {
         MarsRepository data = MarsRepository.getInstance();
-        Colony ref = new Colony(3, "Ehrlich City", new Location(33.21322, -33.2132, 300.0));
+        Colony ref = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
         Company refC1 = new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000);
         Company refC2 = new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000);
 
