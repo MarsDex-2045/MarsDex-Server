@@ -105,7 +105,7 @@ class MarsRepositoryTest {
 
     @Test
     void insertResourceOfCompany() {
-        Resource nr = new Resource(235, "Cobalt", 23.664, 2223.390, LocalDate.now());
+        Resource nr = new Resource(19, "Cobalt", 23.664, 2223.390, LocalDate.now());
         JsonObject nrJson =  nr.toJSON();
         MarsRepository data = MarsRepository.getInstance();
 

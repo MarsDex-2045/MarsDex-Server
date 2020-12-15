@@ -410,6 +410,8 @@ components:
     Resource:
       type: object
       properties:
+        id:
+          type: number
         name:
           type: string
         weight:
@@ -422,7 +424,8 @@ components:
           type: number
           format: double
       example:
-        - name: "gold"
+        - id: 1
+          name: "gold"
           weight: 200.45
           added: "2052-01-20"
           price: 20.221
