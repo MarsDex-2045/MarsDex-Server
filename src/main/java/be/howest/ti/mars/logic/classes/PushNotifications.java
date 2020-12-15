@@ -12,18 +12,22 @@ import java.security.Security;
 import java.util.concurrent.ExecutionException;
 
 public class PushNotifications {
-    private static final String PUBLIC_KEY = "BGSu_Gue562rAoCKZQXIxZZyKD33DLnCFACu1MbbEPX4Qzb9nXolkySECmyD3QoxphYdwl0mAszB63fImgBEKD8";
-    private static final String PRIVATE_KEY = "otSt-ZEA7baIlyO0Af4QotzbZ1a5cdgLZ98e3_40okg";
+    private static final String PUBLIC_KEY = "BAcgnkauwyqPz1MI31KN9sN8wpIPEMkfhbmEijXcodAUzCoy1u5tIePU7HpATIv2VQOFN45Mu4Wc1qx-6HRxv_g";
+    private static final String PRIVATE_KEY = "4WTRfJSoLwBVSoq5d6U_ZgY7JBMcupC0SxnTTApwLFE";
+
     public static void main(String[] args) throws GeneralSecurityException, InterruptedException, ExecutionException, JoseException, IOException {
         Security.addProvider(new BouncyCastleProvider());
         PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
-        String endpoint = "https://fcm.googleapis.com/fcm/send/dIavIBFZPfQ:APA91bHxqusiGSwc5DNMb2AUR9J9rnGpSAdtIU4bT1XEwDgE39J_uIlHju-du5YECHg3deNqmrz0CzSD9-HIbgIWZmXGQ14L8cxp9gtv9I4hHY2Ye1xP2jd1RvFgYiidOUaj1S6mCMsw";
+
+        String endpoint = "https://fcm.googleapis.com/fcm/send/csPLLqWMAZk:APA91bGsIT98ZXSKWJM0oCkL4IjDSNrqKv31bIIWHmMXBlkF9--KByQWQYQlTQY_7d1NhHcmjjlm_dClNttzQXU-TVCBfo_JY_MOF2lDRetAB5wvwC7Ona_-E8in6we4MYBCfQhseS2a";
         Subscription.Keys keys = new Subscription.Keys();
-        keys.auth = "6RgtTmBTcTUPJIkHpzUBhg";
-        keys.p256dh = "BDOv5Ghg3ON1q_eZE8tiYNB77OaadRbNm-Jxx5ZRGx3H4i3vvaWn6BaaMTzkaM6a3uP1ZiWVLQ_2fabOwqYIy8I";
+        keys.auth = "s03BNsnunznMLpAsvzuhkg";
+        keys.p256dh = "BJ-ADMN1c01Nu5PQd6DtQaQTlyhN7Z4hL3At-1oXSynWPey_Pc6jhiZPeFHWMGwi6H_RWobmS-YGmsQNqp5FGxY";
         Subscription sub = new Subscription(endpoint, keys);
         Notification notif = new Notification(sub, "Hello");
+
         push.send(notif);
+        System.out.println(push.send(notif));
         System.out.println("done");
     }
 }
