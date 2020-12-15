@@ -13,7 +13,6 @@ public class Company {
     private final String phone;
     private int storage;
     private final Set<Resource> resources;
-    private final Deque<Notification> notifications;
 
     public int getId() {
         return id;
@@ -42,7 +41,7 @@ public class Company {
         this.email = email;
         this.phone = phone;
         this.resources = new HashSet<>();
-        this.notifications = new LinkedList<>();
+
         this.storage = 0;
     }
 
@@ -53,7 +52,6 @@ public class Company {
         this.email = email;
         this.phone = phone;
         this.resources = new HashSet<>();
-        this.notifications = new LinkedList<>();
         this.storage = storage;
     }
 
