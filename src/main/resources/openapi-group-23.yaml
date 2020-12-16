@@ -40,14 +40,14 @@ paths:
       description: save the subscription
       operationId: saveSubscription
       requestBody:
-        description: Login & details of the company
+        description: all the details for the subscription
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                Endpoint:
+                endpoint:
                   type: string
                   example: "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABf2…8tOXjPu-UP2rzmlZ8T3JcvdyiyUxtO14CeHjqVBjXhJ4xv9kfsGMcXEvLkPI"
                 auth:
