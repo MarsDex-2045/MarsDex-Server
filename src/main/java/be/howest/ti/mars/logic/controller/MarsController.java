@@ -112,6 +112,7 @@ public class MarsController {
         returnBody.put("endpoint", endpoint);
         returnBody.put("auth", auth);
         returnBody.put("p256dh", p256dh);
+        returnBody.put("added", true);
         return returnBody;
     }
 
