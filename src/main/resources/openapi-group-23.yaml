@@ -16,6 +16,8 @@ tags:
     description: All endpoints relating to company data.
   - name: Utility
     description: Endpoints that are used for testing purposes exclusively
+  - name: Notifications
+    description: Endpoints that are used for collecting data for the subscriptions
 
 paths:
   /api/message:
@@ -31,6 +33,31 @@ paths:
             application/json:
               schema:
                 type: string
+  /api/save-subscription:
+    post:
+      tags:
+        - Notifications
+      description: save the subscription
+      operationId: saveSubscription
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Endpoint:
+                      type: string
+                      example: "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABf2…8tOXjPu-UP2rzmlZ8T3JcvdyiyUxtO14CeHjqVBjXhJ4xv9kfsGMcXEvLkPI"
+                    auth:
+                      type: string
+                      example: "77_3uUiAbwgk_Z_Q-aYVLA"
+                    p256dh:
+                      type: string
+                      example: "BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_REx7i629ljvRfoeLHm9yPCasaGA"
   /api/company/{companyId}:
     get:
       summary: Retrieve company info.
@@ -133,7 +160,7 @@ paths:
                   resources:
                     $ref: '#/components/schemas/Resource'
         '404':
-            description: Colony could not be found.
+          description: Colony could not be found.
   /api/company/{companyId}/transport:
     get:
       tags:
@@ -197,12 +224,12 @@ paths:
           content:
             application/json:
               schema:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    resources:
-                      $ref: '#/components/schemas/Resource'
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  resources:
+                    $ref: '#/components/schemas/Resource'
         '404':
           description: The requested company couldn't be found
         '500':
