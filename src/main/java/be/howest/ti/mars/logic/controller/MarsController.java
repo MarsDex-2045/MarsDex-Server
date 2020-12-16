@@ -105,13 +105,15 @@ public class MarsController {
 
         return new JsonObject().put("deleted", true);
     }
-    /*
-    public JsonObject save-Subscription(JSObject details) {
-        Company res = MarsRepository.getInstance().addCompany(company, colonyId);
+
+    public JsonObject saveSubscription(String endpoint, String auth, String p256dh) {
+        //Company res = MarsRepository.getInstance().addCompany(company, colonyId);
         JsonObject returnBody = new JsonObject();
-        returnBody.put("id", res.getId()).put("processed", true);
+        returnBody.put("endpoint", endpoint);
+        returnBody.put("auth", auth);
+        returnBody.put("p256dh", p256dh);
         return returnBody;
     }
-    */
+
 
 }
