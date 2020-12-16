@@ -19,12 +19,12 @@ public class PushNotifications {
         Security.addProvider(new BouncyCastleProvider());
         PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
 
-        String endpoint = "https://fcm.googleapis.com/fcm/send/eWFL6YkGXgI:APA91bGEJbfgcQLzwdHdzffeMC8tNFDG1hyh7y5TQaFZNF0DdvtqmtXnjWoJdws2gKkKU_XaKPTesbmDxpj4MtAVupQ5lg_1rJghV1mj73nZOCBbIijPxHLXKIauEKWQTdBcLj0F_gJR";
+        String endpoint = "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABf2K4dH_PIx4CAq8lFvkycIML5xbIgTT8vb1Z7F4F5MaMsXinLJ_mvGR9ae2TDnxVvKjs4HlEbu-2LfWzulVWWOaomtbUZX0sqVqrY0LFWlC2eQfV7LzM8tOXjPu-UP2rzmlZ8T3JcvdyiyUxtO14CeHjqVBjXhJ4xv9kfsGMcXEvLkPI";
         Subscription.Keys keys = new Subscription.Keys();
-        keys.auth = "CV9JTCTBdqevlX9O75a_TA";
-        keys.p256dh = "BN-tysBjoKXsguvYAeJ6llDLwvWLv7eeLhv3UgDKhDkx2iFMw9EkYlDWqGwmJaznha_7KEKhzNyZKiJVHLb3lo8";
+        keys.auth = "77_3uUiAbwgk_Z_Q-aYVLA";
+        keys.p256dh = "BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_REx7i629ljvRfoeLHm9yPCasaGA";
         Subscription sub = new Subscription(endpoint, keys);
-        Notification notif = new Notification(sub, "Hello");
+        Notification notif = new Notification(sub, "leuk");
 
         push.send(notif);
         System.out.println(push.send(notif));
