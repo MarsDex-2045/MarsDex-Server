@@ -33,7 +33,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /api/save-subscription:
+  /api/saveSubscription:
     post:
       tags:
         - Notifications

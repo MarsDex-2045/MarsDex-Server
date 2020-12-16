@@ -56,7 +56,7 @@ class MarsOpenApiBridge {
         String endpoint = body.getString("endpoint");
         String auth = body.getString("auth");
         String p256dh = body.getString("p256dh");
-        return controller.saveSubscription(endpoint,auth, p256dh);
+        return controller.saveSubscription(endpoint,auth,p256dh);
     }
 
     public JsonObject editCompanyResources(RoutingContext ctx) {
