@@ -96,6 +96,15 @@ public class MarsController {
 
         return json;
     }
+
+    public Object deleteResource(String resourceIdString, String companyIdString) {
+        int resourceId = Integer.parseInt(resourceIdString);
+        int companyId = Integer.parseInt(companyIdString);
+
+        MarsRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
+
+        return new JsonObject().put("deleted", true);
+    }
     /*
     public JsonObject save-Subscription(JSObject details) {
         Company res = MarsRepository.getInstance().addCompany(company, colonyId);

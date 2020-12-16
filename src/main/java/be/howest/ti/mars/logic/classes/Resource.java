@@ -47,6 +47,7 @@ public class Resource {
 
     public JsonObject toJSON() {
         JsonObject json = new JsonObject();
+        json.put("id", this.id);
         json.put("name", this.name);
         json.put("price", this.price);
         json.put("added", this.addDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
