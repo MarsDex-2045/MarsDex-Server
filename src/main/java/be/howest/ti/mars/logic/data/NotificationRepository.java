@@ -38,7 +38,7 @@ public class NotificationRepository {
             prep.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new IdentifierException("Faulty Colony ID");
+            throw new IdentifierException("SQL problem");
         }
 
     }/*
