@@ -112,31 +112,30 @@ public class MarsRepository {
             prep.setString(4, company.getPassword());
             prep.executeUpdate();
             try (ResultSet autoId = prep.getGeneratedKeys()) {
-                if(autoId.next()){
+                if (autoId.next()) {
                     companyId = autoId.getInt(1);
                     addColonyLink(companyId, colonyId);
                     return MarsRepository.getInstance().getCompany(companyId);
-                }
-                else{
+                } else {
                     LOGGER.severe("Failed getting the auto-id from new insert");
                     throw new SQLException("Failed retrieving the generated ID");
                 }
             }
         } catch (SQLException ex) {
-            if(ex.getMessage().contains("Unique index or primary key violation")){
+            if (ex.getMessage().contains("Unique index or primary key violation")) {
                 throw new DuplicationException("This email is already associated with an account.");
             }
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new RequestBodyException(GENERIC_SQL_ERROR);
-        } catch (IdentifierException ex){
+            throw new H2RuntimeException(GENERIC_SQL_ERROR);
+        } catch (IdentifierException ex) {
             deleteCompany(companyId);
             throw ex;
         }
     }
 
-    private void deleteCompany(int companyId){
-        try(Connection con = MarsRepository.getInstance().getConnection();
-        PreparedStatement stmt = con.prepareStatement(H2_DELETE_COMPANY)){
+    private void deleteCompany(int companyId) {
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_DELETE_COMPANY)) {
             stmt.setInt(1, companyId);
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -200,21 +199,21 @@ public class MarsRepository {
         } catch (SQLException throwables) {
             LOGGER.warning("No colony could be found.");
             throw new IdentifierException("Faulty Colony Id");
-        } catch (IdentifierException ex){
+        } catch (IdentifierException ex) {
             throw new IdentifierException("Faulty company ID");
         }
     }
 
     private Colony transferToColony(ResultSet rs) {
-        try{
+        try {
             rs.next();
             int cId = rs.getInt("COLONY_ID");
             String cName = rs.getString("COLONY_NAME");
             Location location = new Location(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE"), rs.getDouble("ALTITUDE"));
             return new Colony(cId, cName, location);
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             LOGGER.log(Level.WARNING, "The result set was empty, aborting...");
-            throw new IdentifierException("Empty result set; Possible faulty colony ID.") ;
+            throw new IdentifierException("Empty result set; Possible faulty colony ID.");
         }
     }
 
@@ -347,26 +346,26 @@ public class MarsRepository {
         }
     }
 
-    public Colony getColonyOfCompany(int companyId){
+    public Colony getColonyOfCompany(int companyId) {
         try (Connection con = MarsRepository.getInstance().getConnection();
-        PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY_OF_COMPANY)){
+             PreparedStatement stmt = con.prepareStatement(H2_GET_COLONY_OF_COMPANY)) {
             stmt.setInt(1, companyId);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 return transferToColony(rs);
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
-        } catch (IdentifierException ex){
+        } catch (IdentifierException ex) {
             existenceCheck(companyId);
             LOGGER.log(Level.SEVERE, String.format("Company with ID %s doesn't have a colony; Possible corrupted data entry, Please check manually", companyId));
             throw new CorruptedDataException(String.format("Faulty entry in table COLONIES_COMPANIES: Company with id %s doesn't have a colony.", companyId));
         }
     }
 
-    public boolean updateResourceOfCompany(String name, Double weight, int companyId){
-        try(Connection con = MarsRepository.getInstance().getConnection();
-        PreparedStatement stmt = con.prepareStatement(H2_UPDATE_RESOURCE)){
+    public boolean updateResourceOfCompany(String name, Double weight, int companyId) {
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_UPDATE_RESOURCE)) {
             existenceCheck(companyId);
             Resource selectedResource = getResourceByName(name, companyId);
             stmt.setDouble(1, weight);
@@ -381,22 +380,86 @@ public class MarsRepository {
     }
 
     public Resource getResourceByName(String name, int companyId) throws SQLException {
-        try(Connection con = MarsRepository.getInstance().getConnection();
-            PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)){
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_GET_RESOURCE_BY_NAME)) {
             stmt.setString(1, name.toLowerCase(Locale.ROOT));
             stmt.setInt(2, companyId);
-            try(ResultSet rs = stmt.executeQuery()){
-                if(rs.next()){
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
                     return new Resource(rs.getInt("ID"),
-                                        rs.getString("NAME"),
-                                        rs.getDouble("PRICE"),
-                                        rs.getDouble("WEIGHT"),
-                                        rs.getDate("ADDED_TIMESTAMP").toLocalDate());
+                            rs.getString("NAME"),
+                            rs.getDouble("PRICE"),
+                            rs.getDouble("WEIGHT"),
+                            rs.getDate("ADDED_TIMESTAMP").toLocalDate());
                 } else {
                     LOGGER.warning("The resource name is faulty");
                     throw new IdentifierException("No resources exists with this name.");
                 }
             }
+        }
+    }
+
+    public void deleteResourceFromCompany(int resourceId, int companyId) {
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_OCCURRENCE_OF_RESOURCE)) {
+            stmt.setInt(1, resourceId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    if (rs.getInt(1) > 1) {
+                        removeResourceEntry(resourceId, companyId);
+                    } else {
+                        removeResourceAndReferences(resourceId, companyId);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    private void removeResourceAndReferences(int resourceId, int companyId) {
+        try (Connection con = MarsRepository.getInstance().getConnection()) {
+            con.setAutoCommit(false);
+            try (PreparedStatement entryStmt = con.prepareStatement(H2_DELETE_RESOURCE_ENTRY);
+                 PreparedStatement resourceStmt = con.prepareStatement(H2_DELETE_RESOURCE)) {
+                entryStmt.setInt(1, companyId);
+                entryStmt.setInt(2, resourceId);
+                resourceStmt.setInt(1, resourceId);
+                int changed = entryStmt.executeUpdate();
+                if (changed == 0) {
+                    existenceCheck(companyId);
+                    LOGGER.warning("Entry could not be found or doesn't exist anymore");
+                    throw new IdentifierException("Resource not found");
+                }
+                con.commit();
+                changed = resourceStmt.executeUpdate();
+                if (changed == 0) {
+                    LOGGER.warning("Resource could not be found or doesn't exit anymore");
+                    throw new IdentifierException("Resource not found");
+                }
+                con.commit();
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+
+    private void removeResourceEntry(int resourceId, int companyId) {
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_DELETE_RESOURCE_ENTRY)) {
+            stmt.setInt(1, companyId);
+            stmt.setInt(2, resourceId);
+            int changed = stmt.executeUpdate();
+            if (changed == 0) {
+                existenceCheck(companyId);
+                LOGGER.warning("Entry could not be found");
+                throw new IdentifierException("Resource not found");
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
         }
     }
 }

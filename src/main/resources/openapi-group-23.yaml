@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: 'MarsDex'
   description: 'MarsDex is a resource indexing tool that you can use to know where you need to go to find the things you need.'
-  version: 0.0.1
+  version: 1.0.0
 servers:
   - url: http://localhost:8080
     description: 'Local development implementation'
@@ -63,7 +63,7 @@ paths:
       summary: Retrieve company info.
       tags:
         - Companies
-      description: get information about the company with given ID.
+      description: Method will return info about the requested company, identified by it's id.
       operationId: getCompanyById
       parameters:
         - in: path
@@ -98,15 +98,15 @@ paths:
                       type: string
                       example: "+324561772"
         '404':
-          description: Id not found
+          description: Company/Method not found
         '500':
-          description: Server side Issue thats our fault
+          description: Internal Server Error
   /api/colony:
     get:
       summary: List all colonies
       tags:
         - Colonies
-      description: Get a list of colonies
+      description: Returns a list of all colonies and their locations. Resources aren't included.
       operationId: getColonies
       responses:
         '200':
@@ -119,12 +119,14 @@ paths:
                   $ref: '#/components/schemas/Colony'
         '404':
           description: Method not found
+        '500':
+          description: Internal Server Error
   /api/colony/{colonyId}:
     get:
       summary: Retrieve a colony's info.
       tags:
         - Colonies
-      description: get information about the colony with given ID
+      description: Returns info about a requested colony, identified by it's id.
       operationId: getColonyById
       parameters:
         - in : path
@@ -160,13 +162,15 @@ paths:
                   resources:
                     $ref: '#/components/schemas/Resource'
         '404':
-          description: Colony could not be found.
+          description: Colony/method not found.
+        '500':
+          description: Internal Server Error
   /api/company/{companyId}/transport:
     get:
       tags:
         - Companies
       summary: Return transports for a company
-      description: Returns transports from and to a company.
+      description: Returns transports from and to a company. Includes details, sender & receiver.
       operationId: getCompanyTransport
       parameters:
         - name: companyId
@@ -200,7 +204,7 @@ paths:
                     receiver:
                       $ref: '#/components/schemas/Colony'
         '404':
-          description: "Not able to find the given company"
+          description: Company/method not found
         '500':
           description: "Internal Server error"
 
@@ -231,7 +235,7 @@ paths:
                   resources:
                     $ref: '#/components/schemas/Resource'
         '404':
-          description: The requested company couldn't be found
+          description: Company/method not found
         '500':
           description: Internal Server Error
     put:
@@ -282,8 +286,10 @@ paths:
                     type: boolean
                 example:
                   processed: true
+        '400':
+          description: Faulty request body
         '404':
-          description: Company couldn't be found
+          description: Company/Method not found
         '409':
           description: Resourse already exists
         '413':
@@ -333,8 +339,10 @@ paths:
                     type: boolean
                 example:
                   updated: true
+        '400':
+          description: Faulty request body
         '404':
-          description: Resource or Company could not be found
+          description: Resource/Company/Method could not be found
         '413':
           description: The resource's too big or has too many decimals
         '500':
@@ -343,7 +351,7 @@ paths:
     delete:
       tags:
         - Companies
-      summary: Remove a resource
+      summary: Removes a resource.
       description: Remove the resource of a company
       operationId: deleteResourceOfCompany
       parameters:
@@ -360,10 +368,20 @@ paths:
           schema:
             type: integer
       responses:
-        '203':
+        '200':
           description: Resource has been deleted
+          content:
+            application/json:
+              schema:
+                properties:
+                  deleted:
+                    type: boolean
+                example:
+                  deleted: true
+        '400':
+          description: Faulty request body
         '404':
-          description: Resource or Company could not be found
+          description: Resource/Company/Method could not be found
         '500':
           description: Internal Server Error
 
@@ -372,7 +390,7 @@ paths:
       tags:
         - Companies
       summary: Adds a new company
-      description: Adds a new company to the back-end.
+      description: Adds a new company to the DB.
       operationId: makeCompany
       requestBody:
         description: Login & details of the company
@@ -419,49 +437,52 @@ paths:
                   id:
                     type: integer
         '400':
-          description: "Body syntax error"
+          description: Faulty request body
+        '404':
+          description: Method not found
         '409':
           description: "The e-mail's already in use"
         '500':
-          description: "Failed to create account"
+          description: "Internal server error"
 components:
   schemas:
     Resource:
       type: object
       properties:
+        id:
+          type: number
+          example: 1
         name:
           type: string
+          example: "gold"
         weight:
           type: number
           format: double
+          example: 200.45
         added:
           type: string
           format: date
+          example: "2052-01-20"
         price:
           type: number
           format: double
-      example:
-        - name: "gold"
-          weight: 200.45
-          added: "2052-01-20"
-          price: 20.221
+          example: 20.221
     Company:
       type: object
       properties:
         id:
           type: integer
+          example: 5
         colony:
           type: string
+          example: "MarsDex"
         name:
           type: string
+          example: "Bova Point"
         email:
           type: string
           format: email
-      example:
-        - id: 5
-          name: "MarsDex"
-          Colony: "Bova Point"
-          email: MarsDex@mars.com
+          example: "marsdex@mars.com"
     Status:
       type: string
       enum:
