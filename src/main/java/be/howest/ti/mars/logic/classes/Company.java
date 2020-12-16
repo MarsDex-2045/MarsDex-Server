@@ -41,7 +41,6 @@ public class Company {
         this.phone = phone;
         this.resources = new HashSet<>();
 
-        this.storage = 0;
     }
 
     public Company(int id, String name, String password, String email, String phone, int storage) {
@@ -51,7 +50,6 @@ public class Company {
         this.email = email;
         this.phone = phone;
         this.resources = new HashSet<>();
-        this.storage = storage;
     }
 
     public boolean checkPassword(String givenPassword) {
