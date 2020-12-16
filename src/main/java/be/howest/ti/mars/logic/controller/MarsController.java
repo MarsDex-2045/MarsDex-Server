@@ -107,7 +107,7 @@ public class MarsController {
     }
 
     public JsonObject saveSubscription(String endpoint, String auth, String p256dh) {
-        //Company res = MarsRepository.getInstance().addCompany(company, colonyId);
+        NotificationRepository.getInstance().addSubscription(endpoint,auth,p256dh);
         JsonObject returnBody = new JsonObject();
         returnBody.put("endpoint", endpoint);
         returnBody.put("auth", auth);
