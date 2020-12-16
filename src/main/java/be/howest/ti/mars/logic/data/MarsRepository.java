@@ -476,7 +476,7 @@ public class MarsRepository {
                 throw new DuplicationException("This email is already associated with an account.");
             }
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new RequestBodyException(GENERIC_SQL_ERROR);
+            throw new H2RunTimeException(GENERIC_SQL_ERROR);
         }
     }
 }
