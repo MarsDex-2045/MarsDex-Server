@@ -61,6 +61,13 @@ create table if not exists shipments_resources(
     foreign key (resource_id) references resources(id)
 );
 
+CREATE TABLE IF NOT EXISTS Push(
+    id int primary key auto_increment not null,
+    endpoint nvarchar(100) not null,
+    auth nvarchar(100) not null,
+    p256dh nvarchar(100) not null,
+);
+
 //CREATE COLONIES
 insert into colonies(name, latitude, longitude, altitude)
 VALUES ('Haberlandt Survey', 0.00000, 0.00000, 0.000 );
