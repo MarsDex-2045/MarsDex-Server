@@ -8,6 +8,7 @@ import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import netscape.javascript.JSObject;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -95,4 +96,13 @@ public class MarsController {
 
         return json;
     }
+    /*
+    public JsonObject save-Subscription(JSObject details) {
+        Company res = MarsRepository.getInstance().addCompany(company, colonyId);
+        JsonObject returnBody = new JsonObject();
+        returnBody.put("id", res.getId()).put("processed", true);
+        return returnBody;
+    }
+    */
+
 }

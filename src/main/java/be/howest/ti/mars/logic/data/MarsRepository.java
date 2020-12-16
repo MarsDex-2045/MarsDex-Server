@@ -4,6 +4,7 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.exceptions.*;
 import org.h2.tools.Server;
+import org.h2.util.json.JSONObject;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -397,6 +398,22 @@ public class MarsRepository {
                     throw new IdentifierException("No resources exists with this name.");
                 }
             }
+        }
+    }
+    public void saveSubscription(JSONObject subscriptionDetails) {
+
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement prep = con.prepareStatement(H2_INSERT_COMPANY)) {
+            //prep.setString(1, subscriptionDetails.endpoint);
+            //prep.setString(2, company.getEmail());
+            //prep.setString(3, company.getPhone());
+            prep.executeUpdate();
+        } catch (SQLException ex) {
+            if(ex.getMessage().contains("Unique index or primary key violation")){
+                throw new DuplicationException("This email is already associated with an account.");
+            }
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new RequestBodyException(GENERIC_SQL_ERROR);
         }
     }
 }
