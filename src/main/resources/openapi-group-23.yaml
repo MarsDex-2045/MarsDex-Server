@@ -61,22 +61,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    Endpoint:
-                      type: string
-                      example: "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABf2…8tOXjPu-UP2rzmlZ8T3JcvdyiyUxtO14CeHjqVBjXhJ4xv9kfsGMcXEvLkPI"
-                    auth:
-                      type: string
-                      example: "77_3uUiAbwgk_Z_Q-aYVLA"
-                    p256dh:
-                      type: string
-                      example: "BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_REx7i629ljvRfoeLHm9yPCasaGA"
   /api/company/{companyId}:
     get:
       summary: Retrieve company info.
@@ -148,12 +132,12 @@ paths:
       description: Returns info about a requested colony, identified by it's id.
       operationId: getColonyById
       parameters:
-        - in: path
+        - in : path
           name: colonyId
           schema:
             type: integer
           required: true
-          description: id that identifices a company.
+          description : id that identifices a company.
       responses:
         '200':
           description: OK
