@@ -1,6 +1,8 @@
 package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.classes.*;
+import be.howest.ti.mars.logic.data.ColonyRepository;
+import be.howest.ti.mars.logic.data.CompanyRepository;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.FormatException;
@@ -80,10 +82,9 @@ class MarsControllerTest {
 
     @Test
     void getColonyById() {
-        MarsRepository data = MarsRepository.getInstance();
         Colony ref = new Colony(3, "Ehrlich City", new Location(33.21322, 	-33.2132, 300.0));
-        ref.addCompany(new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221", 150000));
-        ref.addCompany(new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234", 250000));
+        ref.addCompany(new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221"));
+        ref.addCompany(new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234"));
 
         JsonObject json = new MarsController().getColonyById("3");
 
@@ -91,7 +92,7 @@ class MarsControllerTest {
         assertEquals("Ehrlich City", json.getString("name"));
         assertTrue(json.containsKey("location"));
         assertTrue(json.containsKey("resources"));
-        assertThrows(IdentifierException.class, () -> data.getColony(22));
+        assertThrows(IdentifierException.class, () -> ColonyRepository.getInstance().getColony(22));
     }
 
     @Test
@@ -140,7 +141,7 @@ class MarsControllerTest {
 
         controller.addResource(input, "4");
 
-        JsonObject ref = MarsRepository.getInstance().getCompany(4).allResourcesToJSONObject();
+        JsonObject ref = CompanyRepository.getInstance().getCompany(4).allResourcesToJSONObject();
 
         assertThrows(DuplicationException.class, () -> controller.addResource(input, "4"));
     }
@@ -148,8 +149,8 @@ class MarsControllerTest {
     @Test
     void testGetCompanyById() {
         MarsController controller = new MarsController();
-        Company refCompany = MarsRepository.getInstance().getCompany(2);
-        Colony refColony = MarsRepository.getInstance().getColony(2);
+        Company refCompany = CompanyRepository.getInstance().getCompany(2);
+        Colony refColony = ColonyRepository.getInstance().getColony(2);
 
         JsonObject json = controller.getCompanyById("2");
 

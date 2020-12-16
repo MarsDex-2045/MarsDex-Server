@@ -10,16 +10,12 @@ import static be.howest.ti.mars.logic.classes.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShipmentTest {
-    private static final Logger LOGGER = Logger.getLogger(ShipmentTest.class.getName());
-
-
     @Test
     void toJSON() {
         Shipment[] shipments = generateShipments();
 
         JsonObject json = shipments[1].toJSON();
 
-        LOGGER.log(Level.INFO, json.toString());
         assertEquals(1, json.getInteger("shippingId"));
         assertEquals(Status.DELIVERED.name(), json.getString("status"));
         assertTrue(json.getJsonArray("resources").contains(resource1.toJSON()));

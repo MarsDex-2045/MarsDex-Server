@@ -20,6 +20,9 @@ class H2Statements {
     protected static final String H2_DELETE_RESOURCE_ENTRY = "DELETE FROM MARSDEX.COMPANIES_RESOURCES CR WHERE CR.COMPANY_ID = ? AND CR.RESOURCE_ID = ?;";
     protected static final String H2_DELETE_RESOURCE = "DELETE FROM MARSDEX.RESOURCES R WHERE R.ID = ?";
 
+    private static final String MARSDEX_RESOURCES = "FROM MARSDEX.RESOURCES R ";
+    private static final String JOIN_CR_ON_R = "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID ";
+
     private H2Statements() {
     }
 
@@ -57,8 +60,8 @@ class H2Statements {
 
     private static String h2StatementResourceFromCompany() {
         return "SELECT R.*, CR.WEIGHT " +
-                "FROM MARSDEX.RESOURCES R " +
-                "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID " +
+                MARSDEX_RESOURCES +
+                JOIN_CR_ON_R +
                 "WHERE R.NAME=? AND CR.COMPANY_ID = ?";
     }
 
@@ -71,15 +74,15 @@ class H2Statements {
 
     private static String h2StatementCompanyResourceByName() {
         return "SELECT * " +
-                "FROM MARSDEX.RESOURCES R " +
-                "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID " +
+                MARSDEX_RESOURCES +
+                JOIN_CR_ON_R +
                 "WHERE LOWER(R.NAME) = ? AND CR.COMPANY_ID = ? ";
     }
 
     private static String h2StatementOccurrenceResource() {
         return "SELECT COUNT(*) AS OCCURRENCE " +
-                "FROM MARSDEX.RESOURCES R " +
-                "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID " +
+                MARSDEX_RESOURCES +
+                JOIN_CR_ON_R +
                 "WHERE CR.RESOURCE_ID = ? ";
     }
 }

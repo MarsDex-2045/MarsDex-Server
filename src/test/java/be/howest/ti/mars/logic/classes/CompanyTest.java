@@ -11,9 +11,6 @@ import static be.howest.ti.mars.logic.classes.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CompanyTest {
-    private final Logger LOGGER = Logger.getLogger(CompanyTest.class.getName());
-    private JsonArray refArray;
-
     @Test
     void testEquals() {
         Company[] companies = generateCompanies();
@@ -46,7 +43,6 @@ class CompanyTest {
         JsonObject json = companies[1].allResourcesToJSONObject();
         JsonArray resourceArray = json.getJsonArray("resources");
 
-        LOGGER.log(Level.INFO, json.toString());
         assertEquals(2, json.getInteger("id"));
         assertTrue(resourceArray.contains(resource1.toJSON()));
         assertTrue(resourceArray.contains(resource2.toJSON()));
@@ -61,7 +57,6 @@ class CompanyTest {
 
         JsonObject json = companies[1].toJSON();
 
-        LOGGER.log(Level.INFO, json.toString());
         assertEquals(2, json.getInteger("id"));
         assertEquals("104th Discovery Battalion", json.getString("name"));
         assertEquals("104thdb@mars.com", json.getString("email"));
