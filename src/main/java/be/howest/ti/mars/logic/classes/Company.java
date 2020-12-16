@@ -11,7 +11,6 @@ public class Company {
     private final String password;
     private final String email;
     private final String phone;
-    private int storage;
     private final Set<Resource> resources;
 
     public int getId() {

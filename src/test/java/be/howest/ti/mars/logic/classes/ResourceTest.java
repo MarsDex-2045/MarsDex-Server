@@ -14,8 +14,6 @@ import static be.howest.ti.mars.logic.classes.TestData.generateResources;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTest {
-    private static final Logger LOGGER = Logger.getLogger(ResourceTest.class.getName());
-
     @Test
     void testEquals() {
         Resource[] testResources = generateResources();
@@ -36,7 +34,6 @@ class ResourceTest {
 
         JsonObject json = testResources[0].toJSON();
 
-        LOGGER.log(Level.INFO, json.toString());
         assertEquals("Panite", json.getString("name"));
         assertEquals(200.234, json.getDouble("price"));
         assertEquals("2052-10-12", json.getString("added"));

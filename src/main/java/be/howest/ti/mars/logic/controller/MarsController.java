@@ -4,7 +4,7 @@ import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Resource;
 import be.howest.ti.mars.logic.classes.Shipment;
-import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.data.*;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -22,7 +22,7 @@ public class MarsController {
 
     public JsonArray getColonies() {
         JsonArray json = new JsonArray();
-        MarsRepository.getInstance().getAllColonies().forEach(
+        ColonyRepository.getInstance().getAllColonies().forEach(
                 colony -> json.add(colony.toShortJSON())
         );
         return json;
@@ -30,18 +30,18 @@ public class MarsController {
 
     public JsonObject getColonyById(String idString) {
         int id = Integer.parseInt(idString);
-        return MarsRepository.getInstance().getColony(id).toJSON();
+        return ColonyRepository.getInstance().getColony(id).toJSON();
     }
 
     public JsonObject getCompanyResources(String idString) {
         int id = Integer.parseInt(idString);
-        return MarsRepository.getInstance().getCompany(id).allResourcesToJSONObject();
+        return CompanyRepository.getInstance().getCompany(id).allResourcesToJSONObject();
     }
 
     public JsonObject getCompanyById(String idString) {
         int id = Integer.parseInt(idString);
-        Company company = MarsRepository.getInstance().getCompany(id);
-        Colony colony = MarsRepository.getInstance().getColonyOfCompany(company.getId());
+        Company company = CompanyRepository.getInstance().getCompany(id);
+        Colony colony = ColonyRepository.getInstance().getColonyOfCompany(company.getId());
         JsonObject res = company.toJSON();
         res.put("colony", colony.getName());
         return res;
@@ -49,7 +49,7 @@ public class MarsController {
 
     public JsonArray getCompanyTransports(String idString) {
         int id = Integer.parseInt(idString);
-        Set<Shipment> shipments = MarsRepository.getInstance().getShipments(id);
+        Set<Shipment> shipments = ShipmentRepository.getInstance().getShipments(id);
         JsonArray json = new JsonArray();
         for (Shipment shipment : shipments) {
             json.add(shipment.toJSON());
@@ -58,7 +58,7 @@ public class MarsController {
     }
 
     public JsonObject makeCompany(Company company, int colonyId) {
-        Company res = MarsRepository.getInstance().addCompany(company, colonyId);
+        Company res = CompanyRepository.getInstance().addCompany(company, colonyId);
         JsonObject returnBody = new JsonObject();
         returnBody.put("id", res.getId()).put("processed", true);
         return returnBody;
@@ -77,7 +77,7 @@ public class MarsController {
 
         Resource newResource = new Resource(-1, name, price, weight, LocalDate.now());
         JsonObject json = new JsonObject();
-        json.put("processed", MarsRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
+        json.put("processed", ResourceRepository.getInstance().insertResourceOfCompany(newResource, Integer.parseInt(companyId)));
         return json;
     }
 
@@ -92,7 +92,7 @@ public class MarsController {
         }
 
         JsonObject json = new JsonObject();
-        json.put("updated", MarsRepository.getInstance().updateResourceOfCompany(name, weight, id));
+        json.put("updated", ResourceRepository.getInstance().updateResourceOfCompany(name, weight, id));
 
         return json;
     }
@@ -101,7 +101,7 @@ public class MarsController {
         int resourceId = Integer.parseInt(resourceIdString);
         int companyId = Integer.parseInt(companyIdString);
 
-        MarsRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
+        ResourceRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
 
         return new JsonObject().put("deleted", true);
     }

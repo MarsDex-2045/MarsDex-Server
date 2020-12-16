@@ -10,9 +10,6 @@ import static be.howest.ti.mars.logic.classes.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ColonyTest {
-    private static final Logger LOGGER = Logger.getLogger(ColonyTest.class.getName());
-
-
     @Test
     void addCompany() {
         Colony[] colonies = generateColonies();
@@ -26,7 +23,6 @@ class ColonyTest {
 
         JsonObject json = colonies[0].toJSON();
 
-        LOGGER.log(Level.INFO, json.toString());
         for (int i = 0; i < company1.allResourcesToJSONArray().size(); i++){
             assertTrue(json.getJsonArray("resources").contains(company1.allResourcesToJSONArray().getJsonObject(i)));
         }
