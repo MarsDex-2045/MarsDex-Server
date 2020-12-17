@@ -41,7 +41,11 @@ The calls are divided by the object they are working with.
 All Classes are added that will be needed for the project. You can find them in the `classes` directory
 
 ### H2 Database
-While we have a fully working database, the database isn't completely set in in stone. We are still finding some things that should be added or removed. We're planning to revisit the database structure in the Beta Phase.
+You can find more information about the DB with the [DBD](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server/-/wikis/Database/DB-Diagram), but in short:
+- **`colonies`** -> Contains all info about the colonies on Mars
+- **`companies`** -> Contains all info about the companies per colonies
+- **`shipments`** -> Details the transports between companies.
+- **`resources`** -> Contains the resources known in the MarsDex system.
 
 ## How to start
 In order to get the server up & running, you'll need to do the following things:
