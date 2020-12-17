@@ -59,6 +59,15 @@ paths:
       responses:
         '200':
           description: OK
+  /api/pushNotification:
+    get:
+      tags:
+        - Notifications
+      description: push the notification
+      operationId: pushNotification
+      responses:
+        '200':
+          description: OK
   /api/company/{companyId}:
     get:
       summary: Retrieve company info.
