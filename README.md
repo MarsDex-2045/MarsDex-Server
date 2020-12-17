@@ -5,9 +5,10 @@ Welcome to the Server Repository of the MarsDex. This repository contains the co
 |---|---|
 |[![Generic badge](https://img.shields.io/badge/Version-Live-blue.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|
 ## Features
+**Note: Authentication is moved from MVP to Nice-To-have**
+
 At the time of writing, the following features are implemented:
 ### API Calls
-**There are still some calls missing in the spec sheet. These will be added in the Beta Phase**
 
 [All the calls found in `openapi-group-23.yaml`](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server/-/blob/master/src/main/resources/openapi-group-23.yaml) will return data, pulled from the H2 Database.
 
@@ -23,8 +24,19 @@ At the time of writing, the following features are implemented:
 |DELETE `/api/company/{companyId}/resource/{resourceId}`|Implemented|
 |PUT `/api/company`|Implemented|
 ### DB Interaction
-All endpoints that have been implemented, have methods that will interact with the database. The method that are responsible for this, are located in `MarsRepository.java`. All the statement that are used by `MarsRepository.java` are located in `H2Statements.java`.
-*Note: The scope of these statements are only limited to the `Data` folder*
+All endpoints that have been implemented interact through the database with the classes that can be found in `logic/data`.
+#### H2 Statements
+The `H2Statements` class serves as a common repository for SQL calls. Sometimes multiple calls are needed in one function and in order to evade repetition, this class was introduced.
+
+*Note: The scope of these statements are only limited to the `data` folder*
+#### Repository Structure
+#### MarsRepository
+MarsRepository is used as an utility class. It manages the connections and also some data conversions.
+#### Other Repository
+The calls are divided by the object they are working with. 
+
+*e.g. `ResourceRepository` works with data & methods that mainly resolves around resources*
+
 ### Domains
 All Classes are added that will be needed for the project. You can find them in the `classes` directory
 
