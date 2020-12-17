@@ -1,15 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Location;
-import be.howest.ti.mars.logic.exceptions.DuplicationException;
-import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
-import nl.martijndwars.webpush.Notification;
-import nl.martijndwars.webpush.PushService;
-import nl.martijndwars.webpush.Subscription;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
@@ -57,20 +48,37 @@ public class NotificationRepository {
     }
 
     public Set<be.howest.ti.mars.logic.classes.Subscription> getNotification() {
-
         Set<be.howest.ti.mars.logic.classes.Subscription> res = new HashSet<>();
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTIONS);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                be.howest.ti.mars.logic.classes.Subscription  subscriptionInfo = new be.howest.ti.mars.logic.classes.Subscription (rs.getString("endpoint"), rs.getString("auth"), rs.getString("p256dh"));
+                be.howest.ti.mars.logic.classes.Subscription subscriptionInfo = new be.howest.ti.mars.logic.classes.Subscription(rs.getString("endpoint"), rs.getString("auth"), rs.getString("p256dh"));
                 res.add(subscriptionInfo);
             }
         } catch (SQLException throwables) {
             LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
         }
-     return res;
+        return res;
     }
 
+    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> Subscribers) throws GeneralSecurityException, InterruptedException, ExecutionException, JoseException, IOException {
+        Security.addProvider(new BouncyCastleProvider());
+        PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
+
+        for (be.howest.ti.mars.logic.classes.Subscription value : Subscribers) {
+            String endpoint = value.getEndpoint();
+            Subscription.Keys keys = new Subscription.Keys();
+            keys.auth = value.getAuth();
+            keys.p256dh = value.getP256dh();
+            Subscription sub = new Subscription(endpoint, keys);
+            Notification notif = new Notification(sub, "leuk2");
+            push.send(notif);
+            System.out.println(push.send(notif));
+            System.out.println("done");
+        }
+
+
+    }
 
 }
