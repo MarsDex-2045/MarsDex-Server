@@ -9,10 +9,14 @@ import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import netscape.javascript.JSObject;
+import org.jose4j.lang.JoseException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class MarsController {
 
@@ -44,6 +48,12 @@ public class MarsController {
         Colony colony = ColonyRepository.getInstance().getColonyOfCompany(company.getId());
         JsonObject res = company.toJSON();
         res.put("colony", colony.getName());
+        try {
+            NotificationRepository.getInstance().pushNotification( NotificationRepository.getInstance().getNotification());
+        } catch (GeneralSecurityException | InterruptedException | ExecutionException | JoseException | IOException e) {
+            e.printStackTrace();
+        }
+
         return res;
     }
 
@@ -93,7 +103,6 @@ public class MarsController {
 
         JsonObject json = new JsonObject();
         json.put("updated", ResourceRepository.getInstance().updateResourceOfCompany(name, weight, id));
-
         return json;
     }
 
