@@ -4,6 +4,10 @@ Welcome to the Server Repository of the MarsDex. This repository contains the co
 |Version|Maintenance|
 |---|---|
 |[![Generic badge](https://img.shields.io/badge/Version-Live-blue.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|
+## Index
+* [Server](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server)
+* [Client](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/client)
+* [Documentation](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/documentation)
 ## Bugs
 At the moment of writing (17/12/20), there are no known bugs.
 ## Features
