@@ -1,11 +1,13 @@
 # MarsDex Server Repository (MD-SR)
 Welcome to the Server Repository of the MarsDex. This repository contains the code needed to run a local version of the MarsDex Server.
 
-|Version|Maintance|
+|Version|Maintenance|
 |---|---|
 |[![Generic badge](https://img.shields.io/badge/Version-Live-blue.svg)](https://shields.io/)|![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)|
+## Bugs
+At the moment of writing (17/12/20), there are no known bugs.
 ## Features
-**Note: Authentication is moved from MVP to Nice-To-have**
+**Note: Authentication is moved from MVP to Nice-To-have.**
 
 At the time of writing, the following features are implemented:
 ### API Calls
@@ -31,7 +33,7 @@ The `H2Statements` class serves as a common repository for SQL calls. Sometimes 
 *Note: The scope of these statements are only limited to the `data` folder*
 #### Repository Structure
 #### MarsRepository
-MarsRepository is used as an utility class. It manages the connections and also some data conversions.
+MarsRepository is used as a utility class. It manages the connections and also some data conversions.
 #### Other Repository
 The calls are divided by the object they are working with. 
 
@@ -78,6 +80,3 @@ Congrats, now you have a MarsDex Server up and running. You'll still need [The M
 You've noticed something a fault in code or have a feature request? Take first a look at the issues so that you don't make a duplicate issue. 
 
 If there isn't an issue for it, send a message to Bo Robbrecht, and we'll suggest it to the team or alert them of the bug.
-<br>
-<br>
-![joke](https://forthebadge.com/images/badges/not-a-bug-a-feature.svg)
