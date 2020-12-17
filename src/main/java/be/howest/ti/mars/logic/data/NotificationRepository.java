@@ -11,7 +11,10 @@ import static be.howest.ti.mars.logic.data.H2Statements.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Security;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -62,9 +65,14 @@ public class NotificationRepository {
         return res;
     }
 
-    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> Subscribers) throws GeneralSecurityException, InterruptedException, ExecutionException, JoseException, IOException {
+    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> Subscribers)  {
         Security.addProvider(new BouncyCastleProvider());
-        PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
+        PushService push = null;
+        try {
+            push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
 
         for (be.howest.ti.mars.logic.classes.Subscription value : Subscribers) {
             String endpoint = value.getEndpoint();
@@ -72,9 +80,42 @@ public class NotificationRepository {
             keys.auth = value.getAuth();
             keys.p256dh = value.getP256dh();
             Subscription sub = new Subscription(endpoint, keys);
-            Notification notif = new Notification(sub, "leuk2");
-            push.send(notif);
-            System.out.println(push.send(notif));
+            Notification notif = null;
+            try {
+                notif = new Notification(sub, "leuk2");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchProviderException e) {
+                e.printStackTrace();
+            } catch (InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
+            try {
+                push.send(notif);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JoseException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                System.out.println(push.send(notif));
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JoseException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.out.println("done");
         }
 

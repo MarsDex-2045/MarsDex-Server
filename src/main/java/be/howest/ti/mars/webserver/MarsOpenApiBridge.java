@@ -5,6 +5,11 @@ import be.howest.ti.mars.logic.controller.MarsController;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.jose4j.lang.JoseException;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 class MarsOpenApiBridge {
     private final MarsController controller;
@@ -57,6 +62,13 @@ class MarsOpenApiBridge {
         String auth = body.getString("auth");
         String p256dh = body.getString("p256dh");
         return controller.saveSubscription(endpoint,auth,p256dh);
+    }
+
+    public JsonObject pushNotification(RoutingContext ctx) {
+    JsonObject json = new JsonObject();
+    controller.pushNotifications();
+    json.put("push",true);
+    return json;
     }
 
     public JsonObject editCompanyResources(RoutingContext ctx) {
