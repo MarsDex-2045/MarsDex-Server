@@ -1,6 +1,8 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
+import be.howest.ti.mars.logic.classes.Location;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
@@ -8,10 +10,21 @@ import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import nl.martijndwars.webpush.Notification;
+import nl.martijndwars.webpush.PushService;
+import nl.martijndwars.webpush.Subscription;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.jose4j.lang.JoseException;
 
 import static be.howest.ti.mars.logic.data.H2Statements.*;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.Security;
 import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,21 +54,23 @@ public class NotificationRepository {
             throw new IdentifierException("SQL problem");
         }
 
-    }/*
-    public void RegisterPush(){
-        ecurity.addProvider(new BouncyCastleProvider());
-        PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
-
-        String endpoint = "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABf2K4dH_PIx4CAq8lFvkycIML5xbIgTT8vb1Z7F4F5MaMsXinLJ_mvGR9ae2TDnxVvKjs4HlEbu-2LfWzulVWWOaomtbUZX0sqVqrY0LFWlC2eQfV7LzM8tOXjPu-UP2rzmlZ8T3JcvdyiyUxtO14CeHjqVBjXhJ4xv9kfsGMcXEvLkPI";
-        Subscription.Keys keys = new Subscription.Keys();
-        keys.auth = "77_3uUiAbwgk_Z_Q-aYVLA";
-        keys.p256dh = "BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_REx7i629ljvRfoeLHm9yPCasaGA";
-        Subscription sub = new Subscription(endpoint, keys);
-        Notification notif = new Notification(sub, "leuk");
-
-        push.send(notif);
-        System.out.println(push.send(notif));
-        System.out.println("done");
     }
-    */
+
+    public Set<be.howest.ti.mars.logic.classes.Subscription> getNotification() {
+
+        Set<be.howest.ti.mars.logic.classes.Subscription> res = new HashSet<>();
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTIONS);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                be.howest.ti.mars.logic.classes.Subscription  subscriptionInfo = new be.howest.ti.mars.logic.classes.Subscription (rs.getString("endpoint"), rs.getString("auth"), rs.getString("p256dh"));
+                res.add(subscriptionInfo);
+            }
+        } catch (SQLException throwables) {
+            LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
+        }
+     return res;
+    }
+
+
 }
