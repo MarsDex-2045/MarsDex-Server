@@ -118,6 +118,23 @@ public class CompanyRepository {
 
 
     public Company authenticateCompany(String email, String password) {
-        throw new UnsupportedOperationException();
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_BY_EMAIL)){
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    return new Company(rs.getInt("ID"),
+                            rs.getString("NAME"),
+                            rs.getString("PASSWORD"),
+                            rs.getString("EMAIL"),
+                            rs.getString("PHONE"));
+                } else {
+                    throw new IdentifierException("No account is associated with this email");
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
     }
 }
