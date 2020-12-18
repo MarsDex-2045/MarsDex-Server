@@ -66,6 +66,7 @@ public class NotificationRepository {
             throw new H2RuntimeException(ex.getMessage());
         }
 
+
     }
 
     public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers)  {
@@ -76,16 +77,16 @@ public class NotificationRepository {
         } catch (GeneralSecurityException e) {
             LOGGER.log(Level.INFO, "push Key Failed ");
         }
+        be.howest.ti.mars.logic.classes.Subscription sub = subscribers.iterator().next();
 
-        for (be.howest.ti.mars.logic.classes.Subscription value : subscribers) {
-            String endpoint = value.getEndpoint();
+            String endpoint = sub.getEndpoint();
             Subscription.Keys keys = new Subscription.Keys();
-            keys.auth = value.getAuth();
-            keys.p256dh = value.getP256dh();
-            Subscription sub = new Subscription(endpoint, keys);
+            keys.auth = sub.getAuth();
+            keys.p256dh = sub.getP256dh();
+            Subscription sub1 = new Subscription(endpoint, keys);
             Notification notif = null;
             try {
-                notif = new Notification(sub, "leuk3");
+                notif = new Notification(sub1, "Bauxite is running low watch out!");
             } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
                 LOGGER.log(Level.INFO, "sending payload failed ");
             }
@@ -108,6 +109,6 @@ public class NotificationRepository {
         }
 
 
-    }
+
 
 }

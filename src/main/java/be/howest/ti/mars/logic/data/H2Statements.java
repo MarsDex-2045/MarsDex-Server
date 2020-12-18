@@ -23,6 +23,17 @@ class H2Statements {
     private static final String MARSDEX_RESOURCES = "FROM MARSDEX.RESOURCES R ";
     private static final String JOIN_CR_ON_R = "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID ";
     protected static final String H2_GET_SUBSCRIPTIONS = "SELECT * FROM MARSDEX.PUSH";
+    protected static final String H2_DROP = "create schema if not exists marsdex;\n" +
+            "\n" +
+            "set schema marsdex;" +
+            "DROP TABLE IF EXISTS push;";
+    protected static final String H2_CREATE_PUSH = "set schema marsdex;" +
+            "CREATE TABLE IF NOT EXISTS Push(\n" +
+            "    id int primary key auto_increment not null,\n" +
+            "    endpoint nvarchar(255) not null,\n" +
+            "    auth nvarchar(255) not null,\n" +
+            "    p256dh nvarchar(255) not null\n" +
+            ");";
 
     private H2Statements() {
     }
