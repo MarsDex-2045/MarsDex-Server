@@ -68,8 +68,8 @@ class ColonyRepositoryTest {
     void getColony() {
         ColonyRepository data = ColonyRepository.getInstance();
         Colony ref = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
-        Company refC1 = new Company(4, "Geminorum Blue Vison Partners", "V1s10na1r", "gbvp@mars.com", "+552434221");
-        Company refC2 = new Company(5, "Hydrae Noblement Services", "8ydr0n", "hydraenoble@mars.com", "+454553234");
+        Company refC1 = new Company(4, "Geminorum Blue Vison Partners", "$2a$10$kIFnjINOAWcXHeqhtqjwjeecgDOK31LsABWdI1COMKZHyJto9pn0e", "gbvp@mars.com", "+552434221");
+        Company refC2 = new Company(5, "Hydrae Noblement Services", "$2a$10$rWDNR/.2Cz0AR0z/D6IEw.duy7mbaYn6zkU8q4.93M7dO2VgNobUO", "hydraenoble@mars.com", "+454553234");
 
         Colony colony = data.getColony(3);
 
