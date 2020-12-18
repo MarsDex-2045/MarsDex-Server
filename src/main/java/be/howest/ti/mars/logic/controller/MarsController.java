@@ -110,6 +110,6 @@ public class MarsController {
         String password = credentials.getString("password");
 
         Company company = CompanyRepository.getInstance().authenticateCompany(email, password);
-        return new JsonObject();
+        return new JsonObject().put("company", company.getName()).put("id", company.getId());
     }
 }

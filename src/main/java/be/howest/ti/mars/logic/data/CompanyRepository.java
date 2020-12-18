@@ -4,6 +4,8 @@ import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import be.howest.ti.mars.logic.exceptions.VerificationException;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -123,11 +125,16 @@ public class CompanyRepository {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
-                    return new Company(rs.getInt("ID"),
-                            rs.getString("NAME"),
-                            rs.getString("PASSWORD"),
-                            rs.getString("EMAIL"),
-                            rs.getString("PHONE"));
+                    if(BCrypt.checkpw(password, rs.getString("PASSWORD"))){
+                        return new Company(rs.getInt("ID"),
+                                rs.getString("NAME"),
+                                rs.getString("PASSWORD"),
+                                rs.getString("EMAIL"),
+                                rs.getString("PHONE"));
+                    }
+                    else {
+                        throw new VerificationException("Authorization failed");
+                    }
                 } else {
                     throw new IdentifierException("No account is associated with this email");
                 }
