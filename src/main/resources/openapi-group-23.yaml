@@ -14,14 +14,21 @@ tags:
     description: All endpoints relating to colony data.
   - name: Companies
     description: All endpoints relating to company data.
+  - name: Read
+    description: API calls that relate to requesting infomation
+  - name: Manipulation
+    description: API calls relating to the manipulation of info.
   - name: Utility
     description: Endpoints that are used for testing purposes exclusively
+  - name: Authentication
+    description: Calls used to authenticate users
 
 paths:
   /api/message:
     get:
       tags:
         - Utility
+        - Read
       description: Get a nice message
       operationId: getMessage
       responses:
@@ -36,6 +43,7 @@ paths:
       summary: Retrieve company info.
       tags:
         - Companies
+        - Read
       description: Method will return info about the requested company, identified by it's id.
       operationId: getCompanyById
       parameters:
@@ -79,6 +87,7 @@ paths:
       summary: List all colonies
       tags:
         - Colonies
+        - Read
       description: Returns a list of all colonies and their locations. Resources aren't included.
       operationId: getColonies
       responses:
@@ -99,6 +108,7 @@ paths:
       summary: Retrieve a colony's info.
       tags:
         - Colonies
+        - Read
       description: Returns info about a requested colony, identified by it's id.
       operationId: getColonyById
       parameters:
@@ -142,6 +152,7 @@ paths:
     get:
       tags:
         - Companies
+        - Read
       summary: Return transports for a company
       description: Returns transports from and to a company. Includes details, sender & receiver.
       operationId: getCompanyTransport
@@ -185,6 +196,7 @@ paths:
     get:
       tags:
         - Companies
+        - Read
       summary: Return resources of a given company
       description: Return resources of a company based on it's id.
       operationId: getCompanyResources
@@ -214,6 +226,7 @@ paths:
     put:
       tags:
         - Companies
+        - Manipulation
       summary: Add resource to company.
       description: Add a resource to a specified company
       operationId: addResourceToCompany
@@ -272,6 +285,7 @@ paths:
     patch:
       tags:
         - Companies
+        - Manipulation
       summary: Edit a resource
       description: Edit the resource of a company
       operationId: editResourceCompany
@@ -324,6 +338,7 @@ paths:
     delete:
       tags:
         - Companies
+        - Manipulation
       summary: Removes a resource.
       description: Remove the resource of a company
       operationId: deleteResourceOfCompany
@@ -362,6 +377,7 @@ paths:
     post:
       tags:
         - Companies
+        - Authentication
       summary: Check password of a company
       description: Checks of a given password matches the company associated with the account. If true, returns the id of the company.
       operationId: authenticateCompany
@@ -407,6 +423,7 @@ paths:
     put:
       tags:
         - Companies
+        - Manipulation
       summary: Adds a new company
       description: Adds a new company to the DB.
       operationId: makeCompany
@@ -485,22 +502,6 @@ components:
           type: number
           format: double
           example: 20.221
-    Company:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        colony:
-          type: string
-          example: "MarsDex"
-        name:
-          type: string
-          example: "Bova Point"
-        email:
-          type: string
-          format: email
-          example: "marsdex@mars.com"
     Status:
       type: string
       enum:
