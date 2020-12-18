@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -48,8 +49,8 @@ class CompanyRepositoryTest {
     @Test
     void getCompany() {
         CompanyRepository data = CompanyRepository.getInstance();
-        Company ref1 = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567");
-        Company ref2 = new Company(1, "MarsDex", "DataH0arder", "marsdex@mars.com", "+6623145878");
+        Company ref1 = new Company(2, "MaMiCo", "$2a$10$3CsYuUpQoUKKA.4/oHhMS.gPdDkdtK2HZxUuknsYVmaTH0dG6XsZa", "mamico@mars.com", "+3422893567");
+        Company ref2 = new Company(1, "MarsDex", "$2a$10$kfioRalxMaarJS2Cy8.W.ekMMQxe2zTw3i5.VXwk3HW8PhXDPlq9e", "marsdex@mars.com", "+6623145878");
 
 
         Company maMiCo = data.getCompany(2);
@@ -57,14 +58,16 @@ class CompanyRepositoryTest {
 
         assertEquals(ref1, maMiCo);
         assertEquals(ref2, marsDex);
+        assertTrue(BCrypt.checkpw("B1g1r0n", maMiCo.getPassword()));
+        assertTrue(BCrypt.checkpw("DataH0arder", marsDex.getPassword()));
         assertThrows(IdentifierException.class, () -> data.getCompany(22));
     }
 
     @Test
     void addCompany() {
         CompanyRepository data = CompanyRepository.getInstance();
-        Company newCompany1 = new Company(-1, "Walz Depot", "B1gSt0rage", "walzstorage@mars.com", "+3245677829");
-        Company newCompany2 = new Company(-1, "Powell High", "F1yH1gh.Icarus", "powell@mars.com", "+32451662744");
+        Company newCompany1 = new Company(-1, "Walz Depot", BCrypt.hashpw("B1gSt0rage", BCrypt.gensalt()), "walzstorage@mars.com", "+3245677829");
+        Company newCompany2 = new Company(-1, "Powell High", BCrypt.hashpw("F1yH1gh.Icarus", BCrypt.gensalt()), "powell@mars.com", "+32451662744");
 
         Company result = data.addCompany(newCompany1, 2);
 
@@ -73,7 +76,7 @@ class CompanyRepositoryTest {
 
         assertAll(() ->{
             assertEquals("Walz Depot", result.getName());
-            assertEquals("B1gSt0rage", result.getPassword());
+            assertTrue(BCrypt.checkpw("B1gSt0rage", result.getPassword()));
             assertEquals("walzstorage@mars.com", result.getEmail());
             assertEquals("+3245677829", result.getPhone());
         });
