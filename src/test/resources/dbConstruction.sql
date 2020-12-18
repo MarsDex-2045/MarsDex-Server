@@ -80,27 +80,27 @@ VALUES ('Wang City', -28.45090, 57.46124, 30.334);
 
 //CREATE COMPANIES
 insert into COMPANIES(name, email, phone, password)
-VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', 'DataH0arder');
+VALUES ('MarsDex', 'marsdex@mars.com', '+6623145878', '$2a$10$kfioRalxMaarJS2Cy8.W.ekMMQxe2zTw3i5.VXwk3HW8PhXDPlq9e');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', 'B1g1r0n');
+VALUES ('MaMiCo', 'mamico@mars.com', '+3422893567', '$2a$10$3CsYuUpQoUKKA.4/oHhMS.gPdDkdtK2HZxUuknsYVmaTH0dG6XsZa');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('Generic Company', 'generic@earth.com', '+3246777245', 'G3n3r1c');
+VALUES ('Generic Company', 'generic@earth.com', '+3246777245', '$2a$10$aRK74h/Vhox6e0VU/kHpNugAfVTzsE9vVtcmEbrDwZqB8aX5Z97qy');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', 'V1s10na1r');
+VALUES ('Geminorum Blue Vison Partners', 'gbvp@mars.com', '+552434221', '$2a$10$kIFnjINOAWcXHeqhtqjwjeecgDOK31LsABWdI1COMKZHyJto9pn0e');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '8ydr0n');
+VALUES ('Hydrae Noblement Services', 'hydraenoble@mars.com', '+454553234', '$2a$10$rWDNR/.2Cz0AR0z/D6IEw.duy7mbaYn6zkU8q4.93M7dO2VgNobUO');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', 'D1sc0n1x');
+VALUES ('104th Phoenix Discovery Group', 'pdg104@mars.com', '+56778987', '$2a$10$wyRqFjBwHLZDUT8hUXd14.sx.k8c1wC.XCkhCxS8/a0klZKCMQp/e');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', 'H0wT0N0tSt0rePAssW0rd101');
+VALUES ('Mother Gaia', 'gaia@mars.com', '+564556234', '$2a$10$HCYeyqCp1qTRxy7hKkdQDeDma5p0i3dPICqZoutv6bkXd/r4WGmLC');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('Delta Squadron', 'deltasquad@mars.com', '+6673241524', 'D0wnUnder');
+VALUES ('Delta Squadron', 'deltasquad@mars.com', '+6673241524', '$2a$10$4/noRumEvckhoRl6GdR.5OFF2aE8fZzzt6uAPtsIues8F9tqj2mCa');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('Strategic Homeland Division', 'shd@mars.com', '+8853240987', 'Extrem1s_Mal1s_Extrema_Remed1a');
+VALUES ('Strategic Homeland Division', 'shd@mars.com', '+8853240987', '$2a$10$5jNk8uEDiiXLWKXmEVzAw.AZ365zidFZXVZ1Ejsow9LBhcE5JUEzq');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('SSL Interstellar PLC', 'sslinter@mars.com', '+0253664587', 'Beh1ndTh3V10D');
+VALUES ('SSL Interstellar PLC', 'sslinter@mars.com', '+0253664587', '$2a$10$RiYYte.eaxU27gAOfHXeZOOzbmmGDXEGDhpbwUICUJUIoaVNNDG/q');
 insert into COMPANIES(name, email, phone, password)
-VALUES ('G.O.M. Collective', 'gom@mars.com', '+3222156287', 'Z3lano');
+VALUES ('G.O.M. Collective', 'gom@mars.com', '+3222156287', '$2a$10$yPIpCiJ.WE.Cr0QEzXNzCeWcRHqeeoniA5UP70U7q46EqgTfzMhMW');
 
 //CREATE RESOURCES
 insert into resources(price, name)
