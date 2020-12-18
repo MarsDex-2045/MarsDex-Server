@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -48,8 +49,8 @@ class CompanyRepositoryTest {
     @Test
     void getCompany() {
         CompanyRepository data = CompanyRepository.getInstance();
-        Company ref1 = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567");
-        Company ref2 = new Company(1, "MarsDex", "DataH0arder", "marsdex@mars.com", "+6623145878");
+        Company ref1 = new Company(2, "MaMiCo", "$2a$10$3CsYuUpQoUKKA.4/oHhMS.gPdDkdtK2HZxUuknsYVmaTH0dG6XsZa", "mamico@mars.com", "+3422893567");
+        Company ref2 = new Company(1, "MarsDex", "$2a$10$kfioRalxMaarJS2Cy8.W.ekMMQxe2zTw3i5.VXwk3HW8PhXDPlq9e", "marsdex@mars.com", "+6623145878");
 
 
         Company maMiCo = data.getCompany(2);
@@ -57,6 +58,8 @@ class CompanyRepositoryTest {
 
         assertEquals(ref1, maMiCo);
         assertEquals(ref2, marsDex);
+        assertTrue(BCrypt.checkpw("B1g1r0n", maMiCo.getPassword()));
+        assertTrue(BCrypt.checkpw("DataH0arder", marsDex.getPassword()));
         assertThrows(IdentifierException.class, () -> data.getCompany(22));
     }
 
