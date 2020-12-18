@@ -58,11 +58,11 @@ public class ColonyRepository {
                 }
                 return colony;
             }
-        } catch (SQLException throwables) {
-            LOGGER.warning("No colony could be found.");
-            throw new IdentifierException("Faulty Colony Id");
+        } catch (SQLException ex) {
+            LOGGER.warning(MarsRepository.GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
         } catch (IdentifierException ex) {
-            throw new IdentifierException("Faulty company ID");
+            throw new IdentifierException("Faulty colony ID");
         }
     }
 
