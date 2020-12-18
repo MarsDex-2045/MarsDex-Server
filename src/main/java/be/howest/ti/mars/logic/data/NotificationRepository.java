@@ -99,11 +99,6 @@ public class NotificationRepository {
                 LOGGER.log(Level.INFO, "Execution ");
             } catch (InterruptedException e) {
                 LOGGER.log(Level.INFO, "Interrupted ");
-                try {
-                    throw new InterruptedException();
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
             }
 
         }
