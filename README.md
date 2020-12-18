@@ -29,6 +29,7 @@ At the time of writing, the following features are implemented:
 |PATCH `/api/company/{companyId}/resource`|Implemented|
 |DELETE `/api/company/{companyId}/resource/{resourceId}`|Implemented|
 |PUT `/api/company`|Implemented|
+|POST `/api/company`|Implemented|
 ### DB Interaction
 All endpoints that have been implemented interact through the database with the classes that can be found in `logic/data`.
 #### H2 Statements
