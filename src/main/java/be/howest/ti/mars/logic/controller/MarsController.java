@@ -12,8 +12,11 @@ import io.vertx.core.json.JsonObject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MarsController {
+    public static final Logger LOGGER = Logger.getLogger(NotificationRepository.class.getName());
 
     public String getMessage() {
         return "Hello, Mars!";
@@ -120,7 +123,7 @@ public class MarsController {
         try {
             NotificationRepository.getInstance().pushNotification(NotificationRepository.getInstance().getNotification());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.INFO, "Notification Error push failed");
         }
 
     }

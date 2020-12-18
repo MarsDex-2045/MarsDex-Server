@@ -83,40 +83,15 @@ public class NotificationRepository {
             Notification notif = null;
             try {
                 notif = new Notification(sub, "leuk2");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (NoSuchProviderException e) {
-                e.printStackTrace();
-            } catch (InvalidKeySpecException e) {
+            } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
                 e.printStackTrace();
             }
             try {
+                assert push != null;
                 push.send(notif);
-            } catch (GeneralSecurityException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JoseException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (GeneralSecurityException | IOException | JoseException | ExecutionException | InterruptedException e) {
+                LOGGER.log(Level.INFO, "push failed ");
             }
-            try {
-                System.out.println(push.send(notif));
-            } catch (GeneralSecurityException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JoseException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("done");
         }
 
 
