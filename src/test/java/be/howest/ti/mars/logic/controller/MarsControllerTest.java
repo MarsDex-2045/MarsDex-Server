@@ -4,6 +4,7 @@ import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.ColonyRepository;
 import be.howest.ti.mars.logic.data.CompanyRepository;
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.data.NotificationRepository;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
@@ -178,4 +179,5 @@ class MarsControllerTest {
 
         assertTrue(res.getBoolean("updated"));
     }
+
 }
