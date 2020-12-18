@@ -46,6 +46,14 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: bad request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '500':
+          description: server error
   /api/pushNotification:
     get:
       tags:

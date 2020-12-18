@@ -60,10 +60,12 @@ public class NotificationRepository {
                 be.howest.ti.mars.logic.classes.Subscription subscriptionInfo = new be.howest.ti.mars.logic.classes.Subscription(rs.getString("endpoint"), rs.getString("auth"), rs.getString("p256dh"));
                 res.add(subscriptionInfo);
             }
-        } catch (SQLException throwables) {
+            return res;
+        } catch (SQLException ex) {
             LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
+            throw new H2RuntimeException(ex.getMessage());
         }
-        return res;
+
     }
 
     public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers)  {
@@ -83,7 +85,7 @@ public class NotificationRepository {
             Subscription sub = new Subscription(endpoint, keys);
             Notification notif = null;
             try {
-                notif = new Notification(sub, "leuk2");
+                notif = new Notification(sub, "leuk3");
             } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
                 LOGGER.log(Level.INFO, "sending payload failed ");
             }
@@ -100,7 +102,7 @@ public class NotificationRepository {
                 LOGGER.log(Level.INFO, "Execution ");
             } catch (InterruptedException e) {
                 LOGGER.log(Level.INFO, "Interrupted ");
-                throw new H2RuntimeException("Interrupted");
+
             }
 
         }

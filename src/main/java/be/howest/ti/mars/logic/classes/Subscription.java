@@ -2,9 +2,9 @@ package be.howest.ti.mars.logic.classes;
 
 public class Subscription {
 
-    private String endpoint;
-    private String auth;
-    private String p256dh;
+    private final String endpoint;
+    private final String auth;
+    private final String p256dh;
 
 
 
