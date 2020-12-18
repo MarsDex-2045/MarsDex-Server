@@ -68,7 +68,18 @@ public class NotificationRepository {
 
 
     }
+    /*
+    public void clearDB(){
+        try (Connection con = MarsRepository.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTIONS);
+             ResultSet rs = stmt.executeQuery()){
 
+        }catch (SQLException ex) {
+            LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
+*/
     public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers)  {
         Security.addProvider(new BouncyCastleProvider());
         PushService push = null;
@@ -77,16 +88,16 @@ public class NotificationRepository {
         } catch (GeneralSecurityException e) {
             LOGGER.log(Level.INFO, "push Key Failed ");
         }
-        be.howest.ti.mars.logic.classes.Subscription sub = subscribers.iterator().next();
 
-            String endpoint = sub.getEndpoint();
+        for (be.howest.ti.mars.logic.classes.Subscription value : subscribers) {
+            String endpoint = value.getEndpoint();
             Subscription.Keys keys = new Subscription.Keys();
-            keys.auth = sub.getAuth();
-            keys.p256dh = sub.getP256dh();
-            Subscription sub1 = new Subscription(endpoint, keys);
+            keys.auth = value.getAuth();
+            keys.p256dh = value.getP256dh();
+            Subscription sub = new Subscription(endpoint, keys);
             Notification notif = null;
             try {
-                notif = new Notification(sub1, "Bauxite is running low watch out!");
+                notif = new Notification(sub, "BAUXITE IS LOW");
             } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
                 LOGGER.log(Level.INFO, "sending payload failed ");
             }
@@ -109,6 +120,6 @@ public class NotificationRepository {
         }
 
 
-
+    }
 
 }

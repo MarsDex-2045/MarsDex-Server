@@ -8,10 +8,12 @@ public class Subscription {
 
 
 
+
     public Subscription(String endpoint, String auth, String p256dh) {
         this.endpoint = endpoint;
         this.auth = auth;
         this.p256dh = p256dh;
+
     }
 
     public String getEndpoint() {
