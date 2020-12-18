@@ -42,16 +42,6 @@ public class Company {
         this.resources = new HashSet<>();
 
     }
-
-    public Company(int id, String name, String password, String email, String phone, int storage) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.resources = new HashSet<>();
-    }
-
     public boolean checkPassword(String givenPassword) {
         return givenPassword.equals(this.password);
     }
