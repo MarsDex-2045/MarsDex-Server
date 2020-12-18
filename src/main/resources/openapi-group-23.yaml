@@ -20,19 +20,6 @@ tags:
     description: Endpoints that are used for collecting data for the subscriptions
 
 paths:
-  /api/message:
-    get:
-      tags:
-        - Utility
-      description: Get a nice message
-      operationId: getMessage
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
   /api/saveSubscription:
     post:
       tags:

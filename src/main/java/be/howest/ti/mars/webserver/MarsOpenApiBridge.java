@@ -5,11 +5,7 @@ import be.howest.ti.mars.logic.controller.MarsController;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import org.jose4j.lang.JoseException;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.concurrent.ExecutionException;
 
 class MarsOpenApiBridge {
     private final MarsController controller;
@@ -21,9 +17,6 @@ class MarsOpenApiBridge {
         this.controller = new MarsController();
     }
 
-    public Object getMessage(RoutingContext ctx) {
-        return controller.getMessage();
-    }
 
     public JsonArray getColonies(RoutingContext ctx) {
         return controller.getColonies();

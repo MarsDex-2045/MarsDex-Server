@@ -65,16 +65,16 @@ public class NotificationRepository {
         return res;
     }
 
-    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> Subscribers)  {
+    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers)  {
         Security.addProvider(new BouncyCastleProvider());
         PushService push = null;
         try {
             push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.INFO, "push Key Failed ");
         }
 
-        for (be.howest.ti.mars.logic.classes.Subscription value : Subscribers) {
+        for (be.howest.ti.mars.logic.classes.Subscription value : subscribers) {
             String endpoint = value.getEndpoint();
             Subscription.Keys keys = new Subscription.Keys();
             keys.auth = value.getAuth();
@@ -84,13 +84,14 @@ public class NotificationRepository {
             try {
                 notif = new Notification(sub, "leuk2");
             } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.INFO, "sending payload failed ");
             }
             try {
                 assert push != null;
                 push.send(notif);
             } catch (GeneralSecurityException | IOException | JoseException | ExecutionException | InterruptedException e) {
                 LOGGER.log(Level.INFO, "push failed ");
+                throw new IdentifierException("push failed");
             }
         }
 

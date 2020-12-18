@@ -18,9 +18,6 @@ import java.util.logging.Logger;
 public class MarsController {
     public static final Logger LOGGER = Logger.getLogger(NotificationRepository.class.getName());
 
-    public String getMessage() {
-        return "Hello, Mars!";
-    }
 
     public JsonArray getColonies() {
         JsonArray json = new JsonArray();
