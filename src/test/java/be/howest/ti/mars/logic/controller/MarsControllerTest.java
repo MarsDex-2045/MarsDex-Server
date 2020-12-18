@@ -189,4 +189,15 @@ class MarsControllerTest {
 
         assertTrue(res.getBoolean("updated"));
     }
+
+    @Test
+    void authenticateCompany() {
+        MarsController controller = new MarsController();
+        JsonObject credentials = new JsonObject().put("email", "mamico@mars.com").put("password", "B1g1r0n");
+
+        JsonObject json = controller.authenticateCompany(credentials);
+
+        assertEquals(2, json.getInteger("id"));
+        assertEquals("MaMiCo", json.getString("company"));
+    }
 }
