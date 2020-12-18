@@ -44,7 +44,7 @@ The calls are divided by the object they are working with.
 *e.g. `ResourceRepository` works with data & methods that mainly resolves around resources*
 
 ### Domains
-All Classes are added that will be needed for the project. You can find them in the `classes` directory
+All Classes are added that will be needed for the project. You can find them in the `classes` directory. You can also use the [Back-end Server Structure](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server/-/wikis/Server-Structure) as a guide through the `class` directory.
 
 ### H2 Database
 You can find more information about the DB with the [DBD](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-23/server/-/wikis/Database/DB-Diagram), but in short:
