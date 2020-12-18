@@ -96,7 +96,7 @@ public class MarsController {
         return json;
     }
 
-    public Object deleteResource(String resourceIdString, String companyIdString) {
+    public JsonObject deleteResource(String resourceIdString, String companyIdString) {
         int resourceId = Integer.parseInt(resourceIdString);
         int companyId = Integer.parseInt(companyIdString);
 
