@@ -89,10 +89,18 @@ public class NotificationRepository {
             try {
                 assert push != null;
                 push.send(notif);
-            } catch (GeneralSecurityException | IOException | JoseException | ExecutionException | InterruptedException e) {
-                LOGGER.log(Level.INFO, "push failed ");
-                throw new IdentifierException("push failed");
+            } catch (GeneralSecurityException e) {
+                LOGGER.log(Level.INFO, "security problem push ");
+            } catch (IOException e) {
+                LOGGER.log(Level.INFO, "IOException ");
+            } catch (JoseException e) {
+                LOGGER.log(Level.INFO, "JoseException ");
+            } catch (ExecutionException e) {
+                LOGGER.log(Level.INFO, "Execution ");
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.INFO, "Interrupted ");
             }
+
         }
 
 
