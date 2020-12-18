@@ -52,17 +52,6 @@ class MarsControllerTest {
         LOGGER.log(Level.INFO, "Executed SQL File from " + filePath);
     }
 
-    @Test
-    void getMessageReturnsAWelcomeMessage() {
-        // Arrange
-        MarsController sut = new MarsController();
-
-        // Act
-        String message = sut.getMessage();
-
-        //Assert
-        assertTrue(StringUtils.isNoneBlank(message));
-    }
 
     @Test
     void getColonies() {
