@@ -53,7 +53,7 @@ paths:
         '404':
           description: Not found
         '500':
-          description: server error
+          description: Forbidden
   /api/pushNotification:
     get:
       tags:
@@ -63,6 +63,10 @@ paths:
       responses:
         '200':
           description: OK
+        '404':
+          description: method not found
+        '500':
+          description: Forbidden
   /api/company/{companyId}:
     get:
       summary: Retrieve company info.
