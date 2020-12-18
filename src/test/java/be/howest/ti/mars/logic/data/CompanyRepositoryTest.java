@@ -66,8 +66,8 @@ class CompanyRepositoryTest {
     @Test
     void addCompany() {
         CompanyRepository data = CompanyRepository.getInstance();
-        Company newCompany1 = new Company(-1, "Walz Depot", "B1gSt0rage", "walzstorage@mars.com", "+3245677829");
-        Company newCompany2 = new Company(-1, "Powell High", "F1yH1gh.Icarus", "powell@mars.com", "+32451662744");
+        Company newCompany1 = new Company(-1, "Walz Depot", BCrypt.hashpw("B1gSt0rage", BCrypt.gensalt()), "walzstorage@mars.com", "+3245677829");
+        Company newCompany2 = new Company(-1, "Powell High", BCrypt.hashpw("F1yH1gh.Icarus", BCrypt.gensalt()), "powell@mars.com", "+32451662744");
 
         Company result = data.addCompany(newCompany1, 2);
 
@@ -76,7 +76,7 @@ class CompanyRepositoryTest {
 
         assertAll(() ->{
             assertEquals("Walz Depot", result.getName());
-            assertEquals("B1gSt0rage", result.getPassword());
+            assertTrue(BCrypt.checkpw("B1gSt0rage", result.getPassword()));
             assertEquals("walzstorage@mars.com", result.getEmail());
             assertEquals("+3245677829", result.getPhone());
         });
