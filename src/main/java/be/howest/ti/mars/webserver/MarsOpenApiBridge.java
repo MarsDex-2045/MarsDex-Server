@@ -5,6 +5,7 @@ import be.howest.ti.mars.logic.controller.MarsController;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.mindrot.jbcrypt.BCrypt;
 
 class MarsOpenApiBridge {
     private final MarsController controller;
@@ -44,7 +45,7 @@ class MarsOpenApiBridge {
         String name = body.getString("name");
         int colonyIdInt = body.getInteger(COLONY_ID_PARAMETER);
         String email = body.getString("email");
-        String password = body.getString("password");
+        String password = BCrypt.hashpw(body.getString("password"), BCrypt.gensalt());
         String phone = body.getString("phone");
         Company company = new Company(-1,name,password,email,phone);
         return controller.makeCompany(company,colonyIdInt);
