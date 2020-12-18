@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import be.howest.ti.mars.logic.exceptions.VerificationException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -79,6 +80,24 @@ class CompanyRepositoryTest {
             assertTrue(BCrypt.checkpw("B1gSt0rage", result.getPassword()));
             assertEquals("walzstorage@mars.com", result.getEmail());
             assertEquals("+3245677829", result.getPhone());
+        });
+    }
+
+    @Test
+    void authenticateCompany() {
+        CompanyRepository data = CompanyRepository.getInstance();
+        Company ref = new Company(2, "MaMiCo", "B1g1r0n", "mamico@mars.com", "+3422893567");
+
+        Company res = data.authenticateCompany(ref.getEmail(), ref.getPassword());
+
+        assertThrows(IdentifierException.class, () -> data.authenticateCompany("mamco@mars.com", ref.getPassword()));
+        assertThrows(VerificationException.class, () -> data.authenticateCompany(ref.getEmail(), "B1gZ1nk"));
+        assertAll(() -> {
+            assertEquals(ref.getName(), res.getName());
+            assertTrue(BCrypt.checkpw(ref.getPassword(), res.getPassword()));
+            assertEquals(ref.getEmail(), res.getEmail());
+            assertEquals(ref.getId(), res.getId());
+            assertEquals(ref.getPhone(), res.getPhone());
         });
     }
 }

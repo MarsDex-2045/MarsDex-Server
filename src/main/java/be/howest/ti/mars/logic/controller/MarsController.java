@@ -96,12 +96,20 @@ public class MarsController {
         return json;
     }
 
-    public Object deleteResource(String resourceIdString, String companyIdString) {
+    public JsonObject deleteResource(String resourceIdString, String companyIdString) {
         int resourceId = Integer.parseInt(resourceIdString);
         int companyId = Integer.parseInt(companyIdString);
 
         ResourceRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
 
         return new JsonObject().put("deleted", true);
+    }
+
+    public JsonObject authenticateCompany(JsonObject credentials) {
+        String email = credentials.getString("email");
+        String password = credentials.getString("password");
+
+        Company company = CompanyRepository.getInstance().authenticateCompany(email, password);
+        return new JsonObject().put("company", company.getName()).put("id", company.getId());
     }
 }
