@@ -359,6 +359,51 @@ paths:
           description: Internal Server Error
 
   /api/company:
+    post:
+      tags:
+        - Companies
+      summary: Check password of a company
+      description: Checks of a given password matches the company associated with the account. If true, returns the id of the company.
+      operationId: authenticateCompany
+      requestBody:
+        description: Contains email & password of company.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "newcompany@mars.com"
+                password:
+                  type: string
+                  format: password
+                  example: "N3w_H0riz0ns"
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Company has been validated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    type: string
+                    example: "New Company Inc."
+                  id:
+                    type: integer
+                    example: 26
+        '404':
+          description: Email couldn't be found
+        '403':
+          description: Authorization failed.
+        '500':
+          description: Internal Server Error.
     put:
       tags:
         - Companies
