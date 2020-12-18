@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
@@ -99,7 +100,7 @@ public class NotificationRepository {
                 LOGGER.log(Level.INFO, "Execution ");
             } catch (InterruptedException e) {
                 LOGGER.log(Level.INFO, "Interrupted ");
-                throw new RuntimeException(e);
+                throw new H2RuntimeException("Interrupted");
             }
 
         }
