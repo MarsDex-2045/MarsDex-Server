@@ -63,4 +63,8 @@ class MarsOpenApiBridge {
     public Object deleteResourceOfCompany(RoutingContext ctx) {
         return controller.deleteResource(ctx.request().getParam(RESOURCE_ID_PARAMETER), ctx.request().getParam(COMPANY_ID_PARAMETER));
     }
+
+    public Object authenticateCompany(RoutingContext ctx) {
+        return controller.authenticateCompany(ctx.getBodyAsJson());
+    }
 }

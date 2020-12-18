@@ -104,4 +104,12 @@ public class MarsController {
 
         return new JsonObject().put("deleted", true);
     }
+
+    public JsonObject authenticateCompany(JsonObject credentials) {
+        String email = credentials.getString("email");
+        String password = credentials.getString("password");
+
+        Company company = CompanyRepository.getInstance().authenticateCompany(email, password);
+        return new JsonObject();
+    }
 }

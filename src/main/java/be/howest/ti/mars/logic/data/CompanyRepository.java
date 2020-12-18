@@ -117,4 +117,7 @@ public class CompanyRepository {
     }
 
 
+    public Company authenticateCompany(String email, String password) {
+        throw new UnsupportedOperationException();
+    }
 }
