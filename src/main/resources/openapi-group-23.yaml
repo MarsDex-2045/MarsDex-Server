@@ -18,8 +18,6 @@ tags:
     description: API calls that relate to requesting infomation
   - name: Manipulation
     description: API calls relating to the manipulation of info.
-  - name: Utility
-    description: Endpoints that are used for testing purposes exclusively
   - name: Authentication
     description: Calls used to authenticate users
   - name: Notifications
@@ -30,7 +28,8 @@ paths:
     post:
       tags:
         - Notifications
-      description: save the subscription
+      summary: Save a subscription endpoint
+      description: Saves a subscription endpoint that can be used in order to send push notifications.
       operationId: saveSubscription
       requestBody:
         description: all the details for the subscription
@@ -64,7 +63,8 @@ paths:
     get:
       tags:
         - Notifications
-      description: push the notification
+      summary: Sends a push notification
+      description: Endpoint that will send a push notification to the client.
       operationId: pushNotification
       responses:
         '200':

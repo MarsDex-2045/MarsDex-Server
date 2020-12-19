@@ -57,7 +57,6 @@ class MarsControllerTest {
 
     @Test
     void getColonies() {
-        MarsRepository data = MarsRepository.getInstance();
         Colony ref1 = new Colony(1,"Haberlandt Survey", new Location(-22.42744, 162.18224, 0.000));
         Colony ref2 = new Colony(2, "Durrance Camp", new Location(-80.60405, 80.04179, 160.000));
         Colony ref3 = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
