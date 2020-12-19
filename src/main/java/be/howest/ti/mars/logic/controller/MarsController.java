@@ -9,12 +9,9 @@ import io.vertx.core.json.JsonObject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.logging.Logger;
 
 public class MarsController {
-    public static final Logger LOGGER = Logger.getLogger(NotificationRepository.class.getName());
-
-
+    private static final double RESOURCE_THRESHOLD = 500;
     public JsonArray getColonies() {
         JsonArray json = new JsonArray();
         ColonyRepository.getInstance().getAllColonies().forEach(
@@ -122,7 +119,7 @@ public class MarsController {
         int pushId = Integer.parseInt(pushIdString);
         Company company = CompanyRepository.getInstance().getCompany(companyId);
         for (Resource resource : company.getResources()) {
-            if (resource.getWeight() < 500) {
+            if (resource.getWeight() < RESOURCE_THRESHOLD) {
                 String msg = resource.getName() + " is low in storage. Only " + resource.getWeight() + " KG remaining";
                 NotificationRepository.getInstance().pushNotification(msg, pushId);
             }

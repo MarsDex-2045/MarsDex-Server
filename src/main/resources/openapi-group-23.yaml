@@ -58,7 +58,7 @@ paths:
                 properties:
                   id:
                     type: integer
-                    example: 4;
+                    example: 4
                   endpoint:
                     type: string
                     example: "https://updates.push.services.mozilla.com/wpush/v2/NotARealEndpoint"

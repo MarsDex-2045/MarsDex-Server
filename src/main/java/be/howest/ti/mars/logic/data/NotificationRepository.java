@@ -29,6 +29,7 @@ public class NotificationRepository {
     private static final NotificationRepository INSTANCE = new NotificationRepository();
     private static final String PUBLIC_KEY = "BAcgnkauwyqPz1MI31KN9sN8wpIPEMkfhbmEijXcodAUzCoy1u5tIePU7HpATIv2VQOFN45Mu4Wc1qx-6HRxv_g";
     private static final String PRIVATE_KEY = "4WTRfJSoLwBVSoq5d6U_ZgY7JBMcupC0SxnTTApwLFE";
+    private static final int DUPLICATION_ERROR = 23505;
 
     private NotificationRepository() {
     }
@@ -46,7 +47,7 @@ public class NotificationRepository {
             prep.executeUpdate();
             return INSTANCE.getEndpoint(endpoint);
         } catch (SQLException ex) {
-            if (ex.getErrorCode() == 23505) {
+            if (ex.getErrorCode() == DUPLICATION_ERROR) {
                 return INSTANCE.getEndpoint(endpoint);
             } else {
                 LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
