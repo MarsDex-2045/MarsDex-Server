@@ -18,26 +18,98 @@ tags:
     description: API calls that relate to requesting infomation
   - name: Manipulation
     description: API calls relating to the manipulation of info.
-  - name: Utility
-    description: Endpoints that are used for testing purposes exclusively
   - name: Authentication
     description: Calls used to authenticate users
+  - name: Notifications
+    description: Endpoints that are used for collecting data for the subscriptions
 
 paths:
-  /api/message:
-    get:
+  /api/saveSubscription:
+    post:
       tags:
-        - Utility
-        - Read
-      description: Get a nice message
-      operationId: getMessage
+        - Notifications
+      summary: Save a subscription endpoint
+      description: Saves a subscription endpoint that can be used in order to send push notifications. Duplications are handled server-side.
+      operationId: saveSubscription
+      requestBody:
+        description: all the details for the subscription
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                endpoint:
+                  type: string
+                  example: "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABf2…8tOXjPu-UP2rzmlZ8T3JcvdyiyUxtO14CeHjqVBjXhJ4xv9kfsGMcXEvLkPI"
+                auth:
+                  type: string
+                  example: "77_3uUiAbwgk_Z_Q-aYVLA"
+                p256dh:
+                  type: string
+                  example: "BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_REx7i629ljvRfoeLHm9yPCasaGA"
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: string
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 4
+                  endpoint:
+                    type: string
+                    example: "https://updates.push.services.mozilla.com/wpush/v2/NotARealEndpoint"
+                  auth:
+                    type: string
+                    format: password
+                    example: NotARealPassw0rd
+                  p256h:
+                    type: string
+                    example: BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_NotARealHash
+        '400':
+          description: Bad request
+        '404':
+          description: Method not found
+        '500':
+          description: Internal Server Error
+  /api/push/{pushId}/{companyId}:
+    get:
+      tags:
+        - Notifications
+      summary: Sends a push notification
+      description: Endpoint that will send a push notification to the client based around the given company.
+      operationId: pushNotification
+      parameters:
+        - in: path
+          name: companyId
+          schema:
+            type: integer
+          required: true
+          description: Id that identifices a company.
+        - in: path
+          name: pushId
+          schema:
+            type: integer
+          required: true
+          description: Id that indicates a saved endpoint
+      responses:
+        '200':
+          description: "Push completed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  push:
+                    type: boolean
+                    example: true
+        '404':
+          description: Method not updated
+        '500':
+          description: Internal server error
   /api/company/{companyId}:
     get:
       summary: Retrieve company info.
@@ -213,12 +285,12 @@ paths:
           content:
             application/json:
               schema:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    resources:
-                      $ref: '#/components/schemas/Resource'
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  resources:
+                    $ref: '#/components/schemas/Resource'
         '404':
           description: Company/method not found
         '500':
@@ -424,6 +496,7 @@ paths:
       tags:
         - Companies
         - Manipulation
+        - Authentication
       summary: Adds a new company
       description: Adds a new company to the DB.
       operationId: makeCompany

@@ -19,10 +19,14 @@ class H2Statements {
     protected static final String H2_OCCURRENCE_OF_RESOURCE = h2StatementOccurrenceResource();
     protected static final String H2_DELETE_RESOURCE_ENTRY = "DELETE FROM MARSDEX.COMPANIES_RESOURCES CR WHERE CR.COMPANY_ID = ? AND CR.RESOURCE_ID = ?;";
     protected static final String H2_DELETE_RESOURCE = "DELETE FROM MARSDEX.RESOURCES R WHERE R.ID = ?";
+    protected static final String H2_INSERT_SUBSCRIPTION = "INSERT INTO MARSDEX.PUSH(endpoint,auth,p256dh) VALUES (?,?,?);";
     protected static final String H2_GET_COMPANY_BY_EMAIL = "SELECT * FROM MARSDEX.COMPANIES WHERE LOWER(COMPANIES.EMAIL) = LOWER(?);";
+    protected static final String H2_GET_SUBSCRIPTION_BY_ENDPOINT = "SELECT * FROM MARSDEX.PUSH WHERE PUSH.ENDPOINT = ?";
+    protected static final String H2_GET_SUBSCRIPTION_BY_ID = "SELECT * FROM MARSDEX.PUSH WHERE PUSH.ID = ?";
 
     private static final String MARSDEX_RESOURCES = "FROM MARSDEX.RESOURCES R ";
     private static final String JOIN_CR_ON_R = "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID ";
+
 
     private H2Statements() {
     }

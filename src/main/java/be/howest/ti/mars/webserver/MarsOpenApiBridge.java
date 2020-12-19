@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.mindrot.jbcrypt.BCrypt;
 
+
 class MarsOpenApiBridge {
     private final MarsController controller;
     private static final String COMPANY_ID_PARAMETER = "companyId";
@@ -17,9 +18,7 @@ class MarsOpenApiBridge {
         this.controller = new MarsController();
     }
 
-    public Object getMessage(RoutingContext ctx) {
-        return controller.getMessage();
-    }
+
     public JsonArray getColonies(RoutingContext ctx) {
         return controller.getColonies();
     }
@@ -47,8 +46,20 @@ class MarsOpenApiBridge {
         String email = body.getString("email");
         String password = BCrypt.hashpw(body.getString("password"), BCrypt.gensalt());
         String phone = body.getString("phone");
-        Company company = new Company(-1,name,password,email,phone);
-        return controller.makeCompany(company,colonyIdInt);
+        Company company = new Company(-1, name, password, email, phone);
+        return controller.makeCompany(company, colonyIdInt);
+    }
+
+    public JsonObject saveSubscription(RoutingContext ctx) {
+        JsonObject body = ctx.getBodyAsJson();
+        String endpoint = body.getString("endpoint");
+        String auth = body.getString("auth");
+        String p256dh = body.getString("p256dh");
+        return controller.saveSubscription(endpoint,auth,p256dh);
+    }
+
+    public JsonObject pushNotification(RoutingContext ctx) {
+    return controller.pushNotifications(ctx.request().getParam(COMPANY_ID_PARAMETER), ctx.request().getParam("pushId"));
     }
 
     public JsonObject editCompanyResources(RoutingContext ctx) {

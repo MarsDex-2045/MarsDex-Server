@@ -22,14 +22,6 @@ class TestData {
     protected final static Location location2 = new Location(17.666, 144.444,2645.333);
     protected final static Location location2c = new Location(17.666, 144.444,2645.333);
 
-    protected static Notification[] generateNotifications(){
-        Notification[] res = new Notification[3];
-        res[0] = new Notification(1, "Test Message", "Test Message");
-        res[1] = new Notification(2, "Test Message", "Test Message");
-        res[2] = new Notification(1, "Not a Test Message", "Not a Test Message");
-        return res;
-    }
-
     protected static Resource[] generateResources(){
         Resource[] res = new Resource[3];
         Calendar date1 = new Calendar.Builder().setDate(2052, 11, 13).build();
@@ -90,4 +82,5 @@ class TestData {
         res[2] = new Shipment(2, generateColonies()[0], generateColonies()[2], resources);
         return res;
     }
+
 }

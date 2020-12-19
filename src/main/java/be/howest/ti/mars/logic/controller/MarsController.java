@@ -1,9 +1,6 @@
 package be.howest.ti.mars.logic.controller;
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Resource;
-import be.howest.ti.mars.logic.classes.Shipment;
+import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.*;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
@@ -14,11 +11,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public class MarsController {
-
-    public String getMessage() {
-        return "Hello, Mars!";
-    }
-
+    private static final double RESOURCE_THRESHOLD = 500;
     public JsonArray getColonies() {
         JsonArray json = new JsonArray();
         ColonyRepository.getInstance().getAllColonies().forEach(
@@ -92,7 +85,6 @@ public class MarsController {
 
         JsonObject json = new JsonObject();
         json.put("updated", ResourceRepository.getInstance().updateResourceOfCompany(name, weight, id));
-
         return json;
     }
 
@@ -111,5 +103,27 @@ public class MarsController {
 
         Company company = CompanyRepository.getInstance().authenticateCompany(email, password);
         return new JsonObject().put("company", company.getName()).put("id", company.getId());
+    }
+
+    public JsonObject saveSubscription(String endpoint, String auth, String p256dh) {
+        Endpoint dbInsert = NotificationRepository.getInstance().addSubscription(endpoint, auth, p256dh);
+        return new JsonObject()
+                .put("id", dbInsert.getId())
+                .put("endpoint", dbInsert.getAddress())
+                .put("auth", dbInsert.getAuth())
+                .put("p256dh", dbInsert.getP256dh());
+    }
+
+    public JsonObject pushNotifications(String companyIdString, String pushIdString) {
+        int companyId = Integer.parseInt(companyIdString);
+        int pushId = Integer.parseInt(pushIdString);
+        Company company = CompanyRepository.getInstance().getCompany(companyId);
+        for (Resource resource : company.getResources()) {
+            if (resource.getWeight() < RESOURCE_THRESHOLD) {
+                String msg = resource.getName() + " is low in storage. Only " + resource.getWeight() + " KG remaining";
+                NotificationRepository.getInstance().pushNotification(msg, pushId);
+            }
+        }
+        return new JsonObject().put("push", true);
     }
 }

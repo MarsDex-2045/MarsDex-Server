@@ -4,6 +4,7 @@ import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.ColonyRepository;
 import be.howest.ti.mars.logic.data.CompanyRepository;
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.data.NotificationRepository;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
@@ -53,21 +54,9 @@ class MarsControllerTest {
         LOGGER.log(Level.INFO, "Executed SQL File from " + filePath);
     }
 
-    @Test
-    void getMessageReturnsAWelcomeMessage() {
-        // Arrange
-        MarsController sut = new MarsController();
-
-        // Act
-        String message = sut.getMessage();
-
-        //Assert
-        assertTrue(StringUtils.isNoneBlank(message));
-    }
 
     @Test
     void getColonies() {
-        MarsRepository data = MarsRepository.getInstance();
         Colony ref1 = new Colony(1,"Haberlandt Survey", new Location(-22.42744, 162.18224, 0.000));
         Colony ref2 = new Colony(2, "Durrance Camp", new Location(-80.60405, 80.04179, 160.000));
         Colony ref3 = new Colony(3, "Ehrlich City", new Location(44.32803, 103.71858, 300.000));
@@ -137,7 +126,9 @@ class MarsControllerTest {
             assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
             input.put("weight", 203.234);
             assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
-            input.put("price", 234.223);
+            input.put("price", 234.223).put("weight", 203.243662);
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("weight", 203.234);
         });
 
         controller.addResource(input, "4");
@@ -209,5 +200,20 @@ class MarsControllerTest {
         JsonObject json = controller.deleteResource("17", "10");
 
         assertTrue(json.getBoolean("deleted"));
+    }
+
+    @Test
+    void saveSubscription() {
+        MarsController controller = new MarsController();
+        String address = "test.browser.com";
+        String auth = "auth.auther";
+        String p256dh = "hasher";
+
+        JsonObject json = controller.saveSubscription(address, auth, p256dh);
+
+        assertTrue(json.containsKey("id"));
+        assertEquals(address, json.getString("endpoint"));
+        assertEquals(auth, json.getString("auth"));
+        assertEquals(p256dh, json.getString("p256dh"));
     }
 }

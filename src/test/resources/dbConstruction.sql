@@ -9,7 +9,12 @@ create table if not exists colonies(
     longitude double not null ,
     altitude double not null
 );
-
+CREATE TABLE IF NOT EXISTS Push(
+    id int primary key auto_increment not null,
+    endpoint nvarchar(1000) not null unique ,
+    auth nvarchar(1000) not null,
+    p256dh nvarchar(1000) not null
+);
 CREATE TABLE IF NOT EXISTS COMPANIES(
     id int primary key auto_increment not null,
     name nvarchar(70) not null,
@@ -59,6 +64,7 @@ create table if not exists shipments_resources(
     foreign key (shipment_id) references shipments(id),
     foreign key (resource_id) references resources(id)
 );
+
 
 //CREATE COLONIES
 insert into colonies(name, latitude, longitude, altitude)
