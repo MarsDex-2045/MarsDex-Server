@@ -59,10 +59,7 @@ class MarsOpenApiBridge {
     }
 
     public JsonObject pushNotification(RoutingContext ctx) {
-    JsonObject json = new JsonObject();
-    controller.pushNotifications();
-    json.put("push",true);
-    return json;
+    return controller.pushNotifications(ctx.request().getParam(COMPANY_ID_PARAMETER), ctx.request().getParam("pushId"));
     }
 
     public JsonObject editCompanyResources(RoutingContext ctx) {

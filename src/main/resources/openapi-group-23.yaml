@@ -75,20 +75,41 @@ paths:
           description: Method not found
         '500':
           description: Internal Server Error
-  /api/pushNotification:
+  /api/push/{pushId}/{companyId}:
     get:
       tags:
         - Notifications
       summary: Sends a push notification
-      description: Endpoint that will send a push notification to the client.
+      description: Endpoint that will send a push notification to the client based around the given company.
       operationId: pushNotification
+      parameters:
+        - in: path
+          name: companyId
+          schema:
+            type: integer
+          required: true
+          description: Id that identifices a company.
+        - in: path
+          name: pushId
+          schema:
+            type: integer
+          required: true
+          description: Id that indicates a saved endpoint
       responses:
         '200':
-          description: OK
+          description: "Push completed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  push:
+                    type: boolean
+                    example: true
         '404':
-          description: method not found
+          description: Method not updated
         '500':
-          description: Forbidden
+          description: Internal server error
   /api/company/{companyId}:
     get:
       summary: Retrieve company info.

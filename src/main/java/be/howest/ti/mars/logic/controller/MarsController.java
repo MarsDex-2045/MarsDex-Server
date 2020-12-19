@@ -118,12 +118,13 @@ public class MarsController {
                 .put("p256h", dbInsert.getP256dh());
     }
 
-    public void pushNotifications()  {
+    public JsonObject pushNotifications(String companyIdString, String pushIdString)  {
         try {
-            throw new UnsupportedOperationException();
+            return new JsonObject().put("push", true);
             //NotificationRepository.getInstance().pushNotification(NotificationRepository.getInstance().getNotification());
         } catch (Exception e) {
             LOGGER.log(Level.INFO, "Notification Error push failed");
+            throw new RuntimeException();
         }
     }
 }

@@ -33,7 +33,11 @@ public class Company {
         return phone;
     }
 
-    public Company(int id, String name, String password, String email,String phone) {
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
+    public Company(int id, String name, String password, String email, String phone) {
         this.id = id;
         this.name = name;
         this.password = password;
