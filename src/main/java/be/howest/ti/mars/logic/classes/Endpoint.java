@@ -1,5 +1,7 @@
 package be.howest.ti.mars.logic.classes;
 
+import java.util.Objects;
+
 public class Endpoint {
     private final int id;
     private final String address;
@@ -27,5 +29,18 @@ public class Endpoint {
 
     public String getP256dh() {
         return p256dh;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Endpoint endpoint = (Endpoint) o;
+        return id == endpoint.id && address.equals(endpoint.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, address);
     }
 }

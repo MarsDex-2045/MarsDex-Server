@@ -114,7 +114,7 @@ public class MarsController {
                 .put("id", dbInsert.getId())
                 .put("endpoint", dbInsert.getAddress())
                 .put("auth", dbInsert.getAuth())
-                .put("p256h", dbInsert.getP256dh());
+                .put("p256dh", dbInsert.getP256dh());
     }
 
     public JsonObject pushNotifications(String companyIdString, String pushIdString) {

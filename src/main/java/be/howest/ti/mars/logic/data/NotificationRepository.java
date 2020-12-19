@@ -55,7 +55,7 @@ public class NotificationRepository {
         }
     }
 
-    public Endpoint getEndpoint(String endpoint) {
+    private Endpoint getEndpoint(String endpoint) {
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTION_BY_ENDPOINT)) {
             stmt.setString(1, endpoint);

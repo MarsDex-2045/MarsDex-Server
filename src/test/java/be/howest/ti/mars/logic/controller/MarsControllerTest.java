@@ -199,4 +199,19 @@ class MarsControllerTest {
 
         assertTrue(json.getBoolean("deleted"));
     }
+
+    @Test
+    void saveSubscription() {
+        MarsController controller = new MarsController();
+        String address = "test.browser.com";
+        String auth = "auth.auther";
+        String p256dh = "hasher";
+
+        JsonObject json = controller.saveSubscription(address, auth, p256dh);
+
+        assertTrue(json.containsKey("id"));
+        assertEquals(address, json.getString("endpoint"));
+        assertEquals(auth, json.getString("auth"));
+        assertEquals(p256dh, json.getString("p256dh"));
+    }
 }
