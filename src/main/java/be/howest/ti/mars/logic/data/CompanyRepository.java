@@ -4,6 +4,8 @@ import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.exceptions.DuplicationException;
 import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import be.howest.ti.mars.logic.exceptions.VerificationException;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -14,6 +16,9 @@ import static be.howest.ti.mars.logic.data.H2Statements.*;
 public class CompanyRepository {
     public static final Logger LOGGER = Logger.getLogger(CompanyRepository.class.getName());
     private static final CompanyRepository INSTANCE = new CompanyRepository();
+    private static final String PW_COLUMN = "PASSWORD";
+    private static final String EMAIL_COLUMN = "EMAIL";
+    private static final String PHONE_COLUMN = "PHONE";
 
     private CompanyRepository(){}
 
@@ -29,9 +34,9 @@ public class CompanyRepository {
                 rs.next();
                 Company company = new Company(rs.getInt("COMPANY_ID"),
                         rs.getString("COMPANY_NAME"),
-                        rs.getString("PASSWORD"),
-                        rs.getString("EMAIL"),
-                        rs.getString("PHONE"));
+                        rs.getString(PW_COLUMN),
+                        rs.getString(EMAIL_COLUMN),
+                        rs.getString(PHONE_COLUMN));
                 company.addResource(MarsRepository.convertToResource(rs));
                 while (rs.next()) {
                     company.addResource(MarsRepository.convertToResource(rs));
@@ -52,9 +57,9 @@ public class CompanyRepository {
                 rs.next();
                 return new Company(rs.getInt("ID"),
                         rs.getString("NAME"),
-                        rs.getString("PASSWORD"),
-                        rs.getString("EMAIL"),
-                        rs.getString("PHONE"));
+                        rs.getString(PW_COLUMN),
+                        rs.getString(EMAIL_COLUMN),
+                        rs.getString(PHONE_COLUMN));
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.INFO, "Check ended: There are no companies with the given ID");
@@ -117,4 +122,29 @@ public class CompanyRepository {
     }
 
 
+    public Company authenticateCompany(String email, String password) {
+        try(Connection con = MarsRepository.getInstance().getConnection();
+        PreparedStatement stmt = con.prepareStatement(H2_GET_COMPANY_BY_EMAIL)){
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    if(BCrypt.checkpw(password, rs.getString(PW_COLUMN))){
+                        return new Company(rs.getInt("ID"),
+                                rs.getString("NAME"),
+                                rs.getString(PW_COLUMN),
+                                rs.getString(EMAIL_COLUMN),
+                                rs.getString(PHONE_COLUMN));
+                    }
+                    else {
+                        throw new VerificationException("Authorization failed");
+                    }
+                } else {
+                    throw new IdentifierException("No account is associated with this email");
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
+        }
+    }
 }

@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -180,4 +181,23 @@ class MarsControllerTest {
         assertTrue(res.getBoolean("updated"));
     }
 
+    @Test
+    void authenticateCompany() {
+        MarsController controller = new MarsController();
+        JsonObject credentials = new JsonObject().put("email", "mamico@mars.com").put("password", "B1g1r0n");
+
+        JsonObject json = controller.authenticateCompany(credentials);
+
+        assertEquals(2, json.getInteger("id"));
+        assertEquals("MaMiCo", json.getString("company"));
+    }
+
+    @Test
+    void deleteResource() {
+        MarsController controller = new MarsController();
+
+        JsonObject json = controller.deleteResource("17", "10");
+
+        assertTrue(json.getBoolean("deleted"));
+    }
 }

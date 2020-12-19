@@ -105,4 +105,21 @@ class ResourceRepositoryTest {
 
         assertTrue(resources.contains(nr.toJSON()));
     }
+
+    @Test
+    void testDeleteResourceFromCompany() {
+        ResourceRepository data = ResourceRepository.getInstance();
+        Resource shared = new Resource(8, "Coltan", 5.343, 50.221, LocalDate.parse("2049-03-12"));
+        Resource nonExistent = new Resource(120, "Coal", 20.222, 50.21266, LocalDate.now());
+        Resource nonEntry = new Resource(1, "Painite", 71.596, 250.0, LocalDate.parse("2050-11-01"));
+        Resource independent = new Resource(17, "Serendibite", 172.629, 44.215, LocalDate.parse("2049-03-12"));
+
+        data.deleteResourceFromCompany(shared.getId(), 10);
+        data.deleteResourceFromCompany(independent.getId(), 10);
+
+        assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(nonExistent.getId(), 10));
+        assertThrows(IdentifierException.class, () -> data.deleteResourceFromCompany(nonEntry.getId(), 10));
+        assertFalse(CompanyRepository.getInstance().getCompany(10).allResourcesToJSONObject().getJsonArray("resources").contains(independent.toJSON()));
+        assertFalse(CompanyRepository.getInstance().getCompany(10).allResourcesToJSONObject().getJsonArray("resources").contains(shared.toJSON()));
+    }
 }

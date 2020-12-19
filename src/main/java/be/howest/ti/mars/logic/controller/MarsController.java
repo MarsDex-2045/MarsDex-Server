@@ -43,7 +43,6 @@ public class MarsController {
         Colony colony = ColonyRepository.getInstance().getColonyOfCompany(company.getId());
         JsonObject res = company.toJSON();
         res.put("colony", colony.getName());
-
         return res;
     }
 
@@ -96,13 +95,21 @@ public class MarsController {
         return json;
     }
 
-    public Object deleteResource(String resourceIdString, String companyIdString) {
+    public JsonObject deleteResource(String resourceIdString, String companyIdString) {
         int resourceId = Integer.parseInt(resourceIdString);
         int companyId = Integer.parseInt(companyIdString);
 
         ResourceRepository.getInstance().deleteResourceFromCompany(resourceId, companyId);
 
         return new JsonObject().put("deleted", true);
+    }
+
+    public JsonObject authenticateCompany(JsonObject credentials) {
+        String email = credentials.getString("email");
+        String password = credentials.getString("password");
+
+        Company company = CompanyRepository.getInstance().authenticateCompany(email, password);
+        return new JsonObject().put("company", company.getName()).put("id", company.getId());
     }
 
     public JsonObject saveSubscription(String endpoint, String auth, String p256dh) {
@@ -122,7 +129,5 @@ public class MarsController {
         } catch (Exception e) {
             LOGGER.log(Level.INFO, "Notification Error push failed");
         }
-
     }
-
 }
