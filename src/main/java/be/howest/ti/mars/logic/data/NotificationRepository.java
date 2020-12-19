@@ -1,27 +1,32 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.exceptions.FormatException;
 import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
-import be.howest.ti.mars.logic.exceptions.IdentifierException;
+import be.howest.ti.mars.logic.exceptions.PushException;
+import be.howest.ti.mars.logic.exceptions.VerificationException;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jose4j.lang.JoseException;
 
-import static be.howest.ti.mars.logic.data.H2Statements.*;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
-import java.security.spec.InvalidKeySpecException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static be.howest.ti.mars.logic.data.H2Statements.H2_GET_SUBSCRIPTIONS;
+import static be.howest.ti.mars.logic.data.H2Statements.H2_INSERT_SUBSCRIPTION;
 
 
 public class NotificationRepository {
@@ -45,10 +50,9 @@ public class NotificationRepository {
             prep.setString(3, p256dh);
             prep.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new IdentifierException("SQL problem");
+            LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
+            throw new H2RuntimeException(ex.getMessage());
         }
-
     }
 
     public Set<be.howest.ti.mars.logic.classes.Subscription> getNotification() {
@@ -62,12 +66,11 @@ public class NotificationRepository {
             }
             return res;
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
+            LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
-
-
     }
+
     /*
     public void clearDB(){
         try (Connection con = MarsRepository.getInstance().getConnection();
@@ -80,46 +83,31 @@ public class NotificationRepository {
         }
     }
 */
-    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers)  {
+    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers) throws InterruptedException {
         Security.addProvider(new BouncyCastleProvider());
-        PushService push = null;
         try {
-            push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
-        } catch (GeneralSecurityException e) {
-            LOGGER.log(Level.INFO, "push Key Failed ");
-        }
-
-        for (be.howest.ti.mars.logic.classes.Subscription value : subscribers) {
-            String endpoint = value.getEndpoint();
-            Subscription.Keys keys = new Subscription.Keys();
-            keys.auth = value.getAuth();
-            keys.p256dh = value.getP256dh();
-            Subscription sub = new Subscription(endpoint, keys);
-            Notification notif = null;
-            try {
-                notif = new Notification(sub, "BAUXITE IS LOW");
-            } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
-                LOGGER.log(Level.INFO, "sending payload failed ");
+            PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
+            for (be.howest.ti.mars.logic.classes.Subscription value : subscribers) {
+                String endpoint = value.getEndpoint();
+                Subscription.Keys keys = new Subscription.Keys();
+                keys.auth = value.getAuth();
+                keys.p256dh = value.getP256dh();
+                Subscription sub = new Subscription(endpoint, keys);
+                Notification notification = new Notification(sub, "BAUXITE IS LOW");
+                push.send(notification);
             }
-            try {
-                assert push != null;
-                push.send(notif);
-            } catch (GeneralSecurityException e) {
-                LOGGER.log(Level.INFO, "security problem push ");
-            } catch (IOException e) {
-                LOGGER.log(Level.INFO, "IOException ");
-            } catch (JoseException e) {
-                LOGGER.log(Level.INFO, "JoseException ");
-            } catch (ExecutionException e) {
-                LOGGER.log(Level.INFO, "Execution ");
-            } catch (InterruptedException e) {
-                LOGGER.log(Level.INFO, "Interrupted ");
-
-            }
-
+        } catch (NoSuchAlgorithmException ex) {
+            LOGGER.log(Level.SEVERE, "Cryptographic error");
+            throw new FormatException(ex.getMessage());
+        } catch (ExecutionException | JoseException | IOException e) {
+            LOGGER.log(Level.SEVERE, "Unable to send push notification");
+            throw new PushException("Unable to send the notification");
+        } catch (NoSuchProviderException e) {
+            LOGGER.log(Level.SEVERE, "Requested provider (Bouncy Castle) could not be found");
+            throw new VerificationException("Provider could not be found");
+        } catch (GeneralSecurityException ex) {
+            LOGGER.log(Level.SEVERE, "Public or Private Key is faulty");
+            throw new VerificationException(ex.getMessage());
         }
-
-
     }
-
 }

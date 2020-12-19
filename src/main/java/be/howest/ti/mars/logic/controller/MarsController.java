@@ -122,7 +122,6 @@ public class MarsController {
         return returnBody;
     }
 
-
     public void pushNotifications()  {
         try {
             NotificationRepository.getInstance().pushNotification(NotificationRepository.getInstance().getNotification());
