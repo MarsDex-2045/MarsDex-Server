@@ -22,10 +22,7 @@ class H2Statements {
     protected static final String H2_INSERT_SUBSCRIPTION = "INSERT INTO MARSDEX.PUSH(endpoint,auth,p256dh) VALUES (?,?,?);";
     protected static final String H2_GET_COMPANY_BY_EMAIL = "SELECT * FROM MARSDEX.COMPANIES WHERE LOWER(COMPANIES.EMAIL) = LOWER(?);";
     protected static final String H2_GET_SUBSCRIPTION_BY_ENDPOINT = "SELECT * FROM MARSDEX.PUSH WHERE PUSH.ENDPOINT = ?";
-    protected static final String H2_DROP = "create schema if not exists marsdex;\n" +
-            "\n" +
-            "set schema marsdex;" +
-            "DROP TABLE IF EXISTS push;";
+    protected static final String H2_GET_SUBSCRIPTION_BY_ID = "SELECT * FROM MARSDEX.PUSH WHERE PUSH.ID = ?";
 
     private static final String MARSDEX_RESOURCES = "FROM MARSDEX.RESOURCES R ";
     private static final String JOIN_CR_ON_R = "JOIN MARSDEX.COMPANIES_RESOURCES CR ON R.ID = CR.RESOURCE_ID ";

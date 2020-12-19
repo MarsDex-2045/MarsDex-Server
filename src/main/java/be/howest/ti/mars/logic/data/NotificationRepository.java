@@ -17,7 +17,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,10 +44,10 @@ public class NotificationRepository {
             prep.setString(2, auth);
             prep.setString(3, p256dh);
             prep.executeUpdate();
-            return INSTANCE.getNotification(endpoint);
+            return INSTANCE.getEndpoint(endpoint);
         } catch (SQLException ex) {
-            if(ex.getErrorCode() == 23505){
-                return INSTANCE.getNotification(endpoint);
+            if (ex.getErrorCode() == 23505) {
+                return INSTANCE.getEndpoint(endpoint);
             } else {
                 LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
                 throw new H2RuntimeException(ex.getMessage());
@@ -56,17 +55,17 @@ public class NotificationRepository {
         }
     }
 
-    public Endpoint getNotification(String endpoint) {
+    public Endpoint getEndpoint(String endpoint) {
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTION_BY_ENDPOINT)) {
             stmt.setString(1, endpoint);
-            try(ResultSet rs = stmt.executeQuery()){
-                if (rs.next()){
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
                     return new Endpoint(rs.getInt("ID"),
-                                        rs.getString("endpoint"),
-                                        rs.getString("auth"),
-                                        rs.getString("p256dh"));
-                } else{
+                            rs.getString("endpoint"),
+                            rs.getString("auth"),
+                            rs.getString("p256dh"));
+                } else {
                     throw new IdentifierException("Endpoint could not be found");
                 }
             }
@@ -76,31 +75,38 @@ public class NotificationRepository {
         }
     }
 
-    /*
-    public void clearDB(){
+    private Endpoint getEndpoint(int pushId) {
         try (Connection con = MarsRepository.getInstance().getConnection();
-             PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTIONS);
-             ResultSet rs = stmt.executeQuery()){
-
-        }catch (SQLException ex) {
-            LOGGER.log(Level.WARNING, "Something went wrong with executing H2 Query; Returning empty array");
+             PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTION_BY_ID)) {
+            stmt.setInt(1, pushId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Endpoint(rs.getInt("ID"),
+                            rs.getString("endpoint"),
+                            rs.getString("auth"),
+                            rs.getString("p256dh"));
+                } else {
+                    throw new IdentifierException("Endpoint could not be found");
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
         }
     }
-*/
-    public void pushNotification(Set<Endpoint> subscribers) throws InterruptedException {
-        Security.addProvider(new BouncyCastleProvider());
+
+    public void pushNotification(String message, int pushId) {
         try {
+            Security.addProvider(new BouncyCastleProvider());
+            Endpoint endpoint = INSTANCE.getEndpoint(pushId);
             PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
-            for (Endpoint value : subscribers) {
-                String endpoint = value.getAddress();
-                Subscription.Keys keys = new Subscription.Keys();
-                keys.auth = value.getAuth();
-                keys.p256dh = value.getP256dh();
-                Subscription sub = new Subscription(endpoint, keys);
-                Notification notification = new Notification(sub, "BAUXITE IS LOW");
-                push.send(notification);
-            }
+            String address = endpoint.getAddress();
+            Subscription.Keys keys = new Subscription.Keys();
+            keys.auth = endpoint.getAuth();
+            keys.p256dh = endpoint.getP256dh();
+            Subscription sub = new Subscription(address, keys);
+            Notification notification = new Notification(sub, message);
+            push.send(notification);
         } catch (NoSuchAlgorithmException ex) {
             LOGGER.log(Level.SEVERE, "Cryptographic error");
             throw new FormatException(ex.getMessage());
@@ -113,6 +119,11 @@ public class NotificationRepository {
         } catch (GeneralSecurityException ex) {
             LOGGER.log(Level.SEVERE, "Public or Private Key is faulty");
             throw new VerificationException(ex.getMessage());
+        } catch (InterruptedException ex){
+            LOGGER.log(Level.SEVERE, "Something has gone wrong with the thread");
+            Thread.currentThread().interrupt();
         }
     }
+
+
 }

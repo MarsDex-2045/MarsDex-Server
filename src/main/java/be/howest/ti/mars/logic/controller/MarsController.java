@@ -9,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MarsController {
@@ -110,7 +109,7 @@ public class MarsController {
     }
 
     public JsonObject saveSubscription(String endpoint, String auth, String p256dh) {
-        Endpoint dbInsert = NotificationRepository.getInstance().addSubscription(endpoint,auth,p256dh);
+        Endpoint dbInsert = NotificationRepository.getInstance().addSubscription(endpoint, auth, p256dh);
         return new JsonObject()
                 .put("id", dbInsert.getId())
                 .put("endpoint", dbInsert.getAddress())
@@ -118,13 +117,16 @@ public class MarsController {
                 .put("p256h", dbInsert.getP256dh());
     }
 
-    public JsonObject pushNotifications(String companyIdString, String pushIdString)  {
-        try {
-            return new JsonObject().put("push", true);
-            //NotificationRepository.getInstance().pushNotification(NotificationRepository.getInstance().getNotification());
-        } catch (Exception e) {
-            LOGGER.log(Level.INFO, "Notification Error push failed");
-            throw new RuntimeException();
+    public JsonObject pushNotifications(String companyIdString, String pushIdString) {
+        int companyId = Integer.parseInt(companyIdString);
+        int pushId = Integer.parseInt(pushIdString);
+        Company company = CompanyRepository.getInstance().getCompany(companyId);
+        for (Resource resource : company.getResources()) {
+            if (resource.getWeight() < 500) {
+                String msg = resource.getName() + " is low in storage. Only " + resource.getWeight() + " KG remaining";
+                NotificationRepository.getInstance().pushNotification(msg, pushId);
+            }
         }
+        return new JsonObject().put("push", true);
     }
 }
