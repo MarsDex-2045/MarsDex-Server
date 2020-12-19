@@ -126,7 +126,9 @@ class MarsControllerTest {
             assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
             input.put("weight", 203.234);
             assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
-            input.put("price", 234.223);
+            input.put("price", 234.223).put("weight", 203.243662);
+            assertThrows(FormatException.class, () -> controller.addResource(input, "4"));
+            input.put("weight", 203.234);
         });
 
         controller.addResource(input, "4");

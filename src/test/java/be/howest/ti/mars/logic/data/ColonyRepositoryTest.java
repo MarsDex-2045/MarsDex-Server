@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.classes.Colony;
 import be.howest.ti.mars.logic.classes.Company;
 import be.howest.ti.mars.logic.classes.Location;
+import be.howest.ti.mars.logic.exceptions.CorruptedDataException;
 import be.howest.ti.mars.logic.exceptions.IdentifierException;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterAll;

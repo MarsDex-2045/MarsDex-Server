@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,5 +62,19 @@ class CompanyTest {
         assertEquals("104th Discovery Battalion", json.getString("name"));
         assertEquals("104thdb@mars.com", json.getString("email"));
         assertEquals("+32456162", json.getString("phoneNumber"));
+    }
+
+    @Test
+    void getResources() {
+        Company test = generateCompanies()[1];
+
+        Set<Resource> resources = test.getResources();
+
+        assertEquals(5, resources.size());
+        assertTrue(resources.contains(resource1));
+        assertTrue(resources.contains(resource2));
+        assertTrue(resources.contains(resource3));
+        assertTrue(resources.contains(resource4));
+        assertTrue(resources.contains(resource5));
     }
 }
