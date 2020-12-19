@@ -4,23 +4,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SubscriptionTest {
+class EndpointTest {
 
     @Test
     void getEndpoint() {
-        Subscription s1 = new Subscription("1","1","1");
-       assertEquals("1",s1.getEndpoint());
+        Endpoint s1 = new Endpoint(1, "1","1","1");
+       assertEquals("1",s1.getAddress());
     }
 
     @Test
     void getAuth() {
-        Subscription s1 = new Subscription("1","1","1");
+        Endpoint s1 = new Endpoint(1, "1","1","1");
         assertEquals("1",s1.getAuth());
     }
 
     @Test
     void getP256dh() {
-        Subscription s1 = new Subscription("1","1","1");
+        Endpoint s1 = new Endpoint(1, "1","1","1");
         assertEquals("1",s1.getP256dh());
     }
 }

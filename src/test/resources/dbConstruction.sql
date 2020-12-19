@@ -11,9 +11,9 @@ create table if not exists colonies(
 );
 CREATE TABLE IF NOT EXISTS Push(
     id int primary key auto_increment not null,
-    endpoint nvarchar(255) not null,
-    auth nvarchar(255) not null,
-    p256dh nvarchar(255) not null
+    endpoint nvarchar(1000) not null unique ,
+    auth nvarchar(1000) not null,
+    p256dh nvarchar(1000) not null
 );
 CREATE TABLE IF NOT EXISTS COMPANIES(
     id int primary key auto_increment not null,

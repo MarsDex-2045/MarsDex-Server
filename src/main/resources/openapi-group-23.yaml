@@ -29,7 +29,7 @@ paths:
       tags:
         - Notifications
       summary: Save a subscription endpoint
-      description: Saves a subscription endpoint that can be used in order to send push notifications.
+      description: Saves a subscription endpoint that can be used in order to send push notifications. Duplications are handled server-side.
       operationId: saveSubscription
       requestBody:
         description: all the details for the subscription
@@ -51,14 +51,30 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 4;
+                  endpoint:
+                    type: string
+                    example: "https://updates.push.services.mozilla.com/wpush/v2/NotARealEndpoint"
+                  auth:
+                    type: string
+                    format: password
+                    example: NotARealPassw0rd
+                  p256h:
+                    type: string
+                    example: BIxpRjzcB5CW6N_e4YUpEeltjzG8LK5oaJ9DC3ema9axCV9YR8-Ke-PG1-d_NotARealHash
         '400':
-          description: bad request
-        '403':
-          description: Forbidden
+          description: Bad request
         '404':
-          description: Not found
+          description: Method not found
         '500':
-          description: Forbidden
+          description: Internal Server Error
   /api/pushNotification:
     get:
       tags:
@@ -459,6 +475,7 @@ paths:
       tags:
         - Companies
         - Manipulation
+        - Authentication
       summary: Adds a new company
       description: Adds a new company to the DB.
       operationId: makeCompany

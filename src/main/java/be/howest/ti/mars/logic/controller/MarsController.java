@@ -1,9 +1,6 @@
 package be.howest.ti.mars.logic.controller;
 
-import be.howest.ti.mars.logic.classes.Colony;
-import be.howest.ti.mars.logic.classes.Company;
-import be.howest.ti.mars.logic.classes.Resource;
-import be.howest.ti.mars.logic.classes.Shipment;
+import be.howest.ti.mars.logic.classes.*;
 import be.howest.ti.mars.logic.data.*;
 import be.howest.ti.mars.logic.exceptions.FormatException;
 import io.vertx.core.json.JsonArray;
@@ -113,18 +110,18 @@ public class MarsController {
     }
 
     public JsonObject saveSubscription(String endpoint, String auth, String p256dh) {
-        NotificationRepository.getInstance().addSubscription(endpoint,auth,p256dh);
-        JsonObject returnBody = new JsonObject();
-        returnBody.put("endpoint", endpoint);
-        returnBody.put("auth", auth);
-        returnBody.put("p256dh", p256dh);
-        returnBody.put("added", true);
-        return returnBody;
+        Endpoint dbInsert = NotificationRepository.getInstance().addSubscription(endpoint,auth,p256dh);
+        return new JsonObject()
+                .put("id", dbInsert.getId())
+                .put("endpoint", dbInsert.getAddress())
+                .put("auth", dbInsert.getAuth())
+                .put("p256h", dbInsert.getP256dh());
     }
 
     public void pushNotifications()  {
         try {
-            NotificationRepository.getInstance().pushNotification(NotificationRepository.getInstance().getNotification());
+            throw new UnsupportedOperationException();
+            //NotificationRepository.getInstance().pushNotification(NotificationRepository.getInstance().getNotification());
         } catch (Exception e) {
             LOGGER.log(Level.INFO, "Notification Error push failed");
         }

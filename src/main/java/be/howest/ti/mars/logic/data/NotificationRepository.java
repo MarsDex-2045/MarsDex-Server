@@ -1,9 +1,7 @@
 package be.howest.ti.mars.logic.data;
 
-import be.howest.ti.mars.logic.exceptions.FormatException;
-import be.howest.ti.mars.logic.exceptions.H2RuntimeException;
-import be.howest.ti.mars.logic.exceptions.PushException;
-import be.howest.ti.mars.logic.exceptions.VerificationException;
+import be.howest.ti.mars.logic.classes.Endpoint;
+import be.howest.ti.mars.logic.exceptions.*;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
@@ -19,14 +17,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static be.howest.ti.mars.logic.data.H2Statements.H2_GET_SUBSCRIPTIONS;
-import static be.howest.ti.mars.logic.data.H2Statements.H2_INSERT_SUBSCRIPTION;
+import static be.howest.ti.mars.logic.data.H2Statements.*;
 
 
 public class NotificationRepository {
@@ -42,29 +38,38 @@ public class NotificationRepository {
         return INSTANCE;
     }
 
-    public void addSubscription(String endpoint, String auth, String p256dh) {
+    public Endpoint addSubscription(String endpoint, String auth, String p256dh) {
         try (Connection con = MarsRepository.getInstance().getConnection();
              PreparedStatement prep = con.prepareStatement(H2_INSERT_SUBSCRIPTION)) {
             prep.setString(1, endpoint);
             prep.setString(2, auth);
             prep.setString(3, p256dh);
             prep.executeUpdate();
+            return INSTANCE.getNotification(endpoint);
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
-            throw new H2RuntimeException(ex.getMessage());
+            if(ex.getErrorCode() == 23505){
+                return INSTANCE.getNotification(endpoint);
+            } else {
+                LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
+                throw new H2RuntimeException(ex.getMessage());
+            }
         }
     }
 
-    public Set<be.howest.ti.mars.logic.classes.Subscription> getNotification() {
-        Set<be.howest.ti.mars.logic.classes.Subscription> res = new HashSet<>();
+    public Endpoint getNotification(String endpoint) {
         try (Connection con = MarsRepository.getInstance().getConnection();
-             PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTIONS);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                be.howest.ti.mars.logic.classes.Subscription subscriptionInfo = new be.howest.ti.mars.logic.classes.Subscription(rs.getString("endpoint"), rs.getString("auth"), rs.getString("p256dh"));
-                res.add(subscriptionInfo);
+             PreparedStatement stmt = con.prepareStatement(H2_GET_SUBSCRIPTION_BY_ENDPOINT)) {
+            stmt.setString(1, endpoint);
+            try(ResultSet rs = stmt.executeQuery()){
+                if (rs.next()){
+                    return new Endpoint(rs.getInt("ID"),
+                                        rs.getString("endpoint"),
+                                        rs.getString("auth"),
+                                        rs.getString("p256dh"));
+                } else{
+                    throw new IdentifierException("Endpoint could not be found");
+                }
             }
-            return res;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, MarsRepository.GENERIC_SQL_ERROR);
             throw new H2RuntimeException(ex.getMessage());
@@ -83,12 +88,12 @@ public class NotificationRepository {
         }
     }
 */
-    public void pushNotification(Set<be.howest.ti.mars.logic.classes.Subscription> subscribers) throws InterruptedException {
+    public void pushNotification(Set<Endpoint> subscribers) throws InterruptedException {
         Security.addProvider(new BouncyCastleProvider());
         try {
             PushService push = new PushService(PUBLIC_KEY, PRIVATE_KEY);
-            for (be.howest.ti.mars.logic.classes.Subscription value : subscribers) {
-                String endpoint = value.getEndpoint();
+            for (Endpoint value : subscribers) {
+                String endpoint = value.getAddress();
                 Subscription.Keys keys = new Subscription.Keys();
                 keys.auth = value.getAuth();
                 keys.p256dh = value.getP256dh();
