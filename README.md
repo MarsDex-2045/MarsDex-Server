@@ -30,6 +30,9 @@ At the time of writing, the following features are implemented:
 |DELETE `/api/company/{companyId}/resource/{resourceId}`|Implemented|
 |PUT `/api/company`|Implemented|
 |POST `/api/company`|Implemented|
+|POST `/api/saveSubcription`|Implemented|
+|GET `/api/push/{pushId}/{companyId}`|Implemented|
+
 ### DB Interaction
 All endpoints that have been implemented interact through the database with the classes that can be found in `logic/data`.
 #### H2 Statements
@@ -53,6 +56,7 @@ You can find more information about the DB with the [DBD](https://git.ti.howest.
 - **`companies`** -> Contains all info about the companies per colonies
 - **`shipments`** -> Details the transports between companies.
 - **`resources`** -> Contains the resources known in the MarsDex system.
+- **`push`** -> A table reserved for endpoints for push notifications.
 
 ## How to start
 In order to get the server up & running, you'll need to do the following things:
