@@ -40,9 +40,9 @@ The `H2Statements` class serves as a common repository for SQL calls. Sometimes 
 
 *Note: The scope of these statements are only limited to the `data` folder*
 #### Repository Structure
-#### MarsRepository
+##### MarsRepository
 MarsRepository is used as a utility class. It manages the connections and also some data conversions.
-#### Other Repository
+##### Other Repository
 The calls are divided by the object they are working with. 
 
 *e.g. `ResourceRepository` works with data & methods that mainly resolves around resources*
