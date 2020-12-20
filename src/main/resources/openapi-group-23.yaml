@@ -594,9 +594,6 @@ components:
         name:
           type: string
           example: "Bova Point"
-        storage:
-          type: number
-          example: 150000
         location:
           type: object
           properties:
