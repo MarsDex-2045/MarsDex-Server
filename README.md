@@ -82,8 +82,3 @@ In order to get the server up & running, you'll need to do the following things:
     - :exclamation: If you're having troubles loading the data in, you might have a database that is filled. You can clean it with the [`dbClean.sql`](https://github.com/BT-Creator/MarsDex-Server/blob/master/src/test/resources/dbClean.sql) script.
 
 Congrats, now you have a MarsDex Server up and running. You'll still need [The MarsDex Client](https://github.com/BT-Creator/MarsDex-Client) in order to interact with it through a website.
-
-## Contributing
-You've noticed something a fault in code or have a feature request? Take first a look at the issues so that you don't make a duplicate issue. 
-
-If there isn't an issue for it, send a message to Bo Robbrecht, and we'll suggest it to the team or alert them of the bug.
