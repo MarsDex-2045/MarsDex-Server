@@ -7,7 +7,7 @@ Welcome to the Server Repository of the MarsDex. This repository contains the co
 ## Index
 - [Documentation](https://github.com/BT-Creator/MarsDex-Documentation)
 - [Client](https://github.com/BT-Creator/MarsDex-Client)
-- [Server](https://github.com/BT-Creator/MarsDex-Server)3/project-ii/projects/groep-23/client#contributing)
+- [Server](https://github.com/BT-Creator/MarsDex-Server)
   
 ## Bugs
 At the moment of writing (17/12/20), there are no known bugs.
